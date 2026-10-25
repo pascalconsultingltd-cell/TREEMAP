@@ -55,6 +55,7 @@
   #lightbox { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0, 0, 0, 0.92); flex-direction: column; align-items: center; justify-content: center; }
   #lbImg { max-width: 95vw; max-height: 88vh; object-fit: contain; } #lbCap { color: #ddd; font-size: 13px; margin-top: 8px; } #lbCap a { color: #9cf; }
   #lbClose { position: absolute; top: 10px; right: 18px; color: #fff; font-size: 28px; cursor: pointer; }
+  #side .back { margin: 0 0 8px; } #side li { cursor: pointer; } #side li:hover { background: #0001; }
   #side h4 { margin: 12px 0 6px; }
   #side figcaption { font-size: 12px; text-align: center; } #side figure.on img { outline: 3px solid #2a6; }
   .btn { margin: 4px 4px 6px 0; padding: 3px 8px; border: 1px solid #888; border-radius: 12px; background: #e8f5e0; cursor: pointer; font: inherit; }
@@ -123,7 +124,7 @@ const tiles = (g, keys) => '<div class="grid">' + keys.map(k => `<figure class="
 function showPhotos(g, title, sub) {
   const p = PHOTOS[g], close = p ? Object.keys(PARTS).filter(k => p[k]) : [];
   showSide0(true);
-  side.innerHTML = `<h3>${title}<br><small>${sub}</small></h3>` + (!p ? '<p>Pas de photo pour cet arbre.</p>' :
+  side.innerHTML = (current ? '<button class="btn back" onclick="showWalk(current)">← 🧺 Revenir à la balade</button>' : '') + `<h3>${title}<br><small>${sub}</small></h3>` + (!p ? '<p>Pas de photo pour cet arbre.</p>' :
     `<img class="big" id="big" src="${p[NOW].src}" onclick="openBig('${g}', NOW)" title="Agrandir"><div class="cap" id="cap">${caption(g, NOW)}</div>` + tiles(g, Object.keys(SEASON_FR)) +
     (close.length ? '<h4>Détails</h4>' + tiles(g, close) : ''));
 }
@@ -245,6 +246,7 @@ legend.onAdd = () => {
   L.DomUtil.create('label', 'sel', forage).innerHTML = '<input type="checkbox" id="seasonOnly"> de saison';
   // Saved walks: foldable list, a name opens the walk, ✕ deletes it
   const wl = L.DomUtil.create('div', 'walks', forage); wl.id = 'savedWalks';
+  wl.oncontextmenu = e => { const b = e.target.closest('[data-id]'); if (b) { e.preventDefault(); renameWalk(+b.dataset.id); } };
   wl.onclick = e => { const b = e.target.closest('[data-id]'); if (e.target.closest('.wtitle')) { wl.classList.toggle('open'); fillWalks(); } else if (b) (e.target.classList.contains('x') ? deleteWalk : openSaved)(+b.dataset.id); };
   L.DomUtil.create('button', 'btn', size).textContent = '📏 Hauteur';
   size.lastChild.onclick = () => colourBy('height'); size.lastChild.title = 'Colore chaque arbre selon sa hauteur, du vert pâle au vert foncé ; le plus grand en rouge';
@@ -342,7 +344,7 @@ const home = () => map.stop().setView(CENTRE, 15, { animate: false }).panBy([leg
 home();
 function reset() {
   if (mode) colourBy(mode);
-  unfocus(); all.forEach(x => x.on = true); FILTERS.forEach(f => f.on = f.on.map(() => true)); withSel.checked = seasonOnly.checked = false;
+  unfocus(); current = null; all.forEach(x => x.on = true); FILTERS.forEach(f => f.on = f.on.map(() => true)); withSel.checked = seasonOnly.checked = false;
   routeLayer.clearLayers(); map.closePopup(); showSide0(false); home(); render();
 }
 render();
@@ -435,10 +437,10 @@ function showWalk(w) {
   walk = w.line; routeLayer.addLayer(walkLayer); drawWalk();
   map.fitBounds(L.latLngBounds(w.line), { paddingTopLeft: [30, 30], paddingBottomRight: [legendW() + 30, 30] });
   saved = all.map(x => x.on); focus = L.layerGroup(stops.map(t => t.marker)); all.forEach(x => x.on = stops.some(t => t.grp === x)); render();
-  stops.forEach((t, i) => L.marker([t.lat, t.lon], { icon: L.divIcon({ className: 'stop', html: `<div style="background:${t.grp.c};color:${ink(t.grp.c)}">${i + 1}</div>`, iconSize: [20, 20] }) }).bindTooltip(frName(t)).addTo(routeLayer));
+  stops.forEach((t, i) => L.marker([t.lat, t.lon], { icon: L.divIcon({ className: 'stop', html: `<div style="background:${t.grp.c};color:${ink(t.grp.c)}">${i + 1}</div>`, iconSize: [20, 20] }) }).bindTooltip(frName(t)).on('click', () => showStop(t.uniqueid)).addTo(routeLayer));
   side.innerHTML = `<h3>🧺 ${w.name ? esc(w.name) : 'Balade cueillette'}${w.sel ? ' · avec sélection' : ''}${w.ripe ? ' · de saison' : ''}<br><small>${stops.length} espèces · ${Math.round(w.used / 83.3)} min · ${(w.used / 1000).toFixed(2)} km, retour à NW5 2TE</small></h3>
-    <button class="btn" onclick="forageLoop()">🔀 Autre balade</button>${w.id ? `<button class="btn" onclick="deleteWalk(${w.id})">🗑 Supprimer</button>` : '<button class="btn" onclick="saveWalk()">💾 Sauver</button>'}<button class="btn" onclick="shareWalk()">🔗 Partager</button>
-    <ol>${stops.map(t => `<li><b>${frName(t)}</b> : ${edible(t) || tea(t) || 'non comestible'}</li>`).join('')}</ol>`;
+    <button class="btn" onclick="forageLoop()">🔀 Autre balade</button>${w.id ? `<button class="btn" onclick="renameWalk(${w.id})">✏️ Renommer</button><button class="btn" onclick="deleteWalk(${w.id})">🗑 Supprimer</button>` : '<button class="btn" onclick="saveWalk()">💾 Sauver</button>'}<button class="btn" onclick="shareWalk()">🔗 Partager</button>
+    <ol>${stops.map(t => `<li onclick="showStop(${t.uniqueid})"><b>${frName(t)}</b> : ${edible(t) || tea(t) || 'non comestible'}</li>`).join('')}</ol>`;
 }
 // Saved walks live in this browser's storage (one phone or computer), 10 at most
 const WALKS_KEY = 'treemap.walks';
@@ -489,6 +491,14 @@ function fillWalks() {
   const ws = loadWalks();
   savedWalks.innerHTML = `<div class="wtitle">📂 Balades sauvées (${ws.length}/10) <span>${savedWalks.classList.contains('open') ? '▾' : '▸'}</span></div>` +
     ws.map(w => `<div class="witem" data-id="${w.id}"><span>${esc(w.name)}</span><b class="x" title="Supprimer">✕</b></div>`).join('');
+}
+// A stop of the walk: its photos in the panel (with the way back to the walk) and its popup on the map
+function showStop(id) { const t = byId[id]; showSide(t); map.panTo([t.lat, t.lon]); t.marker.openPopup(); }
+function renameWalk(id) {
+  const ws = loadWalks(), w = ws.find(x => x.id === id), name = w && prompt('Nouveau nom :', w.name);
+  if (!name) return;
+  w.name = name; storeWalks(ws);
+  if (current && current.id === id) { current.name = name; showWalk(current); }
 }
 const openSaved = id => { const w = loadWalks().find(x => x.id === id); if (w) showWalk(w); };
 
