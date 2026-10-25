@@ -71,7 +71,7 @@
 <script src="photos.js"></script>
 <script>
 // Taps on a phone land up to 12 px from a tree dot and still count; a mouse needs to be within 3 px
-const map = L.map('map', { preferCanvas: true, renderer: L.canvas({ tolerance: L.Browser.mobile ? 12 : 3 }), minZoom: 14, maxZoom: 19 }).setView(CENTRE, 15);
+const map = L.map('map', { preferCanvas: true, renderer: L.canvas({ tolerance: L.Browser.mobile ? 12 : 3 }), tapHold: true, minZoom: 14, maxZoom: 19 }).setView(CENTRE, 15);
 // Own basemap from basemap.js (OSM data stored locally): no tile servers
 map.attributionControl.addAttribution('&copy; OpenStreetMap contributors | Trees: GLA Public Realm Trees');
 const B = BASEMAP, line = (k, o) => B[k].forEach(p => L.polyline(p, { interactive: false, ...o }).addTo(map));
@@ -190,9 +190,15 @@ TREES.slice().sort((a, b) => !!SPECIAL[group(a)] - !!SPECIAL[group(b)]).forEach(
   t.key = `${cls}${leaf}${sex}${bee}${tox}`; grp.n++; FILTERS.forEach((f, i) => f.n[t.key[i]]++); t.grp = grp;
   t.marker = L.circleMarker([t.lat, t.lon], { radius: r, color: special ? '#000' : '#0006', weight: special ? 1.5 : 0.5, fillColor: grp.c, fillOpacity: special ? 1 : 0.8 })
     .on('click', () => showSide(t))
+    .on('contextmenu', e => { L.DomEvent.preventDefault(e.originalEvent); soloGroup(grp, t); })  // long press on a phone, right-click on a computer
     .bindPopup(() => `<b>${t.common_name}</b> · ${frName(t)}<br><i>${t.taxon_species}</i><br>${food ? '🍎 Comestible : ' + food : cls ? '🍵 Tisane : ' + tea(t) : 'Non comestible'}${inSeason(t) ? ' · ✅ de saison' : ''} · ${leaf ? '🌲 Persistant' : '🍂 Caduc'}<br>${sex ? SEX_FR[sex] : '♂♀ Dioïque (arbre mâle ou femelle)'}${bee ? ' · 🐝 ami des abeilles' : ''}${tox ? ' · ☠️ toxique' : ''}<br>Age: ${t.age_cat}<br>Height: ${t.height_m} · Canopy: ${t.canopy_m} · Girth: ${t.girth_dbh}<br>Climate suitability: ${t.climate_suitability}<br>${t.location} · ${t.maintainer}<br>${t.dist} m from NW5 2TE<br><button class="btn" onclick="showRoute(${t.uniqueid})">Itinéraire depuis NW5 2TE</button><div id="route${t.uniqueid}"></div>`, { maxWidth: 260 })
     .addTo(grp.layers[t.key] ||= L.layerGroup());
 });
+// Only this group on the map (again: every group back), with its photos; from a tree, the panel shows that tree
+function soloGroup(x, t) {
+  unfocus(); const solo = all.every(y => y.on === (y === x)); all.forEach(y => y.on = solo || y === x); render();
+  t ? showSide(t) : showPhotos(x.g ? x.g.trim() : '', x.label, `${x.n} arbres`);
+}
 // A tree shows when its legend row and its button in every filter row are on
 // During a foraging walk only its stop trees are drawn (focus); legend rows show the walk's groups, saved keeps the selection from before
 let focus = null, saved = null;
@@ -259,7 +265,7 @@ legend.onAdd = () => {
     const photos = () => showPhotos(x.g ? x.g.trim() : '', x.label, `${x.n} arbres`);
     x.row.onclick = () => { unfocus(); x.on = !x.on; render(); photos(); };
     // Right-click: show only this group; right-click again on it shows all
-    x.row.oncontextmenu = e => { e.preventDefault(); unfocus(); const solo = all.every(y => y.on === (y === x)); all.forEach(y => y.on = solo || y === x); render(); photos(); };
+    x.row.oncontextmenu = e => { e.preventDefault(); soloGroup(x); };
   });
   // Sort selector in the Espèces title; "Other" and "Everything else" always stay last
   species.firstChild.insertAdjacentHTML('beforeend', ` <select id="sortBy" title="Trier les espèces"><option value="en">Anglais A–Z</option><option value="fav">⭐ Préférés d’Adam</option><option value="fr">Français A–Z</option>
