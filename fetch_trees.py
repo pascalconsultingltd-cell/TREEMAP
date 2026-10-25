@@ -21,5 +21,5 @@ for b in BOROUGHS:
         offset += 10000
     print(b, "done,", len(trees), "trees so far")
 with open("trees.js", "w", encoding="utf-8") as f:
-    f.write(f"const CENTRE = [{LAT}, {LON}], RADIUS_M = {RADIUS_M};\nconst TREES = {json.dumps(trees, separators=(',', ':'))};\n")
+    f.write(f"const CENTRE = [{LAT}, {LON}], RADIUS_M = {RADIUS_M}, HOME = \"NW5 2TE\";\nconst TREES = {json.dumps(trees, separators=(',', ':'))};\n")
 print(len(trees), "trees written to trees.js")

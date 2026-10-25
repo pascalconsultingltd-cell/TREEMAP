@@ -40,6 +40,7 @@
   .filters .sec { margin-left: 8px; }
   .dur { display: inline-flex; margin-right: 4px; } .dur .btn { margin-right: 0; border-radius: 0; background: #fff; } .dur .btn:first-child { border-radius: 12px 0 0 12px; }
   .dur .btn:last-child { border-radius: 0 12px 12px 0; border-left: none; } .dur .btn.on { background: #1a9850; color: #fff; }
+  .city { margin: 4px 0 2px; }
   .walks { margin: 4px 0 2px; font-size: 12px; } .wtitle { cursor: pointer; } .wtitle span { float: right; }
   .witem { display: none; justify-content: space-between; gap: 6px; padding: 2px 4px; cursor: pointer; } .walks.open .witem { display: flex; } .witem:hover { background: #0001; }
   .witem .x { color: #b00; cursor: pointer; padding: 0 4px; }
@@ -69,14 +70,19 @@
 <div id="map"></div>
 <div id="lightbox" onclick="if (event.target === this) closeBig()"><span id="lbClose" title="Fermer" onclick="closeBig()">✕</span><img id="lbImg"><div id="lbCap"></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="basemap.js"></script>
-<script src="trees.js"></script>
-<script src="photos.js"></script>
 <script>
+// City: ?city=bcn or the last one chosen on this device, London by default; its basemap and trees load before the map script
+const CITY = (new URLSearchParams(location.search).get('city') || (() => { try { return localStorage.getItem('treemap.city'); } catch (e) {} })()) === 'bcn' ? 'bcn' : 'london';
+const V = '?v=20261025';  // bump when data files change, so browsers don't keep stale copies
+document.write(CITY === 'bcn' ? `<script src="basemap_bcn.js${V}"><\/script><script src="trees_bcn.js${V}"><\/script>` : `<script src="basemap.js${V}"><\/script><script src="trees.js${V}"><\/script>`);
+</script>
+<script>document.write(`<script src="photos.js${V}"><\/script>`);</script>
+<script>
+const HOMENAME = typeof HOME !== 'undefined' ? HOME : 'NW5 2TE';
 // Taps on a phone land up to 12 px from a tree dot and still count; a mouse needs to be within 3 px
 const map = L.map('map', { preferCanvas: true, renderer: L.canvas({ tolerance: L.Browser.mobile ? 12 : 3 }), tapHold: true, minZoom: 14, maxZoom: 19 }).setView(CENTRE, 15);
 // Own basemap from basemap.js (OSM data stored locally): no tile servers
-map.attributionControl.addAttribution('&copy; OpenStreetMap contributors | Trees: GLA Public Realm Trees');
+map.attributionControl.addAttribution('&copy; OpenStreetMap contributors | Trees: ' + (CITY === 'bcn' ? 'Ajuntament de Barcelona (CC BY 4.0)' : 'GLA Public Realm Trees'));
 const B = BASEMAP, line = (k, o) => B[k].forEach(p => L.polyline(p, { interactive: false, ...o }).addTo(map));
 B.green.forEach(p => L.polygon(p, { interactive: false, stroke: false, fillColor: '#cfe8c4', fillOpacity: 1 }).addTo(map));
 B.water.forEach(p => L.polygon(p, { interactive: false, stroke: false, fillColor: '#aad3df', fillOpacity: 1 }).addTo(map));
@@ -89,9 +95,13 @@ line('major', { color: '#f7d58b', weight: 6 });
 const labels = L.layerGroup(B.labels.map(([n, p]) => L.tooltip({ permanent: true, direction: 'center', className: 'street' }).setLatLng(p).setContent(n)));
 map.on('zoomend', () => map.getZoom() >= 17 ? labels.addTo(map) : labels.remove());
 L.circle(CENTRE, { radius: RADIUS_M, color: '#2a6', weight: 2, fill: false, dashArray: '6 6' }).addTo(map);
-L.marker(CENTRE).addTo(map).bindPopup('NW5 2TE').on('click', () => { routeLayer.clearLayers(); endWalk(); });  // clicking home clears the route
+L.marker(CENTRE).addTo(map).bindPopup(HOMENAME).on('click', () => { routeLayer.clearLayers(); endWalk(); });  // clicking home clears the route
 // French names: by GLA group, and by genus for trees the GLA files as "Other"
-const FR = { Cherry: 'Cerisier', Maple: 'Érable', Lime: 'Tilleul', Plane: 'Platane', Ash: 'Frêne', Birch: 'Bouleau', Other: 'Autre', Apple: 'Pommier',
+const FR = { Orange: 'Oranger amer', 'Tipu tree': 'Tipuana', Jacaranda: 'Jacaranda', Chinaberry: 'Lilas de Perse', 'Pagoda tree': 'Sophora du Japon', Palm: 'Palmier',
+  Carob: 'Caroubier', Olive: 'Olivier', Fig: 'Figuier', Loquat: 'Néflier du Japon', 'Bottle tree': 'Arbre-bouteille', 'Pepper tree': 'Faux poivrier',
+  'Norfolk hibiscus': 'Lagunaria', 'She-oak': 'Filao', 'Orchid tree': 'Arbre à orchidées', 'Coral tree': 'Érythrine', 'Judas tree': 'Arbre de Judée', Pomegranate: 'Grenadier',
+  Persimmon: 'Kaki', Jujube: 'Jujubier', Bay: 'Laurier-sauce', 'Strawberry-tree': 'Arbousier', 'Crape myrtle': 'Lilas des Indes', Eucalyptus: 'Eucalyptus',
+  'Silk tree': 'Arbre à soie', 'Camphor tree': 'Camphrier', 'Silk floss tree': 'Arbre à kapok', Pittosporum: 'Pittosporum', Photinia: 'Photinia', Oak: 'Chêne', Cherry: 'Cerisier', Maple: 'Érable', Lime: 'Tilleul', Plane: 'Platane', Ash: 'Frêne', Birch: 'Bouleau', Other: 'Autre', Apple: 'Pommier',
   Sycamore: 'Érable sycomore', Whitebeam: 'Alisier blanc', Rowan: 'Sorbier des oiseleurs', Hawthorn: 'Aubépine', Juneberry: 'Amélanchier', Serviceberry: 'Amélanchier',
   'Black locust': 'Robinier faux-acacia', Pear: 'Poirier', Hornbeam: 'Charme', 'Horse Chestnut': 'Marronnier', Oak: 'Chêne', Elder: 'Sureau noir', 'Tree-of-heaven': 'Ailante',
   Alder: 'Aulne', Holly: 'Houx', Ginko: 'Ginkgo', Ginkgo: 'Ginkgo', 'Black walnut': 'Noyer noir', 'Pride-of-India': 'Savonnier', Hazel: 'Noisetier', 'Turkish hazel': 'Noisetier de Byzance', Mulberry: 'Mûrier', Willow: 'Saule', Elm: 'Orme', Sweetgum: "Copalme d'Amérique",
@@ -107,7 +117,7 @@ const FR_GENUS = { Acacia: 'Acacia', Arbutus: 'Arbousier', Buddleja: 'Buddleia',
 // Legend group: GLA name, except Turkish hazel split from common hazel, and some genera pulled out of "Other"
 const BY_GENUS = { Morus: 'Mulberry', Fagus: 'Beech', Pyrus: 'Pear', Ginkgo: 'Ginkgo', Juglans: 'Walnut' };
 const group = t => t.taxon_species.startsWith('Corylus colurna') ? 'Turkish hazel' : t.taxon_species.startsWith('Juglans nigra') ? 'Black walnut' : BY_GENUS[t.taxon_species.split(' ')[0]] || t.gla_name;
-const frName = t => group(t).trim() !== 'Other' && FR[group(t).trim()] || FR_GENUS[t.taxon_species.split(' ')[0]] || 'Autre';
+const frName = t => group(t).trim() !== 'Other' && FR[group(t).trim()] || FR_GENUS[t.taxon_species.split(' ')[0]] || (CITY === 'bcn' ? t.common_name : 'Autre');  // Barcelona: Spanish name when no French one
 // Season photos per legend group (photos.js); big photo is the current season, thumbnails switch it
 const SEASON_FR = { spring: 'Printemps', summer: 'Été', autumn: 'Automne', winter: 'Hiver' };
 const NOW = ['winter', 'winter', 'spring', 'spring', 'spring', 'summer', 'summer', 'summer', 'autumn', 'autumn', 'autumn', 'winter'][new Date().getMonth()];
@@ -138,13 +148,14 @@ function openBig(g, k) {
 const closeBig = () => lightbox.style.display = 'none';
 document.addEventListener('keydown', e => e.key === 'Escape' && closeBig());
 // Specials first, then top 10 genera, the rest grey; one layer per legend row
-const SPECIAL = { Chestnut: ['Sweet chestnut', '#e31a1c'], Yew: ['Yew', '#8b0000'], Pine: ['Pine', '#1b4d2e'], Hazel: ['Hazel', '#d2b48c'], 'Turkish hazel': ['Turkish hazel', '#7b4a1e'], Mulberry: ['Mulberry', '#6a0dad'], Beech: ['Beech', '#6e6e6c'], Pear: ['Pear', '#d1e231'], Hawthorn: ['Hawthorn', '#b2182b'], Elder: ['Elder', '#2d0a3e'], Ginkgo: ['Ginkgo', '#e5c100'], Walnut: ['Walnut', '#556b2f'], 'Black walnut': ['Black walnut', '#4a3728'], 'Horse Chestnut': ['Horse chestnut', '#a0522d'] };
+const SPECIAL = { Chestnut: ['Sweet chestnut', '#e31a1c'], Yew: ['Yew', '#8b0000'], Pine: ['Pine', '#1b4d2e'], Hazel: ['Hazel', '#d2b48c'], 'Turkish hazel': ['Turkish hazel', '#7b4a1e'], Mulberry: ['Mulberry', '#6a0dad'], Beech: ['Beech', '#6e6e6c'], Pear: ['Pear', '#d1e231'], Hawthorn: ['Hawthorn', '#b2182b'], Elder: ['Elder', '#2d0a3e'], Orange: ['Orange', '#ff8c00'], Carob: ['Carob', '#6b3e26'], Olive: ['Olive', '#808000'], Loquat: ['Loquat', '#f4a300'],
+  Pomegranate: ['Pomegranate', '#c2185b'], Fig: ['Fig', '#5d3a6e'], Ginkgo: ['Ginkgo', '#e5c100'], Walnut: ['Walnut', '#556b2f'], 'Black walnut': ['Black walnut', '#4a3728'], 'Horse Chestnut': ['Horse chestnut', '#a0522d'] };
 const counts = {};
 TREES.forEach(t => counts[group(t)] = (counts[group(t)] || 0) + 1);
 // Fixed colours for some common groups, the palette fills the rest by rank
 const COLOUR = { Plane: '#b08d57', Cherry: '#9e1b32', Lime: '#2e7d32' };
 const palette = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d', '#1f78b4', '#b2df8a', '#fb9a99'];
-const groups = Object.entries(SPECIAL).map(([g, [label, c]]) => ({ g, label, c }))
+const groups = Object.entries(SPECIAL).filter(([g]) => counts[g]).map(([g, [label, c]]) => ({ g, label, c }))
   .concat(Object.entries(counts).filter(([g]) => !SPECIAL[g]).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([g], i) => ({ g, label: g, c: COLOUR[g] || palette[i] })));
 const byName = Object.fromEntries(groups.map(x => [x.g, x]));
 groups.forEach(x => x.label += ' / ' + FR[x.g.trim()]);
@@ -152,27 +163,29 @@ const rest = { label: 'Everything else / Tout le reste', c: '#999' };
 // Edible part by genus (conservative: no acorns, ginkgo); cherry and Portugal laurel are toxic
 const EDIBLE = { Malus: 'fruits', Pyrus: 'fruits', Prunus: 'fruits', Castanea: 'châtaignes', Corylus: 'noisettes', Juglans: 'noix', Morus: 'mûres', Ficus: 'figues',
   Olea: 'olives', Amelanchier: 'baies', Sambucus: 'fleurs, baies cuites', Crataegus: 'baies, jeunes feuilles', Mespilus: 'nèfles', Eriobotrya: 'nèfles du Japon',
-  Arbutus: 'arbouses', Hippophae: 'baies', Sorbus: 'baies cuites', Tilia: 'jeunes feuilles, fleurs (tisane)', Laurus: 'feuilles (laurier-sauce)', Fagus: 'faînes grillées, avec modération' };
-const edible = t => !/laurocerasus|lusitanica/.test(t.taxon_species) && (t.taxon_species.startsWith('Cornus mas') ? 'cornouilles' : EDIBLE[t.taxon_species.split(' ')[0]]);
+  Arbutus: 'arbouses', Hippophae: 'baies', Sorbus: 'baies cuites', Tilia: 'jeunes feuilles, fleurs (tisane)', Laurus: 'feuilles (laurier-sauce)', Fagus: 'faînes grillées, avec modération',
+  Citrus: 'oranges amères (confiture)', Ceratonia: 'caroubes', Celtis: 'micocoules (petites baies sucrées)', Punica: 'grenades', Diospyros: 'kakis', Ziziphus: 'jujubes' };
+const edible = t => !/laurocerasus|lusitanica/.test(t.taxon_species) && (t.taxon_species.startsWith('Cornus mas') ? 'cornouilles' : t.taxon_species.startsWith('Pinus pinea') ? 'pignons' : EDIBLE[t.taxon_species.split(' ')[0]]);
 // Tea only: needles infused, nothing to eat (yew stays out: toxic)
 const TEA = { Pinus: 'aiguilles en tisane', Abies: 'aiguilles en tisane' }, tea = t => TEA[t.taxon_species.split(' ')[0]];
 // Harvest months (1-12) in London: genus, or species where they differ; laurel and needles all year
 const YEAR = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const MONTHS = { Malus: [8, 9, 10, 11], Pyrus: [8, 9, 10], Prunus: [6, 7, 8], 'Prunus avium': [6, 7], 'Prunus cerasifera': [7, 8], 'Prunus domestica': [8, 9],
+const MONTHS = { Citrus: [12, 1, 2, 3], Ceratonia: [8, 9, 10], Celtis: [10, 11, 12], Punica: [9, 10, 11], Diospyros: [10, 11, 12], Ziziphus: [9, 10],
+  'Pinus pinea': [10, 11, 12, 1, 2, 3], Malus: [8, 9, 10, 11], Pyrus: [8, 9, 10], Prunus: [6, 7, 8], 'Prunus avium': [6, 7], 'Prunus cerasifera': [7, 8], 'Prunus domestica': [8, 9],
   'Prunus spinosa': [9, 10, 11], Castanea: [9, 10, 11], Corylus: [8, 9, 10], Juglans: [9, 10], Morus: [7, 8, 9], Ficus: [8, 9, 10], Olea: [10, 11, 12],
   Amelanchier: [6, 7], Sambucus: [5, 6, 8, 9, 10], Crataegus: [4, 5, 9, 10, 11], Mespilus: [10, 11, 12], Eriobotrya: [4, 5, 6], Arbutus: [10, 11, 12],
   Hippophae: [8, 9, 10], Sorbus: [8, 9, 10], Tilia: [4, 5, 6, 7], Laurus: YEAR, Fagus: [9, 10], 'Cornus mas': [8, 9], Pinus: YEAR, Abies: YEAR };
 const MONTH = new Date().getMonth() + 1;
 const inSeason = t => { const [g, sp] = t.taxon_species.split(' '); return (edible(t) || tea(t)) && (MONTHS[g + ' ' + sp] || MONTHS[g] || []).includes(MONTH); };
 // Evergreen by genus, plus evergreen species of mostly deciduous genera (larch and dawn redwood are deciduous conifers)
-const EVERGREEN = /^(Taxus|Pinus|Abies|Ilex|Chamaecyparis|Cupressus|Cuprocyparis|Thuja|Juniperus|Cedrus|Arbutus|Eucalyptus|Olea|Laurus|Photinia|Pittosporum|Eriobotrya|Cordyline|Yucca|Ceanothus|Cotoneaster|Garryales|Prunus laurocerasus|Prunus lusitanica|Quercus ilex|Quercus suber|Quercus cerris suber|Magnolia grandiflora|Ligustrum lucidum)/;
+const EVERGREEN = /^(Citrus|Ceratonia|Phoenix|Washingtonia|Chamaerops|Trachycarpus|Livistona|Butia|Syagrus|Brahea|Schinus|Casuarina|Lagunaria|Cinnamomum|Brachychiton|Grevillea|Myrtus|Elaeagnus|Eugenia|Nerium|Ficus microcarpa|Ficus macrophylla|Taxus|Pinus|Abies|Ilex|Chamaecyparis|Cupressus|Cuprocyparis|Thuja|Juniperus|Cedrus|Arbutus|Eucalyptus|Olea|Laurus|Photinia|Pittosporum|Eriobotrya|Cordyline|Yucca|Ceanothus|Cotoneaster|Garryales|Prunus laurocerasus|Prunus lusitanica|Quercus ilex|Quercus suber|Quercus cerris suber|Magnolia grandiflora|Ligustrum lucidum)/;
 // Filter rows above the legend; a tree's layer key is its index in each row, e.g. "10" = edible + deciduous
 // Sex by genus: dioecious = separate male and female trees (only females fruit), monoecious = both flower sexes on one tree, else hermaphrodite flowers
-const DIO = /^(Taxus|Ilex|Laurus|Ginkgo|Populus|Salix|Hippophae|Juniperus|Ailanthus|Fraxinus|Garryales|Rhus|Cotinus|Acer negundo)/;
+const DIO = /^(Ceratonia|Schinus|Phoenix|Chamaerops|Pistacia|Phytolacca|Taxus|Ilex|Laurus|Ginkgo|Populus|Salix|Hippophae|Juniperus|Ailanthus|Fraxinus|Garryales|Rhus|Cotinus|Acer negundo)/;
 const MONO = /^(Quercus|Betula|Corylus|Fagus|Pinus|Abies|Castanea|Platanus|Juglans|Alnus|Carpinus|Ostrya|Liquidambar|Cedrus|Larix|Chamaecyparis|Cupressus|Cuprocyparis|Thuja|Metasequoia|Pterocarya|Carya|Morus|Ficus|Zelkova|Celtis|Davidia|Acer)/;
-const BEE = /^(Tilia|Prunus|Malus|Pyrus|Crataegus|Aesculus|Sorbus|Castanea|Robinia|Acer|Salix|Sambucus|Amelanchier|Cotoneaster|Ilex|Koelreuteria|Catalpa|Liriodendron|Buddleja|Ceanothus|Eucalyptus|Arbutus|Ligustrum|Photinia|Cercis|Mespilus|Eriobotrya|Paulownia|Gleditsia|Syringa|Cornus|Tamarix|Ailanthus|Cytisus)/;
+const BEE = /^(Citrus|Tipuana|Ceratonia|Styphnolobium|Sophora|Melia|Schinus|Jacaranda|Lagerstroemia|Grevillea|Myrtus|Punica|Ziziphus|Tilia|Prunus|Malus|Pyrus|Crataegus|Aesculus|Sorbus|Castanea|Robinia|Acer|Salix|Sambucus|Amelanchier|Cotoneaster|Ilex|Koelreuteria|Catalpa|Liriodendron|Buddleja|Ceanothus|Eucalyptus|Arbutus|Ligustrum|Photinia|Cercis|Mespilus|Eriobotrya|Paulownia|Gleditsia|Syringa|Cornus|Tamarix|Ailanthus|Cytisus)/;
 // Toxic parts (seeds, berries, leaves or bark); elder stays out: edible once cooked
-const TOXIC = /^(Taxus|Prunus laurocerasus|Prunus lusitanica|Laburnum|Aesculus|Ligustrum|Euonymus|Robinia|Ilex|Thuja|Cytisus)/;
+const TOXIC = /^(Melia|Nerium|Phytolacca|Taxus|Prunus laurocerasus|Prunus lusitanica|Laburnum|Aesculus|Ligustrum|Euonymus|Robinia|Ilex|Thuja|Cytisus)/;
 const SEX_FR = ['♂♀ Dioïque', '⚤ Monoïque', '⚥ Hermaphrodite'];
 // tips: shown on hover over each button; colors: used by the row's 🎨 button to paint every tree by its category
 const FILTERS = [{ labels: ['Non comestible', '🍎 Comestible', '🍵 Tisane'], colors: ['#bdbdbd', '#e6550d', '#31a354'], tips: ['Rien à manger sur cet arbre', 'Fruits, noix, fleurs ou feuilles comestibles (parfois après cuisson)', 'Seulement en infusion : aiguilles de pin et de sapin'] },
@@ -194,7 +207,7 @@ TREES.slice().sort((a, b) => !!SPECIAL[group(a)] - !!SPECIAL[group(b)]).forEach(
   t.marker = L.circleMarker([t.lat, t.lon], { radius: r, color: special ? '#000' : '#0006', weight: special ? 1.5 : 0.5, fillColor: grp.c, fillOpacity: special ? 1 : 0.8 })
     .on('click', () => showSide(t))
     .on('contextmenu', e => { L.DomEvent.preventDefault(e.originalEvent); soloGroup(grp, t); })  // long press on a phone, right-click on a computer
-    .bindPopup(() => `<b>${t.common_name}</b> · ${frName(t)}<br><i>${t.taxon_species}</i><br>${food ? '🍎 Comestible : ' + food : cls ? '🍵 Tisane : ' + tea(t) : 'Non comestible'}${inSeason(t) ? ' · ✅ de saison' : ''} · ${leaf ? '🌲 Persistant' : '🍂 Caduc'}<br>${sex ? SEX_FR[sex] : '♂♀ Dioïque (arbre mâle ou femelle)'}${bee ? ' · 🐝 ami des abeilles' : ''}${tox ? ' · ☠️ toxique' : ''}<br>Age: ${t.age_cat}<br>Height: ${t.height_m} · Canopy: ${t.canopy_m} · Girth: ${t.girth_dbh}<br>Climate suitability: ${t.climate_suitability}<br>${t.location} · ${t.maintainer}<br>${t.dist} m from NW5 2TE<br><button class="btn" onclick="showRoute(${t.uniqueid})">Itinéraire depuis NW5 2TE</button><div id="route${t.uniqueid}"></div>`, { maxWidth: 260 })
+    .bindPopup(() => `<b>${t.common_name}</b> · ${frName(t)}<br><i>${t.taxon_species}</i><br>${food ? '🍎 Comestible : ' + food : cls ? '🍵 Tisane : ' + tea(t) : 'Non comestible'}${inSeason(t) ? ' · ✅ de saison' : ''} · ${leaf ? '🌲 Persistant' : '🍂 Caduc'}<br>${sex ? SEX_FR[sex] : '♂♀ Dioïque (arbre mâle ou femelle)'}${bee ? ' · 🐝 ami des abeilles' : ''}${tox ? ' · ☠️ toxique' : ''}<br>Age: ${t.age_cat}<br>Height: ${t.height_m} · Canopy: ${t.canopy_m} · Girth: ${t.girth_dbh}<br>Climate suitability: ${t.climate_suitability}<br>${t.location} · ${t.maintainer}<br>${t.dist} m from ${HOMENAME}<br><button class="btn" onclick="showRoute(${t.uniqueid})">Itinéraire depuis ${HOMENAME}</button><div id="route${t.uniqueid}"></div>`, { maxWidth: 260 })
     .addTo(grp.layers[t.key] ||= L.layerGroup());
 });
 // Only this group on the map (again: every group back), with its photos; from a tree, the panel shows that tree
@@ -229,6 +242,9 @@ legend.onAdd = () => {
   panel.addEventListener('click', () => panel.classList.contains('folded') && foldLegend());  // folded: the whole little tab reopens it
   // Sections: each gets a title; filter rows go to their section
   const sec = (title, id, parent = d) => { const s = L.DomUtil.create('div', 'sec', parent); s.id = id; s.innerHTML = `<div class="sec-t">${title}</div>`; return s; };
+  const city = L.DomUtil.create('div', 'dur city', d);
+  city.innerHTML = `<button class="btn${CITY === 'london' ? ' on' : ''}" data-c="london">🇬🇧 London</button><button class="btn${CITY === 'bcn' ? ' on' : ''}" data-c="bcn">🇪🇸 Barcelone</button>`;
+  city.onclick = e => { const b = e.target.closest('button'); if (!b || b.dataset.c === CITY) return; try { localStorage.setItem('treemap.city', b.dataset.c); } catch (x) {} location.href = location.pathname + '?city=' + b.dataset.c; };
   const forage = sec('🧺 Foraging', 'secForage');
   // All toggle sections sit in one block that folds vertically from its title
   const fold = L.DomUtil.create('div', 'sec filters shut', d), fhead = L.DomUtil.create('div', 'sec-t fhead', fold), fbody = L.DomUtil.create('div', '', fold);
@@ -291,6 +307,7 @@ legend.onAdd = () => {
   return panel;
 };
 legend.addTo(map);
+if (!TREES.some(t => parseFloat(t.height_m) > 0)) secSize.style.display = 'none';  // Barcelona data has no measured height or girth
 if (innerWidth < 700) document.querySelector('.panel .fold').click();  // phones: legend starts folded so the map stays visible
 // Colour modes: every tree on a gradient by height or trunk girth; 22 m and 86 cm are the 98th percentiles (above shares the darkest colour), the top tree(s) in red
 const MODES = { height: { field: 'height_m', btn: '📏 Hauteur', unit: 'm', max: 22, ramp: ['#e5f5e0', '#74c476', '#00441b'], top: 'plus grand' },
@@ -438,12 +455,12 @@ function showWalk(w) {
   map.fitBounds(L.latLngBounds(w.line), { paddingTopLeft: [30, 30], paddingBottomRight: [legendW() + 30, 30] });
   saved = all.map(x => x.on); focus = L.layerGroup(stops.map(t => t.marker)); all.forEach(x => x.on = stops.some(t => t.grp === x)); render();
   stops.forEach((t, i) => L.marker([t.lat, t.lon], { icon: L.divIcon({ className: 'stop', html: `<div style="background:${t.grp.c};color:${ink(t.grp.c)}">${i + 1}</div>`, iconSize: [20, 20] }) }).bindTooltip(frName(t)).on('click', () => showStop(t.uniqueid)).addTo(routeLayer));
-  side.innerHTML = `<h3>🧺 ${w.name ? esc(w.name) : 'Balade cueillette'}${w.sel ? ' · avec sélection' : ''}${w.ripe ? ' · de saison' : ''}<br><small>${stops.length} espèces · ${Math.round(w.used / 83.3)} min · ${(w.used / 1000).toFixed(2)} km, retour à NW5 2TE</small></h3>
+  side.innerHTML = `<h3>🧺 ${w.name ? esc(w.name) : 'Balade cueillette'}${w.sel ? ' · avec sélection' : ''}${w.ripe ? ' · de saison' : ''}<br><small>${stops.length} espèces · ${Math.round(w.used / 83.3)} min · ${(w.used / 1000).toFixed(2)} km, retour à ${HOMENAME}</small></h3>
     <button class="btn" onclick="forageLoop()">🔀 Autre balade</button>${w.id ? `<button class="btn" onclick="renameWalk(${w.id})">✏️ Renommer</button><button class="btn" onclick="deleteWalk(${w.id})">🗑 Supprimer</button>` : '<button class="btn" onclick="saveWalk()">💾 Sauver</button>'}<button class="btn" onclick="shareWalk()">🔗 Partager</button>
     <ol>${stops.map(t => `<li onclick="showStop(${t.uniqueid})"><b>${frName(t)}</b> : ${edible(t) || tea(t) || 'non comestible'}</li>`).join('')}</ol>`;
 }
 // Saved walks live in this browser's storage (one phone or computer), 10 at most
-const WALKS_KEY = 'treemap.walks';
+const WALKS_KEY = 'treemap.walks' + (CITY === 'bcn' ? '.bcn' : '');  // each city keeps its own walks
 const loadWalks = () => { try { return JSON.parse(localStorage.getItem(WALKS_KEY)) || []; } catch (e) { return []; } };
 const storeWalks = ws => { try { localStorage.setItem(WALKS_KEY, JSON.stringify(ws)); } catch (e) { alert('Impossible de sauver sur cet appareil.'); } fillWalks(); };
 function saveWalk() {
@@ -464,7 +481,7 @@ function deleteWalk(id) {
 // Links always point to the public site: a file:// or localhost link is useless elsewhere, and Chrome's share sheet crashes on file:// URLs
 const SITE = 'https://pascalconsultingltd-cell.github.io/TREEMAP/';
 function shareWalk() {
-  const base = location.protocol === 'https:' ? location.origin + location.pathname : SITE;
+  const base = (location.protocol === 'https:' ? location.origin + location.pathname : SITE) + (CITY === 'bcn' ? '?city=bcn' : '');
   const url = `${base}#walk=${current.ids.join(',')}${current.name ? '&name=' + encodeURIComponent(current.name) : ''}`;
   if (navigator.share) navigator.share({ title: current.name || 'Balade cueillette', url }).catch(() => {});
   else navigator.clipboard.writeText(url).then(() => alert('Lien copié : ' + url), () => prompt('Copie ce lien :', url));

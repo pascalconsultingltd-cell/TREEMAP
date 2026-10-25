@@ -1,6 +1,8 @@
 # One-off: fetch OSM streets, parks, water, rail and buildings around NW5 2TE into basemap.js (our own map, no tiles).
-import json, subprocess
-LAT, LON, R = 51.548553, -0.130711, 1300  # a bit beyond the 1 km tree circle
+import json, subprocess, sys
+# Default London (NW5 2TE); Barcelona: python fetch_basemap.py 41.3800475 2.1594943 basemap_bcn.js
+LAT, LON = (float(sys.argv[1]), float(sys.argv[2])) if len(sys.argv) > 2 else (51.548553, -0.130711)
+OUT, R = sys.argv[3] if len(sys.argv) > 3 else "basemap.js", 1300  # a bit beyond the 1 km tree circle
 Q = f"""[out:json][timeout:120];
 (way[highway](around:{R},{LAT},{LON}); way[railway~"^(rail|subway|light_rail)$"](around:{R},{LAT},{LON});
  way[leisure~"^(park|garden|pitch|playground|nature_reserve)$"](around:{R},{LAT},{LON}); way[landuse~"^(grass|cemetery|allotments|recreation_ground|forest|meadow)$"](around:{R},{LAT},{LON});
@@ -22,5 +24,5 @@ for w in json.loads(out)["elements"]:
     base[kind].append(pts)
     if h and t.get("name") and kind != "path": names.setdefault(t["name"], pts[len(pts) // 2])  # one label point per street
 base["labels"] = [[n, p] for n, p in names.items()]
-with open("basemap.js", "w", encoding="utf-8") as f: f.write(f"const BASEMAP = {json.dumps(base, separators=(',', ':'))};\n")
+with open(OUT, "w", encoding="utf-8") as f: f.write(f"const BASEMAP = {json.dumps(base, separators=(',', ':'))};\n")
 print({k: len(v) for k, v in base.items()})

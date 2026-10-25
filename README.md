@@ -1,5 +1,7 @@
 # TREEMAP
 
+Two cities, switched with the London / Barcelone toggle (or `?city=bcn`): London (NW5 2TE) and Barcelona (Carrer del Comte Borrell 84).
+
 HTML/JavaScript map of street and park trees within a 1 km radius of NW5 2TE (London).
 
 ## Data
@@ -20,3 +22,8 @@ HTML/JavaScript map of street and park trees within a 1 km radius of NW5 2TE (Lo
 
 ## Features
 - TBD.
+
+## Barcelona
+- `fetch_trees_bcn.py`: Open Data BCN street, zone and park trees (CC BY 4.0) within 1 km of Comte Borrell 84 into `trees_bcn.js` (no height, canopy or girth in this data).
+- `basemap_bcn.js`: `python fetch_basemap.py 41.3800475 2.1594943 basemap_bcn.js`.
+- After regenerating any data file, bump `V` in `index.html` so browsers reload it.
