@@ -38,6 +38,8 @@
   .sec { border-top: 1px solid #e3e3e3; padding-top: 4px; margin-top: 4px; } .sec-t { font-weight: 600; font-size: 12px; color: #555; margin-bottom: 2px; }
   .fhead { cursor: pointer; font-size: 13px; color: #222; } .fhead span { float: right; } .filters.shut > div:last-child { display: none; }
   .filters .sec { margin-left: 8px; }
+  .dur { display: inline-flex; margin-right: 4px; } .dur .btn { margin-right: 0; border-radius: 0; background: #fff; } .dur .btn:first-child { border-radius: 12px 0 0 12px; }
+  .dur .btn:last-child { border-radius: 0 12px 12px 0; border-left: none; } .dur .btn.on { background: #1a9850; color: #fff; }
   .walks { margin: 4px 0 2px; font-size: 12px; } .wtitle { cursor: pointer; } .wtitle span { float: right; }
   .witem { display: none; justify-content: space-between; gap: 6px; padding: 2px 4px; cursor: pointer; } .walks.open .witem { display: flex; } .witem:hover { background: #0001; }
   .witem .x { color: #b00; cursor: pointer; padding: 0 4px; }
@@ -233,8 +235,12 @@ legend.onAdd = () => {
   fhead.onclick = () => fhead.lastChild.textContent = fold.classList.toggle('shut') ? '▸' : '▾';
   const food = sec('🍎 Édibilité', 'secFood', fbody), leaves = sec('🍃 Feuillage', 'secLeaves', fbody), size = sec('📏 Hauteur / largeur', 'secSize', fbody),
     bees = sec('🐝 Abeilles', 'secBees', fbody), sexes = sec('⚥ Sexualité de l’arbre', 'secSex', fbody);
-  L.DomUtil.create('button', 'btn', forage).textContent = '🧺 Balade cueillette 30 min';
+  L.DomUtil.create('button', 'btn', forage).textContent = '🧺 Balade cueillette';
   forage.lastChild.onclick = forageLoop;
+  // Walk length toggle: 30 min or 1 h (1 h reaches more of the selected species)
+  const dur = L.DomUtil.create('span', 'dur', forage);
+  dur.innerHTML = '<button class="btn on" data-m="2500">30 min</button><button class="btn" data-m="5000">1 h</button>';
+  dur.onclick = e => { const b = e.target.closest('button'); if (!b) return; forageM = +b.dataset.m; dur.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b)); };
   L.DomUtil.create('label', 'sel', forage).innerHTML = '<input type="checkbox" id="withSel"> avec sélection';
   L.DomUtil.create('label', 'sel', forage).innerHTML = '<input type="checkbox" id="seasonOnly"> de saison';
   // Saved walks: foldable list, a name opens the walk, ✕ deletes it
@@ -375,7 +381,7 @@ function showRoute(id) {
   if (out) out.innerHTML =`<span style="color:#2166ac">🚶 ${Math.ceil(w.m / 83.3)} min (${(w.m / 1000).toFixed(2)} km)</span><br><span style="color:#e66101">🚲 ${Math.ceil(b.m / 250)} min (${(b.m / 1000).toFixed(2)} km)</span>`;
 }
 // Foraging loop: from home, hop to a random one of the 3 closest unseen edible kinds that still lets us get home within 30 min
-const FORAGE_M = 2500;  // 30 min at 5 km/h
+let forageM = 2500;  // walk length in metres at 5 km/h: 2500 = 30 min, 5000 = 1 h
 // Walk drawn segment by segment in screen space: a street walked both ways gets two lanes, each offset to the right of travel with its own arrows
 let walk = null;
 const walkLayer = L.layerGroup();
@@ -410,7 +416,7 @@ function forageLoop() {
   let cur = g.home, used = 0;
   for (;;) {
     const D = g.dijkstra(cur), best = {};
-    pool.forEach(c => { const k = frName(c.t), dd = D.d[c.n] + 2 * dist([c.t.lat, c.t.lon], g.pts[c.n]); if (!seen.has(k) && used + dd + g.H.d[c.n] <= FORAGE_M && (!best[k] || dd < best[k].dd)) best[k] = { ...c, dd }; });
+    pool.forEach(c => { const k = frName(c.t), dd = D.d[c.n] + 2 * dist([c.t.lat, c.t.lon], g.pts[c.n]); if (!seen.has(k) && used + dd + g.H.d[c.n] <= forageM && (!best[k] || dd < best[k].dd)) best[k] = { ...c, dd }; });
     // Each hop walks the street to the point nearest the tree, then the last metres to the tree and back (often parks or estates with no mapped path)
     const opts = Object.values(best).sort((a, b) => a.dd - b.dd).slice(0, 3);
     if (!opts.length) break;
