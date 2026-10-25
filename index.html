@@ -15,6 +15,7 @@
   body { display: flex; }
   #side { display: none; position: relative; width: 25%; overflow-y: auto; padding: 12px; box-sizing: border-box; background: #fafaf7; border-right: 1px solid #ddd; }
   #side h3 { margin: 0 0 8px; } #side h3 small { font-weight: normal; color: #666; }
+  #map { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
   #map { flex: 1; background: #f2efe9; }
   body.open #side { display: block; }
   #closeSide { position: absolute; top: 6px; right: 8px; cursor: pointer; font-size: 18px; color: #666; } #closeSide:hover { color: #000; }
@@ -80,7 +81,7 @@ document.write(CITY === 'bcn' ? `<script src="basemap_bcn.js${V}"><\/script><scr
 <script>
 const HOMENAME = typeof HOME !== 'undefined' ? HOME : 'NW5 2TE';
 // Taps on a phone land up to 12 px from a tree dot and still count; a mouse needs to be within 3 px
-const map = L.map('map', { preferCanvas: true, renderer: L.canvas({ tolerance: L.Browser.mobile ? 12 : 3 }), tapHold: true, minZoom: 14, maxZoom: 19 }).setView(CENTRE, 15);
+const map = L.map('map', { preferCanvas: true, renderer: L.canvas({ tolerance: L.Browser.mobile ? 12 : 3 }), minZoom: 14, maxZoom: 19 }).setView(CENTRE, 15);
 // Own basemap from basemap.js (OSM data stored locally): no tile servers
 map.attributionControl.addAttribution('&copy; OpenStreetMap contributors | Trees: ' + (CITY === 'bcn' ? 'Ajuntament de Barcelona (CC BY 4.0)' : 'GLA Public Realm Trees'));
 const B = BASEMAP, line = (k, o) => B[k].forEach(p => L.polyline(p, { interactive: false, ...o }).addTo(map));
@@ -206,10 +207,29 @@ TREES.slice().sort((a, b) => !!SPECIAL[group(a)] - !!SPECIAL[group(b)]).forEach(
   t.key = `${cls}${leaf}${sex}${bee}${tox}`; grp.n++; FILTERS.forEach((f, i) => f.n[t.key[i]]++); t.grp = grp;
   t.marker = L.circleMarker([t.lat, t.lon], { radius: r, color: special ? '#000' : '#0006', weight: special ? 1.5 : 0.5, fillColor: grp.c, fillOpacity: special ? 1 : 0.8 })
     .on('click', () => showSide(t))
-    .on('contextmenu', e => { L.DomEvent.preventDefault(e.originalEvent); soloGroup(grp, t); })  // long press on a phone, right-click on a computer
+    .on('contextmenu', e => { L.DomEvent.preventDefault(e.originalEvent); if (Date.now() - longPressAt > 1500) soloGroup(grp, t); })  // right-click on a computer
     .bindPopup(() => `<b>${t.common_name}</b> · ${frName(t)}<br><i>${t.taxon_species}</i><br>${food ? '🍎 Comestible : ' + food : cls ? '🍵 Tisane : ' + tea(t) : 'Non comestible'}${inSeason(t) ? ' · ✅ de saison' : ''} · ${leaf ? '🌲 Persistant' : '🍂 Caduc'}<br>${sex ? SEX_FR[sex] : '♂♀ Dioïque (arbre mâle ou femelle)'}${bee ? ' · 🐝 ami des abeilles' : ''}${tox ? ' · ☠️ toxique' : ''}<br>Age: ${t.age_cat}<br>Height: ${t.height_m} · Canopy: ${t.canopy_m} · Girth: ${t.girth_dbh}<br>Climate suitability: ${t.climate_suitability}<br>${t.location} · ${t.maintainer}<br>${t.dist} m from ${HOMENAME}<br><button class="btn" onclick="showRoute(${t.uniqueid})">Itinéraire depuis ${HOMENAME}</button><div id="route${t.uniqueid}"></div>`, { maxWidth: 260 })
     .addTo(grp.layers[t.key] ||= L.layerGroup());
 });
+// Long press with a finger (held still ~0.5 s): the nearest shown tree within 24 px keeps only its species. Our own timer, because phones
+// don't reliably send a contextmenu on the map canvas; longPressAt stops a late native contextmenu from undoing it
+let longPressAt = 0, lpTimer = null, lpStart = null;
+const lpCancel = () => { clearTimeout(lpTimer); lpTimer = null; };
+map.getContainer().addEventListener('pointerdown', e => {
+  if (e.pointerType !== 'touch') return;
+  if (lpTimer) return lpCancel();  // second finger: pinch, not a long press
+  lpStart = [e.clientX, e.clientY];
+  lpTimer = setTimeout(() => {
+    lpTimer = null;
+    const r = map.getContainer().getBoundingClientRect(), p = L.point(lpStart[0] - r.left, lpStart[1] - r.top);
+    let best = null, bd = 24;
+    TREES.forEach(t => { if (map.hasLayer(t.marker)) { const d = map.latLngToContainerPoint([t.lat, t.lon]).distanceTo(p); if (d < bd) { bd = d; best = t; } } });
+    if (best) { longPressAt = Date.now(); if (navigator.vibrate) navigator.vibrate(30); soloGroup(best.grp, best); }
+  }, 550);
+});
+map.getContainer().addEventListener('pointermove', e => { if (lpTimer && Math.hypot(e.clientX - lpStart[0], e.clientY - lpStart[1]) > 10) lpCancel(); });
+['pointerup', 'pointercancel'].forEach(ev => map.getContainer().addEventListener(ev, lpCancel));
+map.getContainer().addEventListener('contextmenu', e => { if (Date.now() - longPressAt < 1500) e.preventDefault(); });
 // Only this group on the map (again: every group back), with its photos; from a tree, the panel shows that tree
 function soloGroup(x, t) {
   unfocus(); const solo = all.every(y => y.on === (y === x)); all.forEach(y => y.on = solo || y === x); render();
