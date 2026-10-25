@@ -33,6 +33,7 @@
   .fhead { cursor: pointer; font-size: 13px; color: #222; } .fhead span { float: right; } .filters.shut > div:last-child { display: none; }
   .filters .sec { margin-left: 8px; }
   #sortBy { float: right; font-size: 11px; }
+  .locbtn a { font-size: 16px; } .locbtn a.on { background: #d2e3fc; }
   .row { cursor: pointer; user-select: none; }
   .row:hover { background: #0001; }
   #side .big { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; display: block; }
@@ -256,6 +257,7 @@ legend.onAdd = () => {
   return panel;
 };
 legend.addTo(map);
+if (innerWidth < 700) document.querySelector('.panel .fold').click();  // phones: legend starts folded so the map stays visible
 // Colour modes: every tree on a gradient by height or trunk girth; 22 m and 86 cm are the 98th percentiles (above shares the darkest colour), the top tree(s) in red
 const MODES = { height: { field: 'height_m', btn: '📏 Hauteur', unit: 'm', max: 22, ramp: ['#e5f5e0', '#74c476', '#00441b'], top: 'plus grand' },
   girth: { field: 'girth_dbh', btn: '🌳 Tronc', unit: 'cm', max: 86, ramp: ['#f6e8c3', '#bf812d', '#543005'], top: 'plus gros tronc' } };
@@ -277,6 +279,30 @@ function colourBy(k) {
   ramp.style.display = m ? 'block' : 'none';
   if (m) ramp.innerHTML = `<div class="bar" style="background:linear-gradient(to right, ${m.ramp})"></div><span>0 ${m.unit}</span><span>${m.max / 2} ${m.unit}</span><span>${m.max}+ ${m.unit}</span>
     <div><span class="dot" style="background:#e31a1c"></span>${m.top} : ${top} ${m.unit} (${best.length})</div>`;
+}
+// 📍 My location: live blue dot with its accuracy circle; first fix zooms in, then the map stays where you put it. Needs https (GitHub Pages) or localhost
+let watch = null, firstFix;
+const meLayer = L.layerGroup().addTo(map);
+const locate = L.control({ position: 'topleft' });
+locate.onAdd = () => {
+  const bar = L.DomUtil.create('div', 'leaflet-bar locbtn');
+  bar.innerHTML = '<a href="#" title="Ma position" role="button">📍</a>';
+  L.DomEvent.on(bar, 'click', e => { L.DomEvent.stop(e); toggleLocate(); });
+  return bar;
+};
+locate.addTo(map);
+function toggleLocate() {
+  const btn = document.querySelector('.locbtn a');
+  if (watch !== null) { navigator.geolocation.clearWatch(watch); watch = null; meLayer.clearLayers(); btn.classList.remove('on'); return; }
+  if (!navigator.geolocation) return alert('La géolocalisation n’est pas disponible sur cet appareil.');
+  firstFix = true; btn.classList.add('on');
+  watch = navigator.geolocation.watchPosition(p => {
+    const ll = [p.coords.latitude, p.coords.longitude];
+    meLayer.clearLayers();
+    L.circle(ll, { radius: p.coords.accuracy, color: '#1a73e8', weight: 1, fillOpacity: 0.12, interactive: false }).addTo(meLayer);
+    L.circleMarker(ll, { radius: 8, color: '#fff', weight: 3, fillColor: '#1a73e8', fillOpacity: 1, interactive: false }).addTo(meLayer);
+    if (firstFix) { map.setView(ll, 18); firstFix = false; }
+  }, err => { alert('Position indisponible : ' + err.message); toggleLocate(); }, { enableHighAccuracy: true, maximumAge: 5000 });
 }
 // Keep NW5 2TE (and walks) in the free map area left of the legend
 const legendW = () => document.querySelector('.panel').offsetWidth + 10;
