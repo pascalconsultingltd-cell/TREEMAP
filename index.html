@@ -38,6 +38,7 @@
   .sec { border-top: 1px solid #e3e3e3; padding-top: 4px; margin-top: 4px; } .sec-t { font-weight: 600; font-size: 12px; color: #555; margin-bottom: 2px; }
   .fhead { cursor: pointer; font-size: 13px; color: #222; } .fhead span { float: right; } .filters.shut > div:last-child { display: none; }
   .filters .sec { margin-left: 8px; }
+  .walks { display: block; margin: 4px 0 2px; font-size: 12px; max-width: 100%; }
   #sortBy { float: right; font-size: 11px; } .favmode .row.isfav::after { content: ' ⭐'; }
   .locbtn a { font-size: 16px; } .locbtn a.on { background: #d2e3fc; }
   .row { cursor: pointer; user-select: none; }
@@ -225,6 +226,8 @@ legend.onAdd = () => {
   forage.lastChild.onclick = forageLoop;
   L.DomUtil.create('label', 'sel', forage).innerHTML = '<input type="checkbox" id="withSel"> avec sélection';
   L.DomUtil.create('label', 'sel', forage).innerHTML = '<input type="checkbox" id="seasonOnly"> de saison';
+  const pick = L.DomUtil.create('select', 'walks', forage); pick.id = 'savedWalks';
+  pick.onchange = () => { const w = loadWalks().find(x => x.id === +pick.value); pick.value = ''; if (w) showWalk(w); };
   L.DomUtil.create('button', 'btn', size).textContent = '📏 Hauteur';
   size.lastChild.onclick = () => colourBy('height'); size.lastChild.title = 'Colore chaque arbre selon sa hauteur, du vert pâle au vert foncé ; le plus grand en rouge';
   L.DomUtil.create('button', 'btn', size).textContent = '🌳 Tronc';
@@ -403,14 +406,44 @@ function forageLoop() {
     line.push(...g.path(D, c.n).reverse(), [c.t.lat, c.t.lon], g.pts[c.n]); seen.add(frName(c.t)); stops.push(c.t); used += c.dd; cur = c.n;
   }
   line.push(...g.path(g.H, cur), CENTRE); used += g.H.d[cur];
+  showWalk({ line, ids: stops.map(t => t.uniqueid), used, sel, ripe });
+}
+// Draw a walk (new or saved): route, numbered stops, only its trees on the map, list in the side panel
+let current = null;
+function showWalk(w) {
+  endWalk(); showSide0(true); current = w;
+  const stops = w.ids.map(id => byId[id]).filter(Boolean);
   routeLayer.clearLayers();
-  walk = line; routeLayer.addLayer(walkLayer); drawWalk();
-  map.fitBounds(L.latLngBounds(line), { paddingTopLeft: [30, 30], paddingBottomRight: [legendW() + 30, 30] });
+  walk = w.line; routeLayer.addLayer(walkLayer); drawWalk();
+  map.fitBounds(L.latLngBounds(w.line), { paddingTopLeft: [30, 30], paddingBottomRight: [legendW() + 30, 30] });
   saved = all.map(x => x.on); focus = L.layerGroup(stops.map(t => t.marker)); all.forEach(x => x.on = stops.some(t => t.grp === x)); render();
   stops.forEach((t, i) => L.marker([t.lat, t.lon], { icon: L.divIcon({ className: 'stop', html: `<div style="background:${t.grp.c};color:${ink(t.grp.c)}">${i + 1}</div>`, iconSize: [20, 20] }) }).bindTooltip(frName(t)).addTo(routeLayer));
-  side.innerHTML = `<h3>🧺 Balade cueillette${sel ? ' · avec sélection' : ''}${ripe ? ' · de saison' : ''}<br><small>${stops.length} espèces · ${Math.round(used / 83.3)} min · ${(used / 1000).toFixed(2)} km, retour à NW5 2TE</small></h3>
-    <button class="btn" onclick="forageLoop()">🔀 Autre balade</button><ol>${stops.map(t => `<li><b>${frName(t)}</b> : ${edible(t) || tea(t) || 'non comestible'}</li>`).join('')}</ol>`;
+  side.innerHTML = `<h3>🧺 ${w.name || 'Balade cueillette'}${w.sel ? ' · avec sélection' : ''}${w.ripe ? ' · de saison' : ''}<br><small>${stops.length} espèces · ${Math.round(w.used / 83.3)} min · ${(w.used / 1000).toFixed(2)} km, retour à NW5 2TE</small></h3>
+    <button class="btn" onclick="forageLoop()">🔀 Autre balade</button>${w.id ? `<button class="btn" onclick="deleteWalk(${w.id})">🗑 Supprimer</button>` : '<button class="btn" onclick="saveWalk()">💾 Sauver</button>'}
+    <ol>${stops.map(t => `<li><b>${frName(t)}</b> : ${edible(t) || tea(t) || 'non comestible'}</li>`).join('')}</ol>`;
 }
+// Saved walks live in this browser's storage (one phone or computer), 10 at most
+const WALKS_KEY = 'treemap.walks';
+const loadWalks = () => { try { return JSON.parse(localStorage.getItem(WALKS_KEY)) || []; } catch (e) { return []; } };
+const storeWalks = ws => { try { localStorage.setItem(WALKS_KEY, JSON.stringify(ws)); } catch (e) { alert('Impossible de sauver sur cet appareil.'); } fillWalks(); };
+function saveWalk() {
+  const ws = loadWalks();
+  if (ws.length >= 10 && !confirm('10 balades déjà sauvées : remplacer la plus ancienne ?')) return;
+  const name = prompt('Nom de la balade :', `Balade du ${new Date().toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })} · ${current.ids.length} espèces`);
+  if (!name) return;
+  current = { ...current, name, id: Date.now() };
+  storeWalks([...ws, current].slice(-10)); showWalk(current);
+}
+function deleteWalk(id) {
+  if (!confirm('Supprimer cette balade sauvée ?')) return;
+  storeWalks(loadWalks().filter(w => w.id !== id)); current = { ...current, id: undefined, name: undefined }; showWalk(current);
+}
+function fillWalks() {
+  const ws = loadWalks();
+  savedWalks.innerHTML = `<option value="">📂 Balades sauvées (${ws.length}/10)</option>` + ws.map(w => `<option value="${w.id}">${w.name}</option>`).join('');
+}
+
+fillWalks();
 </script>
 </body>
 </html>
