@@ -32,6 +32,7 @@
   .sec { border-top: 1px solid #e3e3e3; padding-top: 4px; margin-top: 4px; } .sec-t { font-weight: 600; font-size: 12px; color: #555; margin-bottom: 2px; }
   .fhead { cursor: pointer; font-size: 13px; color: #222; } .fhead span { float: right; } .filters.shut > div:last-child { display: none; }
   .filters .sec { margin-left: 8px; }
+  #sortBy { float: right; font-size: 11px; }
   .row { cursor: pointer; user-select: none; }
   .row:hover { background: #0001; }
   #side .big { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; display: block; }
@@ -232,9 +233,7 @@ legend.onAdd = () => {
     });
   });
   const species = sec('🌳 Espèces', 'secSpecies');
-  // Species rows A to Z by English name; "Other" and "Everything else" stay last
-  const last = x => x === rest || x.g === 'Other';
-  all.slice().sort((p, q) => last(p) - last(q) || (last(p) ? (p === rest) - (q === rest) : p.label.localeCompare(q.label))).forEach(x => {
+  all.forEach(x => {
     x.row = L.DomUtil.create('div', 'row', species);
     x.row.innerHTML = `<span class="dot" style="background:${x.c}"></span>${x.label} (<span>${x.n}</span>)`;
     const photos = () => showPhotos(x.g ? x.g.trim() : '', x.label, `${x.n} arbres`);
@@ -242,8 +241,16 @@ legend.onAdd = () => {
     // Right-click: show only this group; right-click again on it shows all
     x.row.oncontextmenu = e => { e.preventDefault(); unfocus(); const solo = all.every(y => y.on === (y === x)); all.forEach(y => y.on = solo || y === x); render(); photos(); };
   });
+  // Sort selector in the Espèces title; "Other" and "Everything else" always stay last
+  species.firstChild.insertAdjacentHTML('beforeend', ` <select id="sortBy" title="Trier les espèces"><option value="en">Anglais A–Z</option><option value="fr">Français A–Z</option>
+    <option value="down">Nombre d’arbres ↓</option><option value="up">Nombre d’arbres ↑</option></select>`);
+  const last = x => x === rest || x.g === 'Other', count = x => +x.row.lastElementChild.textContent, name = (x, i) => x.label.split(' / ')[i] || x.label;
+  const BY = { en: (p, q) => name(p, 0).localeCompare(name(q, 0)), fr: (p, q) => name(p, 1).localeCompare(name(q, 1), 'fr'), down: (p, q) => count(q) - count(p), up: (p, q) => count(p) - count(q) };
+  const sortRows = () => all.slice().sort((p, q) => last(p) - last(q) || (last(p) ? (p === rest) - (q === rest) : BY[sortBy.value](p, q))).forEach(x => species.appendChild(x.row));
+  species.querySelector('select').onchange = sortRows;
   L.DomEvent.disableClickPropagation(panel);
   L.DomEvent.disableScrollPropagation(panel);
+  setTimeout(sortRows);  // after render() has filled the counts
   return panel;
 };
 legend.addTo(map);
