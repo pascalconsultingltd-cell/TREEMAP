@@ -210,8 +210,8 @@ legend.onAdd = () => {
   const sec = (title, id, parent = d) => { const s = L.DomUtil.create('div', 'sec', parent); s.id = id; s.innerHTML = `<div class="sec-t">${title}</div>`; return s; };
   const forage = sec('🧺 Foraging', 'secForage');
   // All toggle sections sit in one block that folds vertically from its title
-  const fold = L.DomUtil.create('div', 'sec filters', d), fhead = L.DomUtil.create('div', 'sec-t fhead', fold), fbody = L.DomUtil.create('div', '', fold);
-  fhead.innerHTML = '⚙️ Filtres <span>▾</span>';
+  const fold = L.DomUtil.create('div', 'sec filters shut', d), fhead = L.DomUtil.create('div', 'sec-t fhead', fold), fbody = L.DomUtil.create('div', '', fold);
+  fhead.innerHTML = '⚙️ Filtres <span>▸</span>';  // folded on opening
   fhead.onclick = () => fhead.lastChild.textContent = fold.classList.toggle('shut') ? '▸' : '▾';
   const food = sec('🍎 Édibilité', 'secFood', fbody), leaves = sec('🍃 Feuillage', 'secLeaves', fbody), size = sec('📏 Hauteur / largeur', 'secSize', fbody),
     bees = sec('🐝 Abeilles', 'secBees', fbody), sexes = sec('⚥ Sexualité de l’arbre', 'secSex', fbody);
