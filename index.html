@@ -30,8 +30,8 @@
   .ramp div:last-child { margin-top: 3px; } .ramp div:last-child span { width: auto; }
   .stop div { width: 20px; height: 20px; border-radius: 50%; text-align: center; font: bold 12px/20px sans-serif; box-shadow: 0 0 0 1.5px #000; }
   #side ol { padding-left: 20px; } #side li { margin-bottom: 3px; }
-  .head { user-select: none; } .fold, .reset { cursor: pointer; font-size: 16px; line-height: 16px; } .fold { float: right; margin-left: 8px; } .reset { margin-right: 6px; }
-  .panel.folded { padding: 6px 8px; } .panel.folded > div:not(.head), .panel.folded .head b, .panel.folded .reset, .panel.folded .logo { display: none; }
+  .head { user-select: none; } .fold, .reset { cursor: pointer; font-size: 16px; line-height: 16px; } .fold { float: right; margin: -6px -8px -6px 4px; padding: 6px 10px; } .reset { margin-right: 6px; }
+  .panel.folded { padding: 10px 12px; cursor: pointer; } .panel.folded > div:not(.head), .panel.folded .head b, .panel.folded .reset, .panel.folded .logo { display: none; }
   .logo { width: 22px; height: 22px; border-radius: 5px; vertical-align: -6px; margin-right: 6px; } .panel.folded .fold { margin: 0; }
   .sel { font-size: 12px; margin-left: 4px; cursor: pointer; }
   .panel { max-height: calc(100vh - 20px); overflow-y: auto; box-sizing: border-box; }
@@ -70,7 +70,8 @@
 <script src="trees.js"></script>
 <script src="photos.js"></script>
 <script>
-const map = L.map('map', { preferCanvas: true, minZoom: 14, maxZoom: 19 }).setView(CENTRE, 15);
+// Taps on a phone land up to 12 px from a tree dot and still count; a mouse needs to be within 3 px
+const map = L.map('map', { preferCanvas: true, renderer: L.canvas({ tolerance: L.Browser.mobile ? 12 : 3 }), minZoom: 14, maxZoom: 19 }).setView(CENTRE, 15);
 // Own basemap from basemap.js (OSM data stored locally): no tile servers
 map.attributionControl.addAttribution('&copy; OpenStreetMap contributors | Trees: GLA Public Realm Trees');
 const B = BASEMAP, line = (k, o) => B[k].forEach(p => L.polyline(p, { interactive: false, ...o }).addTo(map));
@@ -214,7 +215,9 @@ legend.onAdd = () => {
   // Reset on the left of the title; the arrow folds the legend away to the right
   head.innerHTML = `<span class="reset" title="Réinitialiser">⟲</span><img class="logo" src="icon.svg" alt=""><b>${TREES.length} trees within 1 km</b><span class="fold" title="Replier">▸</span>`;
   head.firstChild.onclick = reset;
-  head.lastChild.onclick = () => head.lastChild.textContent = panel.classList.toggle('folded') ? '◂' : '▸';
+  const foldLegend = () => head.lastChild.textContent = panel.classList.toggle('folded') ? '◂' : '▸';
+  head.lastChild.onclick = e => { e.stopPropagation(); foldLegend(); };
+  panel.addEventListener('click', () => panel.classList.contains('folded') && foldLegend());  // folded: the whole little tab reopens it
   // Sections: each gets a title; filter rows go to their section
   const sec = (title, id, parent = d) => { const s = L.DomUtil.create('div', 'sec', parent); s.id = id; s.innerHTML = `<div class="sec-t">${title}</div>`; return s; };
   const forage = sec('🧺 Foraging', 'secForage');
