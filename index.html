@@ -74,7 +74,7 @@ L.marker(CENTRE).addTo(map).bindPopup('NW5 2TE').on('click', () => { routeLayer.
 const FR = { Cherry: 'Cerisier', Maple: 'Érable', Lime: 'Tilleul', Plane: 'Platane', Ash: 'Frêne', Birch: 'Bouleau', Other: 'Autre', Apple: 'Pommier',
   Sycamore: 'Érable sycomore', Whitebeam: 'Alisier blanc', Rowan: 'Sorbier des oiseleurs', Hawthorn: 'Aubépine', Juneberry: 'Amélanchier', Serviceberry: 'Amélanchier',
   'Black locust': 'Robinier faux-acacia', Pear: 'Poirier', Hornbeam: 'Charme', 'Horse Chestnut': 'Marronnier', Oak: 'Chêne', Elder: 'Sureau noir', 'Tree-of-heaven': 'Ailante',
-  Alder: 'Aulne', Holly: 'Houx', Ginko: 'Ginkgo', Ginkgo: 'Ginkgo', 'Pride-of-India': 'Savonnier', Hazel: 'Noisetier', 'Turkish hazel': 'Noisetier de Byzance', Mulberry: 'Mûrier', Willow: 'Saule', Elm: 'Orme', Sweetgum: "Copalme d'Amérique",
+  Alder: 'Aulne', Holly: 'Houx', Ginko: 'Ginkgo', Ginkgo: 'Ginkgo', 'Black walnut': 'Noyer noir', 'Pride-of-India': 'Savonnier', Hazel: 'Noisetier', 'Turkish hazel': 'Noisetier de Byzance', Mulberry: 'Mûrier', Willow: 'Saule', Elm: 'Orme', Sweetgum: "Copalme d'Amérique",
   Ironwood: 'Parrotie de Perse', Cypress: 'Cyprès', Poplar: 'Peuplier', Pine: 'Pin', 'Honey Locust': "Févier d'Amérique", Walnut: 'Noyer', Beech: 'Hêtre',
   Chestnut: 'Châtaignier', 'Nettle Tree': 'Micocoulier', Magnolia: 'Magnolia', Yew: 'If', Catalpa: 'Catalpa', Tuliptree: 'Tulipier de Virginie', Privet: 'Troène', Redwood: 'Métaséquoia' };
 const FR_GENUS = { Acacia: 'Acacia', Arbutus: 'Arbousier', Buddleja: 'Buddleia', Carpinus: 'Charme', Carya: 'Caryer', Cedrus: 'Cèdre', Ceanothus: 'Céanothe',
@@ -85,8 +85,8 @@ const FR_GENUS = { Acacia: 'Acacia', Arbutus: 'Arbousier', Buddleja: 'Buddleia',
   Olea: 'Olivier', Paulownia: 'Paulownia', Photinia: 'Photinia', Pittosporum: 'Pittosporum', Pterocarya: 'Ptérocaryer', Pyrus: 'Poirier', Rhus: 'Sumac',
   Syringa: 'Lilas', Tamarix: 'Tamaris', Taxus: 'If', Thuja: 'Thuya', Tilia: 'Tilleul', Yucca: 'Yucca', Zelkova: 'Zelkova' };
 // Legend group: GLA name, except Turkish hazel split from common hazel, and some genera pulled out of "Other"
-const BY_GENUS = { Morus: 'Mulberry', Fagus: 'Beech', Pyrus: 'Pear', Ginkgo: 'Ginkgo' };
-const group = t => t.taxon_species.startsWith('Corylus colurna') ? 'Turkish hazel' : BY_GENUS[t.taxon_species.split(' ')[0]] || t.gla_name;
+const BY_GENUS = { Morus: 'Mulberry', Fagus: 'Beech', Pyrus: 'Pear', Ginkgo: 'Ginkgo', Juglans: 'Walnut' };
+const group = t => t.taxon_species.startsWith('Corylus colurna') ? 'Turkish hazel' : t.taxon_species.startsWith('Juglans nigra') ? 'Black walnut' : BY_GENUS[t.taxon_species.split(' ')[0]] || t.gla_name;
 const frName = t => group(t).trim() !== 'Other' && FR[group(t).trim()] || FR_GENUS[t.taxon_species.split(' ')[0]] || 'Autre';
 // Season photos per legend group (photos.js); big photo is the current season, thumbnails switch it
 const SEASON_FR = { spring: 'Printemps', summer: 'Été', autumn: 'Automne', winter: 'Hiver' };
@@ -113,7 +113,7 @@ function seePhoto(g, k, el) {
   side.querySelectorAll('figure').forEach(f => f.classList.toggle('on', f === el));
 }
 // Specials first, then top 10 genera, the rest grey; one layer per legend row
-const SPECIAL = { Chestnut: ['Sweet chestnut', '#e31a1c'], Yew: ['Yew', '#8b0000'], Pine: ['Pine', '#1b4d2e'], Hazel: ['Hazel', '#d2b48c'], 'Turkish hazel': ['Turkish hazel', '#7b4a1e'], Mulberry: ['Mulberry', '#6a0dad'], Beech: ['Beech', '#6e6e6c'], Pear: ['Pear', '#d1e231'], Hawthorn: ['Hawthorn', '#b2182b'], Elder: ['Elder', '#2d0a3e'], Ginkgo: ['Ginkgo', '#e5c100'] };
+const SPECIAL = { Chestnut: ['Sweet chestnut', '#e31a1c'], Yew: ['Yew', '#8b0000'], Pine: ['Pine', '#1b4d2e'], Hazel: ['Hazel', '#d2b48c'], 'Turkish hazel': ['Turkish hazel', '#7b4a1e'], Mulberry: ['Mulberry', '#6a0dad'], Beech: ['Beech', '#6e6e6c'], Pear: ['Pear', '#d1e231'], Hawthorn: ['Hawthorn', '#b2182b'], Elder: ['Elder', '#2d0a3e'], Ginkgo: ['Ginkgo', '#e5c100'], Walnut: ['Walnut', '#556b2f'], 'Black walnut': ['Black walnut', '#4a3728'], 'Horse Chestnut': ['Horse chestnut', '#a0522d'] };
 const counts = {};
 TREES.forEach(t => counts[group(t)] = (counts[group(t)] || 0) + 1);
 const palette = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d', '#1f78b4', '#b2df8a', '#fb9a99'];
