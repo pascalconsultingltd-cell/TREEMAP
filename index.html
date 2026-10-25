@@ -38,7 +38,9 @@
   .sec { border-top: 1px solid #e3e3e3; padding-top: 4px; margin-top: 4px; } .sec-t { font-weight: 600; font-size: 12px; color: #555; margin-bottom: 2px; }
   .fhead { cursor: pointer; font-size: 13px; color: #222; } .fhead span { float: right; } .filters.shut > div:last-child { display: none; }
   .filters .sec { margin-left: 8px; }
-  .walks { display: block; margin: 4px 0 2px; font-size: 12px; max-width: 100%; }
+  .walks { margin: 4px 0 2px; font-size: 12px; } .wtitle { cursor: pointer; } .wtitle span { float: right; }
+  .witem { display: none; justify-content: space-between; gap: 6px; padding: 2px 4px; cursor: pointer; } .walks.open .witem { display: flex; } .witem:hover { background: #0001; }
+  .witem .x { color: #b00; cursor: pointer; padding: 0 4px; }
   #sortBy { float: right; font-size: 11px; } .favmode .row.isfav::after { content: ' ⭐'; }
   .locbtn a { font-size: 16px; } .locbtn a.on { background: #d2e3fc; }
   .row { cursor: pointer; user-select: none; }
@@ -226,8 +228,9 @@ legend.onAdd = () => {
   forage.lastChild.onclick = forageLoop;
   L.DomUtil.create('label', 'sel', forage).innerHTML = '<input type="checkbox" id="withSel"> avec sélection';
   L.DomUtil.create('label', 'sel', forage).innerHTML = '<input type="checkbox" id="seasonOnly"> de saison';
-  const pick = L.DomUtil.create('select', 'walks', forage); pick.id = 'savedWalks';
-  pick.onchange = () => { const w = loadWalks().find(x => x.id === +pick.value); pick.value = ''; if (w) showWalk(w); };
+  // Saved walks: foldable list, a name opens the walk, ✕ deletes it
+  const wl = L.DomUtil.create('div', 'walks', forage); wl.id = 'savedWalks';
+  wl.onclick = e => { const b = e.target.closest('[data-id]'); if (e.target.closest('.wtitle')) { wl.classList.toggle('open'); fillWalks(); } else if (b) (e.target.classList.contains('x') ? deleteWalk : openSaved)(+b.dataset.id); };
   L.DomUtil.create('button', 'btn', size).textContent = '📏 Hauteur';
   size.lastChild.onclick = () => colourBy('height'); size.lastChild.title = 'Colore chaque arbre selon sa hauteur, du vert pâle au vert foncé ; le plus grand en rouge';
   L.DomUtil.create('button', 'btn', size).textContent = '🌳 Tronc';
@@ -418,8 +421,8 @@ function showWalk(w) {
   map.fitBounds(L.latLngBounds(w.line), { paddingTopLeft: [30, 30], paddingBottomRight: [legendW() + 30, 30] });
   saved = all.map(x => x.on); focus = L.layerGroup(stops.map(t => t.marker)); all.forEach(x => x.on = stops.some(t => t.grp === x)); render();
   stops.forEach((t, i) => L.marker([t.lat, t.lon], { icon: L.divIcon({ className: 'stop', html: `<div style="background:${t.grp.c};color:${ink(t.grp.c)}">${i + 1}</div>`, iconSize: [20, 20] }) }).bindTooltip(frName(t)).addTo(routeLayer));
-  side.innerHTML = `<h3>🧺 ${w.name || 'Balade cueillette'}${w.sel ? ' · avec sélection' : ''}${w.ripe ? ' · de saison' : ''}<br><small>${stops.length} espèces · ${Math.round(w.used / 83.3)} min · ${(w.used / 1000).toFixed(2)} km, retour à NW5 2TE</small></h3>
-    <button class="btn" onclick="forageLoop()">🔀 Autre balade</button>${w.id ? `<button class="btn" onclick="deleteWalk(${w.id})">🗑 Supprimer</button>` : '<button class="btn" onclick="saveWalk()">💾 Sauver</button>'}
+  side.innerHTML = `<h3>🧺 ${w.name ? esc(w.name) : 'Balade cueillette'}${w.sel ? ' · avec sélection' : ''}${w.ripe ? ' · de saison' : ''}<br><small>${stops.length} espèces · ${Math.round(w.used / 83.3)} min · ${(w.used / 1000).toFixed(2)} km, retour à NW5 2TE</small></h3>
+    <button class="btn" onclick="forageLoop()">🔀 Autre balade</button>${w.id ? `<button class="btn" onclick="deleteWalk(${w.id})">🗑 Supprimer</button>` : '<button class="btn" onclick="saveWalk()">💾 Sauver</button>'}<button class="btn" onclick="shareWalk()">🔗 Partager</button>
     <ol>${stops.map(t => `<li><b>${frName(t)}</b> : ${edible(t) || tea(t) || 'non comestible'}</li>`).join('')}</ol>`;
 }
 // Saved walks live in this browser's storage (one phone or computer), 10 at most
@@ -435,15 +438,44 @@ function saveWalk() {
   storeWalks([...ws, current].slice(-10)); showWalk(current);
 }
 function deleteWalk(id) {
-  if (!confirm('Supprimer cette balade sauvée ?')) return;
-  storeWalks(loadWalks().filter(w => w.id !== id)); current = { ...current, id: undefined, name: undefined }; showWalk(current);
+  const w = loadWalks().find(x => x.id === id);
+  if (!w || !confirm(`Supprimer « ${w.name} » ?`)) return;
+  storeWalks(loadWalks().filter(x => x.id !== id));
+  if (current && current.id === id) { current = { ...current, id: undefined, name: undefined }; showWalk(current); }
 }
+// Share: a walk is rebuilt from its ordered trees, so a link carries just their ids (and the name)
+function shareWalk() {
+  const url = `${location.origin}${location.pathname}#walk=${current.ids.join(',')}${current.name ? '&name=' + encodeURIComponent(current.name) : ''}`;
+  if (navigator.share) navigator.share({ title: current.name || 'Balade cueillette', url }).catch(() => {});
+  else navigator.clipboard.writeText(url).then(() => alert('Lien copié : ' + url), () => prompt('Copie ce lien :', url));
+}
+function walkFromIds(ids, name) {
+  const g = graphs().walk, snap = G.snap = G.snap || new Map(), line = [CENTRE], trees = ids.map(id => byId[id]).filter(Boolean);
+  let cur = g.home, used = 0;
+  trees.forEach(t => {
+    const n = snap.get(t) ?? snap.set(t, g.nearest([t.lat, t.lon], i => g.H.d[i] < Infinity)).get(t), D = g.dijkstra(cur);
+    line.push(...g.path(D, n).reverse(), [t.lat, t.lon], g.pts[n]); used += D.d[n] + 2 * dist([t.lat, t.lon], g.pts[n]); cur = n;
+  });
+  line.push(...g.path(g.H, cur), CENTRE); used += g.H.d[cur];
+  return { line, ids: trees.map(t => t.uniqueid), used, name };
+}
+// Opening a shared link shows its walk (it can then be saved on this device)
+function openFromHash() {
+  const h = new URLSearchParams(location.hash.slice(1)), ids = (h.get('walk') || '').split(',').map(Number).filter(Boolean);
+  if (!ids.length) return;
+  showWalk(walkFromIds(ids, h.get('name') || undefined));
+  history.replaceState(null, '', location.pathname + location.search);  // a reload then shows the normal map
+}
+const esc = t => t.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 function fillWalks() {
   const ws = loadWalks();
-  savedWalks.innerHTML = `<option value="">📂 Balades sauvées (${ws.length}/10)</option>` + ws.map(w => `<option value="${w.id}">${w.name}</option>`).join('');
+  savedWalks.innerHTML = `<div class="wtitle">📂 Balades sauvées (${ws.length}/10) <span>${savedWalks.classList.contains('open') ? '▾' : '▸'}</span></div>` +
+    ws.map(w => `<div class="witem" data-id="${w.id}"><span>${esc(w.name)}</span><b class="x" title="Supprimer">✕</b></div>`).join('');
 }
+const openSaved = id => { const w = loadWalks().find(x => x.id === id); if (w) showWalk(w); };
 
 fillWalks();
+openFromHash();
 </script>
 </body>
 </html>
