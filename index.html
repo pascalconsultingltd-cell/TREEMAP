@@ -444,8 +444,11 @@ function deleteWalk(id) {
   if (current && current.id === id) { current = { ...current, id: undefined, name: undefined }; showWalk(current); }
 }
 // Share: a walk is rebuilt from its ordered trees, so a link carries just their ids (and the name)
+// Links always point to the public site: a file:// or localhost link is useless elsewhere, and Chrome's share sheet crashes on file:// URLs
+const SITE = 'https://pascalconsultingltd-cell.github.io/TREEMAP/';
 function shareWalk() {
-  const url = `${location.origin}${location.pathname}#walk=${current.ids.join(',')}${current.name ? '&name=' + encodeURIComponent(current.name) : ''}`;
+  const base = location.protocol === 'https:' ? location.origin + location.pathname : SITE;
+  const url = `${base}#walk=${current.ids.join(',')}${current.name ? '&name=' + encodeURIComponent(current.name) : ''}`;
   if (navigator.share) navigator.share({ title: current.name || 'Balade cueillette', url }).catch(() => {});
   else navigator.clipboard.writeText(url).then(() => alert('Lien copié : ' + url), () => prompt('Copie ce lien :', url));
 }
