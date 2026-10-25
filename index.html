@@ -8,9 +8,11 @@
 <style>
   html, body { height: 100%; margin: 0; font-family: system-ui, sans-serif; }
   body { display: flex; }
-  #side { width: 25%; overflow-y: auto; padding: 12px; box-sizing: border-box; background: #fafaf7; border-right: 1px solid #ddd; }
+  #side { display: none; position: relative; width: 25%; overflow-y: auto; padding: 12px; box-sizing: border-box; background: #fafaf7; border-right: 1px solid #ddd; }
   #side h3 { margin: 0 0 8px; } #side h3 small { font-weight: normal; color: #666; }
   #map { flex: 1; background: #f2efe9; }
+  body.open #side { display: block; }
+  #closeSide { position: absolute; top: 6px; right: 8px; cursor: pointer; font-size: 18px; color: #666; } #closeSide:hover { color: #000; }
   @media (max-width: 700px) { body { flex-direction: column; } #side { width: 100%; height: 40%; border-right: none; border-bottom: 1px solid #ddd; } }
   .street { background: none; border: none; box-shadow: none; padding: 0; font-size: 11px; color: #555; text-shadow: 0 0 3px #fff, 0 0 3px #fff; }
   .street::before { display: none; }
@@ -28,6 +30,8 @@
   .sel { font-size: 12px; margin-left: 4px; cursor: pointer; }
   .panel { max-height: calc(100vh - 20px); overflow-y: auto; box-sizing: border-box; }
   .sec { border-top: 1px solid #e3e3e3; padding-top: 4px; margin-top: 4px; } .sec-t { font-weight: 600; font-size: 12px; color: #555; margin-bottom: 2px; }
+  .fhead { cursor: pointer; font-size: 13px; color: #222; } .fhead span { float: right; } .filters.shut > div:last-child { display: none; }
+  .filters .sec { margin-left: 8px; }
   .row { cursor: pointer; user-select: none; }
   .row:hover { background: #0001; }
   #side .big { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; display: block; }
@@ -43,7 +47,7 @@
 </style>
 </head>
 <body>
-<div id="side"><h3>Tree Map NW5</h3>Clique sur un arbre pour voir ses photos au fil des saisons.</div>
+<div id="side"><span id="closeSide" title="Fermer" onclick="showSide0(false)">✕</span><div id="sideBody"></div></div>
 <div id="map"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="basemap.js"></script>
@@ -92,11 +96,14 @@ const PARTS = { leaf: 'Feuille', flower: 'Fleur', fruit: 'Fruit', bark: 'Écorce
 const label = (g, k) => SEASON_FR[k] || (k === 'fruit' && /^(Maple|Sycamore|Ash)$/.test(g) ? 'Samares' : k === 'fruit' && g === 'Pine' ? 'Cône' : PARTS[k]);
 const caption = (g, k) => { const p = PHOTOS[g][k]; return `${label(g, k)}${k === NOW ? ' (maintenant)' : ''}${p.season && p.season !== k ? ` : pas de photo, voici ${SEASON_FR[p.season].toLowerCase()}` : ''} · <a href="${p.page}" target="_blank">${p.credit}</a>`; };
 // Side panel: clicked tree with its group's photos, current season big, the 4 seasons and the close-ups below
-const side = document.getElementById('side');
+// Panel opens on a tree, legend row or walk, closes with ✕; the map is resized each time
+const side = document.getElementById('sideBody');
+const showSide0 = open => { document.body.classList.toggle('open', open); map.invalidateSize(); };
 const showSide = t => showPhotos(group(t).trim(), t.common_name, `${frName(t)} · <i>${t.taxon_species}</i>`);
 const tiles = (g, keys) => '<div class="grid">' + keys.map(k => `<figure class="${k === NOW ? 'on' : ''}" onclick="seePhoto('${g}', '${k}', this)"><img src="${PHOTOS[g][k].src}"><figcaption>${label(g, k)}</figcaption></figure>`).join('') + '</div>';
 function showPhotos(g, title, sub) {
   const p = PHOTOS[g], close = p ? Object.keys(PARTS).filter(k => p[k]) : [];
+  showSide0(true);
   side.innerHTML = `<h3>${title}<br><small>${sub}</small></h3>` + (!p ? '<p>Pas de photo pour cet arbre.</p>' :
     `<img class="big" id="big" src="${p[NOW].src}"><div class="cap" id="cap">${caption(g, NOW)}</div>` + tiles(g, Object.keys(SEASON_FR)) +
     (close.length ? '<h4>Détails</h4>' + tiles(g, close) : ''));
@@ -140,8 +147,14 @@ const BEE = /^(Tilia|Prunus|Malus|Pyrus|Crataegus|Aesculus|Sorbus|Castanea|Robin
 // Toxic parts (seeds, berries, leaves or bark); elder stays out: edible once cooked
 const TOXIC = /^(Taxus|Prunus laurocerasus|Prunus lusitanica|Laburnum|Aesculus|Ligustrum|Euonymus|Robinia|Ilex|Thuja|Cytisus)/;
 const SEX_FR = ['♂♀ Dioïque', '⚤ Monoïque', '⚥ Hermaphrodite'];
-const FILTERS = [{ labels: ['Non comestible', '🍎 Comestible', '🍵 Tisane'] }, { labels: ['🍂 Caduc', '🌲 Persistant'] }, { labels: SEX_FR },
-  { labels: ['Peu mellifère', '🐝 Ami des abeilles'] }, { labels: ['Non toxique', '☠️ Toxique'] }];
+// tips: shown on hover over each button
+const FILTERS = [{ labels: ['Non comestible', '🍎 Comestible', '🍵 Tisane'], tips: ['Rien à manger sur cet arbre', 'Fruits, noix, fleurs ou feuilles comestibles (parfois après cuisson)', 'Seulement en infusion : aiguilles de pin et de sapin'] },
+  { labels: ['🍂 Caduc', '🌲 Persistant'], tips: ['Perd ses feuilles en hiver', 'Garde ses feuilles (ou aiguilles) toute l’année'] },
+  { labels: SEX_FR, tips: ['Arbres mâles et arbres femelles séparés : seuls les femelles portent fruits ou baies, les mâles font le pollen (ex. if, houx, ginkgo, frêne)',
+    'Fleurs mâles et fleurs femelles séparées mais sur le même arbre (ex. chêne, bouleau, noisetier, pin, platane)',
+    'Chaque fleur est à la fois mâle et femelle (ex. cerisier, pommier, tilleul, aubépine)'] },
+  { labels: ['Peu mellifère', '🐝 Ami des abeilles'], tips: ['Peu ou pas de nectar ni de pollen utile aux abeilles (souvent pollinisé par le vent)', 'Fleurs riches en nectar ou pollen, très visitées par les abeilles'] },
+  { labels: ['Non toxique', '☠️ Toxique'], tips: ['Aucune partie connue comme toxique', 'Graines, baies, feuilles ou écorce toxiques : ne pas manger'] }];
 FILTERS.forEach(f => { f.on = f.labels.map(() => true); f.n = f.labels.map(() => 0); });
 const all = [...groups, rest];
 all.forEach(x => { x.layers = {}; x.on = true; x.n = 0; });
@@ -179,23 +192,29 @@ legend.onAdd = () => {
   head.innerHTML = `<span class="reset" title="Réinitialiser">⟲</span><b>${TREES.length} trees within 1 km</b><span class="fold" title="Replier">▸</span>`;
   head.firstChild.onclick = reset;
   head.lastChild.onclick = () => head.lastChild.textContent = panel.classList.toggle('folded') ? '◂' : '▸';
-  // Sections: each gets a title; filter rows go to their section (sex sits with bees: both are about flowers)
-  const sec = (title, id) => { const s = L.DomUtil.create('div', 'sec', d); s.id = id; s.innerHTML = `<div class="sec-t">${title}</div>`; return s; };
-  const forage = sec('🧺 Foraging', 'secForage'), food = sec('🍎 Édibilité', 'secFood'), leaves = sec('🍃 Feuillage', 'secLeaves'), size = sec('📏 Hauteur / largeur', 'secSize'), bees = sec('🐝 Abeilles', 'secBees');
+  // Sections: each gets a title; filter rows go to their section
+  const sec = (title, id, parent = d) => { const s = L.DomUtil.create('div', 'sec', parent); s.id = id; s.innerHTML = `<div class="sec-t">${title}</div>`; return s; };
+  const forage = sec('🧺 Foraging', 'secForage');
+  // All toggle sections sit in one block that folds vertically from its title
+  const fold = L.DomUtil.create('div', 'sec filters', d), fhead = L.DomUtil.create('div', 'sec-t fhead', fold), fbody = L.DomUtil.create('div', '', fold);
+  fhead.innerHTML = '⚙️ Filtres <span>▾</span>';
+  fhead.onclick = () => fhead.lastChild.textContent = fold.classList.toggle('shut') ? '▸' : '▾';
+  const food = sec('🍎 Édibilité', 'secFood', fbody), leaves = sec('🍃 Feuillage', 'secLeaves', fbody), size = sec('📏 Hauteur / largeur', 'secSize', fbody),
+    bees = sec('🐝 Abeilles', 'secBees', fbody), sexes = sec('⚥ Sexualité de l’arbre', 'secSex', fbody);
   L.DomUtil.create('button', 'btn', forage).textContent = '🧺 Balade cueillette 30 min';
   forage.lastChild.onclick = forageLoop;
   L.DomUtil.create('label', 'sel', forage).innerHTML = '<input type="checkbox" id="withSel"> avec sélection';
   L.DomUtil.create('label', 'sel', forage).innerHTML = '<input type="checkbox" id="seasonOnly"> de saison';
   L.DomUtil.create('button', 'btn', size).textContent = '📏 Hauteur';
-  size.lastChild.onclick = () => colourBy('height');
+  size.lastChild.onclick = () => colourBy('height'); size.lastChild.title = 'Colore chaque arbre selon sa hauteur, du vert pâle au vert foncé ; le plus grand en rouge';
   L.DomUtil.create('button', 'btn', size).textContent = '🌳 Tronc';
-  size.lastChild.onclick = () => colourBy('girth');
-  const home = [food, leaves, bees, bees, food];  // FILTERS order: edible, leaf, sex, bee, toxic
+  size.lastChild.onclick = () => colourBy('girth'); size.lastChild.title = 'Colore chaque arbre selon le tour de son tronc (à 1,3 m du sol), du beige au brun ; le plus gros en rouge';
+  const home = [food, leaves, sexes, bees, food];  // FILTERS order: edible, leaf, sex, bee, toxic
   FILTERS.forEach((f, i) => {
     const div = L.DomUtil.create('div', '', home[i]);
     f.btns = f.labels.map((label, e) => {
       const b = L.DomUtil.create('button', 'btn', div);
-      b.textContent = `${label} (${f.n[e]})`;
+      b.textContent = `${label} (${f.n[e]})`; b.title = f.tips[e];
       b.onclick = () => { unfocus(); f.on[e] = !f.on[e]; render(); };
       // Right-click: only this button in its row; again: whole row back on
       b.oncontextmenu = ev => { ev.preventDefault(); unfocus(); const solo = f.on.every((v, j) => v === (j === e)); f.on = f.on.map((_, j) => solo || j === e); render(); };
@@ -239,11 +258,10 @@ function colourBy(k) {
 const legendW = () => document.querySelector('.panel').offsetWidth + 10;
 const home = () => map.stop().setView(CENTRE, 15, { animate: false }).panBy([legendW() / 2, 0], { animate: false });
 home();
-const SIDE0 = side.innerHTML;
 function reset() {
   if (mode) colourBy(mode);
   unfocus(); all.forEach(x => x.on = true); FILTERS.forEach(f => f.on = f.on.map(() => true)); withSel.checked = seasonOnly.checked = false;
-  routeLayer.clearLayers(); map.closePopup(); side.innerHTML = SIDE0; home(); render();
+  routeLayer.clearLayers(); map.closePopup(); showSide0(false); home(); render();
 }
 render();
 // Routing on our own street network: walking uses every way, cycling roads only (one-way streets ignored)
@@ -305,7 +323,7 @@ map.on('zoomend', () => walk && routeLayer.hasLayer(walkLayer) && drawWalk());
 // Black or white number depending on how light the legend colour is
 const ink = c => { const [r, g, b] = [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16)); return r * 0.299 + g * 0.587 + b * 0.114 > 150 ? '#000' : '#fff'; };
 function forageLoop() {
-  endWalk();
+  endWalk(); showSide0(true);  // open the panel first so the walk is fitted to the final map size
   const g = graphs().walk;
   // "avec sélection": only trees currently shown by the legend and filters, edible or not; otherwise every edible tree
   // "de saison": only trees with something to pick this month
