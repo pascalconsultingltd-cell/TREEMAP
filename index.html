@@ -134,9 +134,11 @@ document.addEventListener('keydown', e => e.key === 'Escape' && closeBig());
 const SPECIAL = { Chestnut: ['Sweet chestnut', '#e31a1c'], Yew: ['Yew', '#8b0000'], Pine: ['Pine', '#1b4d2e'], Hazel: ['Hazel', '#d2b48c'], 'Turkish hazel': ['Turkish hazel', '#7b4a1e'], Mulberry: ['Mulberry', '#6a0dad'], Beech: ['Beech', '#6e6e6c'], Pear: ['Pear', '#d1e231'], Hawthorn: ['Hawthorn', '#b2182b'], Elder: ['Elder', '#2d0a3e'], Ginkgo: ['Ginkgo', '#e5c100'], Walnut: ['Walnut', '#556b2f'], 'Black walnut': ['Black walnut', '#4a3728'], 'Horse Chestnut': ['Horse chestnut', '#a0522d'] };
 const counts = {};
 TREES.forEach(t => counts[group(t)] = (counts[group(t)] || 0) + 1);
+// Fixed colours for some common groups, the palette fills the rest by rank
+const COLOUR = { Plane: '#b08d57', Cherry: '#9e1b32', Lime: '#2e7d32' };
 const palette = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d', '#1f78b4', '#b2df8a', '#fb9a99'];
 const groups = Object.entries(SPECIAL).map(([g, [label, c]]) => ({ g, label, c }))
-  .concat(Object.entries(counts).filter(([g]) => !SPECIAL[g]).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([g], i) => ({ g, label: g, c: palette[i] })));
+  .concat(Object.entries(counts).filter(([g]) => !SPECIAL[g]).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([g], i) => ({ g, label: g, c: COLOUR[g] || palette[i] })));
 const byName = Object.fromEntries(groups.map(x => [x.g, x]));
 groups.forEach(x => x.label += ' / ' + FR[x.g.trim()]);
 const rest = { label: 'Everything else / Tout le reste', c: '#999' };
