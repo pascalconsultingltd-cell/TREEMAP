@@ -37,7 +37,7 @@
   #side .big { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; display: block; }
   #side .cap { font-size: 11px; color: #666; margin: 4px 0 10px; }
   #side .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-  #side figure { margin: 0; cursor: pointer; } #side figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; }
+  #side figure { margin: 0; cursor: zoom-in; } #side figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; }
   #side .big { cursor: zoom-in; }
   #lightbox { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0, 0, 0, 0.92); flex-direction: column; align-items: center; justify-content: center; }
   #lbImg { max-width: 95vw; max-height: 88vh; object-fit: contain; } #lbCap { color: #ddd; font-size: 13px; margin-top: 8px; } #lbCap a { color: #9cf; }
@@ -105,27 +105,23 @@ const caption = (g, k) => { const p = PHOTOS[g][k]; return `${label(g, k)}${k ==
 const side = document.getElementById('sideBody');
 const showSide0 = open => { document.body.classList.toggle('open', open); map.invalidateSize(); };
 const showSide = t => showPhotos(group(t).trim(), t.common_name, `${frName(t)} · <i>${t.taxon_species}</i>`);
-const tiles = (g, keys) => '<div class="grid">' + keys.map(k => `<figure class="${k === NOW ? 'on' : ''}" onclick="seePhoto('${g}', '${k}', this)"><img src="${PHOTOS[g][k].src}"><figcaption>${label(g, k)}</figcaption></figure>`).join('') + '</div>';
+const tiles = (g, keys) => '<div class="grid">' + keys.map(k => `<figure class="${k === NOW ? 'on' : ''}" onclick="openBig('${g}', '${k}')"><img src="${PHOTOS[g][k].src}"><figcaption>${label(g, k)}</figcaption></figure>`).join('') + '</div>';
 function showPhotos(g, title, sub) {
   const p = PHOTOS[g], close = p ? Object.keys(PARTS).filter(k => p[k]) : [];
   showSide0(true);
   side.innerHTML = `<h3>${title}<br><small>${sub}</small></h3>` + (!p ? '<p>Pas de photo pour cet arbre.</p>' :
-    `<img class="big" id="big" src="${p[NOW].src}" data-g="${g}" data-k="${NOW}" onclick="openBig()" title="Agrandir"><div class="cap" id="cap">${caption(g, NOW)}</div>` + tiles(g, Object.keys(SEASON_FR)) +
+    `<img class="big" id="big" src="${p[NOW].src}" onclick="openBig('${g}', NOW)" title="Agrandir"><div class="cap" id="cap">${caption(g, NOW)}</div>` + tiles(g, Object.keys(SEASON_FR)) +
     (close.length ? '<h4>Détails</h4>' + tiles(g, close) : ''));
 }
-// Full-window view of the large photo: local 500 px at once, then Commons 1600 px when online; ✕, Esc or a click outside closes
-function openBig() {
-  const { g, k } = big.dataset, p = PHOTOS[g][k], hi = new Image();
+// Full-window view of any photo (the main one or a tile; the main photo never changes): local 500 px at once, then Commons 1600 px when online; ✕, Esc or a click outside closes
+function openBig(g, k) {
+  const p = PHOTOS[g][k], hi = new Image();
   lbImg.src = p.src; lbCap.innerHTML = caption(g, k); lightbox.style.display = 'flex';
   hi.onload = () => { if (lightbox.style.display === 'flex') lbImg.src = hi.src; };
   hi.src = p.page.replace('/wiki/File:', '/wiki/Special:FilePath/') + '?width=1600';
 }
 const closeBig = () => lightbox.style.display = 'none';
 document.addEventListener('keydown', e => e.key === 'Escape' && closeBig());
-function seePhoto(g, k, el) {
-  big.src = PHOTOS[g][k].src; big.dataset.g = g; big.dataset.k = k; cap.innerHTML = caption(g, k);
-  side.querySelectorAll('figure').forEach(f => f.classList.toggle('on', f === el));
-}
 // Specials first, then top 10 genera, the rest grey; one layer per legend row
 const SPECIAL = { Chestnut: ['Sweet chestnut', '#e31a1c'], Yew: ['Yew', '#8b0000'], Pine: ['Pine', '#1b4d2e'], Hazel: ['Hazel', '#d2b48c'], 'Turkish hazel': ['Turkish hazel', '#7b4a1e'], Mulberry: ['Mulberry', '#6a0dad'], Beech: ['Beech', '#6e6e6c'], Pear: ['Pear', '#d1e231'], Hawthorn: ['Hawthorn', '#b2182b'], Elder: ['Elder', '#2d0a3e'], Ginkgo: ['Ginkgo', '#e5c100'], Walnut: ['Walnut', '#556b2f'], 'Black walnut': ['Black walnut', '#4a3728'], 'Horse Chestnut': ['Horse chestnut', '#a0522d'] };
 const counts = {};
