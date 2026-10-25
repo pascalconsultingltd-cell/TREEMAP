@@ -158,14 +158,14 @@ const BEE = /^(Tilia|Prunus|Malus|Pyrus|Crataegus|Aesculus|Sorbus|Castanea|Robin
 // Toxic parts (seeds, berries, leaves or bark); elder stays out: edible once cooked
 const TOXIC = /^(Taxus|Prunus laurocerasus|Prunus lusitanica|Laburnum|Aesculus|Ligustrum|Euonymus|Robinia|Ilex|Thuja|Cytisus)/;
 const SEX_FR = ['♂♀ Dioïque', '⚤ Monoïque', '⚥ Hermaphrodite'];
-// tips: shown on hover over each button
-const FILTERS = [{ labels: ['Non comestible', '🍎 Comestible', '🍵 Tisane'], tips: ['Rien à manger sur cet arbre', 'Fruits, noix, fleurs ou feuilles comestibles (parfois après cuisson)', 'Seulement en infusion : aiguilles de pin et de sapin'] },
-  { labels: ['🍂 Caduc', '🌲 Persistant'], tips: ['Perd ses feuilles en hiver', 'Garde ses feuilles (ou aiguilles) toute l’année'] },
-  { labels: SEX_FR, tips: ['Arbres mâles et arbres femelles séparés : seuls les femelles portent fruits ou baies, les mâles font le pollen (ex. if, houx, ginkgo, frêne)',
+// tips: shown on hover over each button; colors: used by the row's 🎨 button to paint every tree by its category
+const FILTERS = [{ labels: ['Non comestible', '🍎 Comestible', '🍵 Tisane'], colors: ['#bdbdbd', '#e6550d', '#31a354'], tips: ['Rien à manger sur cet arbre', 'Fruits, noix, fleurs ou feuilles comestibles (parfois après cuisson)', 'Seulement en infusion : aiguilles de pin et de sapin'] },
+  { labels: ['🍂 Caduc', '🌲 Persistant'], colors: ['#d95f0e', '#006d2c'], tips: ['Perd ses feuilles en hiver', 'Garde ses feuilles (ou aiguilles) toute l’année'] },
+  { labels: SEX_FR, colors: ['#1f78b4', '#ff7f00', '#e7298a'], tips: ['Arbres mâles et arbres femelles séparés : seuls les femelles portent fruits ou baies, les mâles font le pollen (ex. if, houx, ginkgo, frêne)',
     'Fleurs mâles et fleurs femelles séparées mais sur le même arbre (ex. chêne, bouleau, noisetier, pin, platane)',
     'Chaque fleur est à la fois mâle et femelle (ex. cerisier, pommier, tilleul, aubépine)'] },
-  { labels: ['Peu mellifère', '🐝 Ami des abeilles'], tips: ['Peu ou pas de nectar ni de pollen utile aux abeilles (souvent pollinisé par le vent)', 'Fleurs riches en nectar ou pollen, très visitées par les abeilles'] },
-  { labels: ['Non toxique', '☠️ Toxique'], tips: ['Aucune partie connue comme toxique', 'Graines, baies, feuilles ou écorce toxiques : ne pas manger'] }];
+  { labels: ['Peu mellifère', '🐝 Ami des abeilles'], colors: ['#000000', '#ffd400'], tips: ['Peu ou pas de nectar ni de pollen utile aux abeilles (souvent pollinisé par le vent)', 'Fleurs riches en nectar ou pollen, très visitées par les abeilles'] },
+  { labels: ['Non toxique', '☠️ Toxique'], colors: ['#bdbdbd', '#6a3d9a'], tips: ['Aucune partie connue comme toxique', 'Graines, baies, feuilles ou écorce toxiques : ne pas manger'] }];
 FILTERS.forEach(f => { f.on = f.labels.map(() => true); f.n = f.labels.map(() => 0); });
 const all = [...groups, rest];
 all.forEach(x => { x.layers = {}; x.on = true; x.n = 0; });
@@ -231,6 +231,8 @@ legend.onAdd = () => {
       b.oncontextmenu = ev => { ev.preventDefault(); unfocus(); const solo = f.on.every((v, j) => v === (j === e)); f.on = f.on.map((_, j) => solo || j === e); render(); };
       return b;
     });
+    f.pal = L.DomUtil.create('button', 'btn pal', div); f.pal.textContent = '🎨'; f.pal.title = 'Colorer chaque arbre selon cette catégorie';
+    f.pal.onclick = () => colourBy('f' + i);
   });
   const species = sec('🌳 Espèces', 'secSpecies');
   all.forEach(x => {
@@ -262,13 +264,16 @@ const heat = (m, v) => { const R = m.ramp.map(rgb), x = Math.min(1, v / m.max) *
 let mode = null;
 const ramp = L.DomUtil.create('div', 'ramp');
 secSize.appendChild(ramp);
+// k: 'height' or 'girth' (gradient) or 'f<i>' (one colour per category of filter row i, shown as a stripe on its buttons)
 function colourBy(k) {
   mode = mode === k ? null : k;
+  const f = mode && mode[0] === 'f' ? FILTERS[mode[1]] : null, fi = f && +mode[1];
   const m = MODES[mode], top = m && Math.max(...TREES.map(t => val(t, m) || 0)), best = m ? TREES.filter(t => val(t, m) === top) : [];
   TREES.forEach(t => { const mk = t.marker, v = m && val(t, m); mk.s0 = mk.s0 || { color: mk.options.color, weight: mk.options.weight, fillColor: mk.options.fillColor };
-    mk.setStyle(!m ? mk.s0 : v === top ? { fillColor: '#e31a1c', color: '#000', weight: 2 } : { ...mk.s0, fillColor: v > 0 ? heat(m, v) : '#ccc' }); });
+    mk.setStyle(f ? { ...mk.s0, fillColor: f.colors[t.key[fi]] } : !m ? mk.s0 : v === top ? { fillColor: '#e31a1c', color: '#000', weight: 2 } : { ...mk.s0, fillColor: v > 0 ? heat(m, v) : '#ccc' }); });
   best.forEach(t => t.marker.bringToFront());
   Object.values(MODES).forEach(m2 => [...document.querySelectorAll('.panel .btn')].find(b => b.textContent === m2.btn).classList.toggle('active', m2 === m));
+  FILTERS.forEach(x => { x.pal.classList.toggle('active', x === f); x.btns.forEach((b, e) => b.style.borderLeft = x === f ? `10px solid ${x.colors[e]}` : ''); });
   ramp.style.display = m ? 'block' : 'none';
   if (m) ramp.innerHTML = `<div class="bar" style="background:linear-gradient(to right, ${m.ramp})"></div><span>0 ${m.unit}</span><span>${m.max / 2} ${m.unit}</span><span>${m.max}+ ${m.unit}</span>
     <div><span class="dot" style="background:#e31a1c"></span>${m.top} : ${top} ${m.unit} (${best.length})</div>`;
