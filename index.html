@@ -222,7 +222,9 @@ legend.onAdd = () => {
     });
   });
   const species = sec('🌳 Espèces', 'secSpecies');
-  all.forEach(x => {
+  // Species rows A to Z by English name; "Other" and "Everything else" stay last
+  const last = x => x === rest || x.g === 'Other';
+  all.slice().sort((p, q) => last(p) - last(q) || (last(p) ? (p === rest) - (q === rest) : p.label.localeCompare(q.label))).forEach(x => {
     x.row = L.DomUtil.create('div', 'row', species);
     x.row.innerHTML = `<span class="dot" style="background:${x.c}"></span>${x.label} (<span>${x.n}</span>)`;
     const photos = () => showPhotos(x.g ? x.g.trim() : '', x.label, `${x.n} arbres`);
