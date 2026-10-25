@@ -74,7 +74,7 @@
 <script>
 // City: ?city=bcn or the last one chosen on this device, London by default; its basemap and trees load before the map script
 const CITY = (new URLSearchParams(location.search).get('city') || (() => { try { return localStorage.getItem('treemap.city'); } catch (e) {} })()) === 'bcn' ? 'bcn' : 'london';
-const V = '?v=20261025';  // bump when data files change, so browsers don't keep stale copies
+const V = '?v=20261026';  // bump when data files change, so browsers don't keep stale copies
 document.write(CITY === 'bcn' ? `<script src="basemap_bcn.js${V}"><\/script><script src="trees_bcn.js${V}"><\/script>` : `<script src="basemap.js${V}"><\/script><script src="trees.js${V}"><\/script>`);
 </script>
 <script>document.write(`<script src="photos.js${V}"><\/script>`);</script>
@@ -124,7 +124,7 @@ const SEASON_FR = { spring: 'Printemps', summer: 'Été', autumn: 'Automne', win
 const NOW = ['winter', 'winter', 'spring', 'spring', 'spring', 'summer', 'summer', 'summer', 'autumn', 'autumn', 'autumn', 'winter'][new Date().getMonth()];
 // Close-ups under the seasons when available; maple, sycamore and ash fruits are samaras, pine fruits are cones
 const PARTS = { leaf: 'Feuille', flower: 'Fleur', fruit: 'Fruit', bark: 'Écorce' };
-const label = (g, k) => SEASON_FR[k] || (k === 'fruit' && /^(Maple|Sycamore|Ash)$/.test(g) ? 'Samares' : k === 'fruit' && g === 'Pine' ? 'Cône' : PARTS[k]);
+const label = (g, k) => SEASON_FR[k] || (k === 'fruit' && /^(Maple|Sycamore|Ash|Elm)$/.test(g) ? 'Samares' : k === 'fruit' && g === 'Pine' ? 'Cône' : PARTS[k]);
 const caption = (g, k) => { const p = PHOTOS[g][k]; return `${label(g, k)}${k === NOW ? ' (maintenant)' : ''}${p.season && p.season !== k ? ` : pas de photo, voici ${SEASON_FR[p.season].toLowerCase()}` : ''} · <a href="${p.page}" target="_blank">${p.credit}</a>`; };
 // Side panel: clicked tree with its group's photos, current season big, the 4 seasons and the close-ups below
 // Panel opens on a tree, legend row or walk, closes with ✕; the map is resized each time

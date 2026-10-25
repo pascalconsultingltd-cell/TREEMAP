@@ -997,5 +997,670 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Aesculus_Hippocastanum_bark_-_1.jpg",
 "credit": "Spiritia, CC BY-SA 4.0"
 }
+},
+"Nettle Tree": {
+"spring": {
+"src": "photos/Nettle_Tree_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Viale_alberato_sotto_la_pioggia,_Rampari_di_Belfiore,_Mura_di_Ferrara.jpg",
+"credit": "Nicola Quirico, CC BY-SA 4.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Nettle_Tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Bagolaro,_parco_Massari_(Ferrara)_0.jpg",
+"credit": "Nicola Quirico, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Nettle_Tree_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2021_The_chocolate_tree_Medulin_HR.jpg",
+"credit": "Igor Zirojevic, CC BY-SA 4.0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Nettle_Tree_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Mura_di_Ferrara_0.jpg",
+"credit": "Nicola Quirico, CC BY-SA 4.0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Nettle_Tree_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Celtis_australis_(10).JPG",
+"credit": "Marija Gajić, CC BY-SA 4.0"
+},
+"flower": {
+"src": "photos/Nettle_Tree_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Celtis_australis_flowering_01.JPG",
+"credit": "Meneerke bloem, CC BY-SA 3.0"
+},
+"fruit": {
+"src": "photos/Nettle_Tree_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Celtis_australis_fruits_RHu.JPG",
+"credit": "Meneerke bloem, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Nettle_Tree_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Celtis_australis_-_root_swelling.JPG",
+"credit": "Meneerke bloem, CC BY-SA 3.0"
+}
+},
+"Tipu tree": {
+"spring": {
+"src": "photos/Tipu_tree_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Tipa_Tree_lined_street_in_Palermo.jpg",
+"credit": "Beatrice Murch, CC BY 2.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Tipu_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Tipuana_tipu_avinguda_Roma_Barcelona.jpg",
+"credit": "Pere López, CC BY-SA 3.0",
+"season": "summer"
+},
+"leaf": {
+"src": "photos/Tipu_tree_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Starr-090623-1749-Tipuana_tipu-leaves-Hana-Maui_(24340437683).jpg",
+"credit": "Forest and Kim Starr, CC BY 3.0 us"
+},
+"flower": {
+"src": "photos/Tipu_tree_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Blooming_tipuana_tipu_or_rosewood_tree.jpg",
+"credit": "DariaPerse, CC BY-SA 3.0"
+},
+"bark": {
+"src": "photos/Tipu_tree_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:T.tipu-bark-1.jpg",
+"credit": "Philmarin, CC BY-SA 4.0"
+},
+"autumn": {
+"src": "photos/Tipu_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Tipuana_tipu_avinguda_Roma_Barcelona.jpg",
+"credit": "Pere López, CC BY-SA 3.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Tipu_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Tipuana_tipu_avinguda_Roma_Barcelona.jpg",
+"credit": "Pere López, CC BY-SA 3.0",
+"season": "summer"
+}
+},
+"Pagoda tree": {
+"spring": {
+"src": "photos/Pagoda_tree_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Kornik_Arboretum_perelkowiec_japonski.jpg",
+"credit": "Andrzej Otrębski, CC BY-SA 3.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Pagoda_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Arbre_en_fleur.jpg",
+"credit": "Musicaline, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Pagoda_tree_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2023-11-18_12_45_25_Pagoda_tree_in_autumn_along_Willis_Drive_in_the_Mountainview_section_of_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+"credit": "Famartin, CC BY-SA 4.0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Pagoda_tree_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20210208Styphnolobium_japonicum1.jpg",
+"credit": "AnRo0002, CC0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Pagoda_tree_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2026-04-23_14_13_11_Pagoda_Tree_leaves_killed_by_a_record_cold_morning_two_days_earlier_along_Willis_Drive_in_the_Mountainview_section_of_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"flower": {
+"src": "photos/Pagoda_tree_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20180705Styphnolobium_japonicum1.jpg",
+"credit": "AnRo0002, CC0"
+},
+"fruit": {
+"src": "photos/Pagoda_tree_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2024-01-27_14_57_42_Pagoda_tree_fruit_on_the_grounds_of_the_Mountain_View_Golf_Course_in_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Pagoda_tree_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2024-01-27_14_58_42_Pagoda_tree_bark_on_the_grounds_of_the_Mountain_View_Golf_Course_in_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+"credit": "Famartin, CC BY-SA 4.0"
+}
+},
+"Palm": {
+"summer": {
+"src": "photos/Palm_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Joshua_Tree_National_Park_-_Cottonwood_Spring_Oasis_-_01.jpg",
+"credit": "Robb Hannawacker, while working for Joshua Tree National Par, Public domain",
+"season": "spring"
+},
+"spring": {
+"src": "photos/Palm_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Joshua_Tree_National_Park_-_Cottonwood_Spring_Oasis_-_01.jpg",
+"credit": "Robb Hannawacker, while working for Joshua Tree National Par, Public domain",
+"season": "spring"
+},
+"leaf": {
+"src": "photos/Palm_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Palmera_de_California_hilos.jpg",
+"credit": "Xemenendura, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Palm_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Archontophoenix_cunninghamiana_trunk_(SLiM).jpg",
+"credit": "Steve L. Martin, CC BY 2.0"
+},
+"autumn": {
+"src": "photos/Palm_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Joshua_Tree_National_Park_-_Cottonwood_Spring_Oasis_-_01.jpg",
+"credit": "Robb Hannawacker, while working for Joshua Tree National Par, Public domain",
+"season": "spring"
+},
+"winter": {
+"src": "photos/Palm_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Joshua_Tree_National_Park_-_Cottonwood_Spring_Oasis_-_01.jpg",
+"credit": "Robb Hannawacker, while working for Joshua Tree National Par, Public domain",
+"season": "spring"
+}
+},
+"Judas tree": {
+"spring": {
+"src": "photos/Judas_tree_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Cercis_siliquastrum_in_bloom.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Judas_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Arbre_de_l%27amor_a_la_pla%C3%A7a_del_Portal,_Benissa.jpg",
+"credit": "Joanbanjo, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Judas_tree_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20171019Cercis_siliquastrum1.jpg",
+"credit": "AnRo0002, CC0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Judas_tree_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20171201Cercis_siliquastrum1.jpg",
+"credit": "AnRo0002, CC0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Judas_tree_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Cercis_siliquastrum_-_foliage_-_Jardin_Botanique_Henri_GAUSSEN.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0"
+},
+"flower": {
+"src": "photos/Judas_tree_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20180424Cercis_siliquastrum6.jpg",
+"credit": "AnRo0002, CC0"
+},
+"fruit": {
+"src": "photos/Judas_tree_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Cercis_siliquastrum_-_Cauliflory_-_Flowers_and_fruits_-_Jardin_Botanique_Henri_GAUSSEN.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Judas_tree_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20171019Cercis_siliquastrum4.jpg",
+"credit": "AnRo0002, CC0"
+}
+},
+"Bottle tree": {
+"spring": {
+"src": "photos/Bottle_tree_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%27Brachychiton_populneus%27,_the_Kurrajong,_at_Capel_Manor_College_Gardens_Enfield_London_England.jpg",
+"credit": "Acabashi, CC BY-SA 4.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Bottle_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Brachychiton_populneus_tree.jpg",
+"credit": "Wonx2150, Public domain",
+"season": "summer"
+},
+"leaf": {
+"src": "photos/Bottle_tree_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Starr-230126-0042-Brachychiton_populneus-flowers_leaves-Cooke_Rd_Kula-Maui_(52665813334).jpg",
+"credit": "Forest and Kim Starr, CC BY 2.0"
+},
+"flower": {
+"src": "photos/Bottle_tree_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:B._populneus_flor-1.JPG",
+"credit": "Philmarin, CC BY-SA 3.0"
+},
+"fruit": {
+"src": "photos/Bottle_tree_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:B._populneus_fruto-1.JPG",
+"credit": "Philmarin, CC BY-SA 3.0"
+},
+"bark": {
+"src": "photos/Bottle_tree_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Brachychiton_populneus_kz3.JPG",
+"credit": "Krzysztof Ziarnek, Kenraiz, CC BY-SA 3.0"
+},
+"autumn": {
+"src": "photos/Bottle_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Brachychiton_populneus_tree.jpg",
+"credit": "Wonx2150, Public domain",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Bottle_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Brachychiton_populneus_tree.jpg",
+"credit": "Wonx2150, Public domain",
+"season": "summer"
+}
+},
+"Jacaranda": {
+"spring": {
+"src": "photos/Jacaranda_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Jacaranda_In_Bloom_(127649887).jpeg",
+"credit": "Andrew Priest, CC BY 3.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Jacaranda_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Jacaranda_In_Bloom_(127649887).jpeg",
+"credit": "Andrew Priest, CC BY 3.0",
+"season": "spring"
+},
+"leaf": {
+"src": "photos/Jacaranda_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Compound_leaves_of_Jacaranda.jpg",
+"credit": "Svnavare, CC BY-SA 4.0"
+},
+"flower": {
+"src": "photos/Jacaranda_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Fleurs_du_Flamboyant_bleu._Jacaranda_mimosifolia.jpg",
+"credit": "Mahieddine23, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Jacaranda_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:BlueJacarandaSeedpods.jpg",
+"credit": "The original uploader was Seglea at English Wikipedia., CC BY-SA 3.0"
+},
+"bark": {
+"src": "photos/Jacaranda_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Bark_of_jacaranda.jpg",
+"credit": "Svnavare, CC BY-SA 4.0"
+},
+"autumn": {
+"src": "photos/Jacaranda_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Jacaranda_In_Bloom_(127649887).jpeg",
+"credit": "Andrew Priest, CC BY 3.0",
+"season": "spring"
+},
+"winter": {
+"src": "photos/Jacaranda_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Jacaranda_In_Bloom_(127649887).jpeg",
+"credit": "Andrew Priest, CC BY 3.0",
+"season": "spring"
+}
+},
+"Chinaberry": {
+"spring": {
+"src": "photos/Chinaberry_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Persian_Lilac_Tree_(429544125).jpg",
+"credit": "Dinesh Valke from Thane, India, CC BY-SA 2.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Chinaberry_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Cinamomo_(Melia_azedarach)_em_Bag%C3%A9,_RS,_Brasil,_final_de_outono,_frutificado_e_com_folhas_j%C3%A1_ca%C3%ADdas_-_55335571032.jpg",
+"credit": "O Tupinólogo, CC BY 4.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Chinaberry_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Melia_azedarach_during_winter_season,_Burj_Bhalaike.jpg",
+"credit": "Kuldeepburjbhalaike, CC BY-SA 4.0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Chinaberry_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Bakain_(Melia_Azadirachta)_leaves_%26_green_fruit_at_Kolkata_W_IMG_8039.jpg",
+"credit": "J.M.Garg, CC BY-SA 3.0"
+},
+"flower": {
+"src": "photos/Chinaberry_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Melia_azedarach_flower.JPG",
+"credit": "Alpsdake, CC BY-SA 3.0"
+},
+"fruit": {
+"src": "photos/Chinaberry_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Alc%C3%BAdia_-_Pol%C2%B7l%C3%A8ntia_-_Melia_azedarach_01_ies.jpg",
+"credit": "Frank Vincentz, CC BY-SA 3.0"
+},
+"bark": {
+"src": "photos/Chinaberry_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Bark_change_in_Melia_azedarach.jpg",
+"credit": "Ben Stone, CC BY-SA 4.0"
+},
+"autumn": {
+"src": "photos/Chinaberry_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Cinamomo_(Melia_azedarach)_em_Bag%C3%A9,_RS,_Brasil,_final_de_outono,_frutificado_e_com_folhas_j%C3%A1_ca%C3%ADdas_-_55335571032.jpg",
+"credit": "O Tupinólogo, CC BY 4.0",
+"season": "summer"
+}
+},
+"Oak": {
+"spring": {
+"src": "photos/Oak_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Evergreen_oak_-_Powderham_Castle_-_geograph.org.uk_-_1569427.jpg",
+"credit": "Sarah Smith, CC BY-SA 2.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Oak_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Alzina_del_Quel%C3%A0s.jpg",
+"credit": "Kraumor, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Oak_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Santa_Ana_de_Pusa_(2004)_09.jpg",
+"credit": "LBM1948, CC BY-SA 4.0",
+"season": "autumn"
+},
+"leaf": {
+"src": "photos/Oak_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:298_Roure_a_Sant_Urb%C3%A0_(Foradada).JPG",
+"credit": "Enric, CC BY-SA 3.0"
+},
+"flower": {
+"src": "photos/Oak_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Chenevert2.jpg",
+"credit": "The original uploader was Jeantosti at French Wikipedia., CC BY-SA 3.0"
+},
+"fruit": {
+"src": "photos/Oak_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:299_Roure_a_Sant_Urb%C3%A0_(Foradada).JPG",
+"credit": "Enric, CC BY-SA 3.0"
+},
+"bark": {
+"src": "photos/Oak_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Cicadidae_cicala_su_leccio.jpg",
+"credit": "Cosimo Scorrano at it.wikipedia, CC BY-SA 2.5"
+},
+"winter": {
+"src": "photos/Oak_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Santa_Ana_de_Pusa_(2004)_09.jpg",
+"credit": "LBM1948, CC BY-SA 4.0",
+"season": "autumn"
+}
+},
+"Magnolia": {
+"spring": {
+"src": "photos/Magnolia_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Magnolia_Grandiflora,_Chelsea_Physic_Garden,_Royal_Hospital_Road,_London_-_geograph.org.uk_-_5036226.jpg",
+"credit": "Christine Matthews, CC BY-SA 2.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Magnolia_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%27Goliath%27_Magnolia_grandiflora_tree_in_flower_at_Goodnestone_Park_Kent_England_1.jpg",
+"credit": "Acabashi, CC BY-SA 4.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Magnolia_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2012-02-04_Snow_on_a_magnolia_tree_in_Rome.jpg",
+"credit": "Blackcat, CC BY-SA 3.0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Magnolia_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%27Goliath%27_Magnolia_grandiflora_flower_bud_at_Goodnestone_Park_Kent_England.jpg",
+"credit": "Acabashi, CC BY-SA 4.0"
+},
+"flower": {
+"src": "photos/Magnolia_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%27Goliath%27_Magnolia_grandiflora_flower_at_Goodnestone_Park_Kent_England_1_(cropped).jpg",
+"credit": "Acabashi, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Magnolia_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2021-11-09_14_22_06_Ripe_fruit_on_a_Southern_Magnolia_along_Plum_Dale_Drive_in_the_Franklin_Glen_section_of_Chantilly,_Fairfax_County,_Virginia.jpg",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Magnolia_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2021-03-04_11_30_59_Southern_Magnolia_bark_along_Indale_Court_in_the_Franklin_Farm_section_of_Oak_Hill,_Fairfax_County,_Virginia.jpg",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"autumn": {
+"src": "photos/Magnolia_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%27Goliath%27_Magnolia_grandiflora_tree_in_flower_at_Goodnestone_Park_Kent_England_1.jpg",
+"credit": "Acabashi, CC BY-SA 4.0",
+"season": "summer"
+}
+},
+"Privet": {
+"spring": {
+"src": "photos/Privet_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:FloweringLigustrumLucidumTree.jpg",
+"credit": "Taken by Fanghong, CC BY 2.5",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Privet_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:LigustrumLucidumTrees.jpg",
+"credit": "Taken by  Fanghong, CC BY-SA 3.0",
+"season": "summer"
+},
+"leaf": {
+"src": "photos/Privet_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Alfeneiro-do-jap%C3%A3o.JPG",
+"credit": "Fernandoapbaron, Public domain"
+},
+"flower": {
+"src": "photos/Privet_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Broad-leaf_privet_(3210559091).jpg",
+"credit": "John Tann from Sydney, Australia, CC BY 2.0"
+},
+"fruit": {
+"src": "photos/Privet_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Broad-leaf_privet_in_fruit_(3438117006).jpg",
+"credit": "John Tann from Sydney, Australia, CC BY 2.0"
+},
+"autumn": {
+"src": "photos/Privet_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:LigustrumLucidumTrees.jpg",
+"credit": "Taken by  Fanghong, CC BY-SA 3.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Privet_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:LigustrumLucidumTrees.jpg",
+"credit": "Taken by  Fanghong, CC BY-SA 3.0",
+"season": "summer"
+}
+},
+"Orange": {
+"summer": {
+"src": "photos/Orange_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Bitter_orange_tree.jpg",
+"credit": "Barbara-Ingeborg, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Orange_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Oranges,_University_of_Barcelona.jpg",
+"credit": "Léna, CC BY 3.0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Orange_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Taronger_a_la_pla%C3%A7a_de_la_Reina,_Val%C3%A8ncia.JPG",
+"credit": "Joanbanjo, CC BY-SA 3.0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Orange_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(ALB)_C.x_aurantium-peciolo-1.jpg",
+"credit": "Philmarin, CC BY-SA 4.0"
+},
+"flower": {
+"src": "photos/Orange_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Bitter_orange_-_Citrus_aurantium_01.JPG",
+"credit": "Zeynel Cebeci, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Orange_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Bitter_orange_-_Citrus_aurantium_06.JPG",
+"credit": "Zeynel Cebeci, CC BY-SA 4.0"
+},
+"spring": {
+"src": "photos/Orange_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Bitter_orange_tree.jpg",
+"credit": "Barbara-Ingeborg, CC BY-SA 4.0",
+"season": "summer"
+}
+},
+"Pride-of-India": {
+"spring": {
+"src": "photos/Pride_of_India_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:The_Goldenrain_tree_(5909305212).jpg",
+"credit": "Helgi Halldórsson from Reykjavík, Iceland, CC BY-SA 2.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Pride_of_India_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:The_Goldenrain_tree_(5909305212).jpg",
+"credit": "Helgi Halldórsson from Reykjavík, Iceland, CC BY-SA 2.0",
+"season": "spring"
+},
+"autumn": {
+"src": "photos/Pride_of_India_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20141107Koelreuteria_paniculata1.jpg",
+"credit": "AnRo0002, CC0",
+"season": "autumn"
+},
+"leaf": {
+"src": "photos/Pride_of_India_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20141107Koelreuteria_paniculata4.jpg",
+"credit": "AnRo0002, CC0"
+},
+"flower": {
+"src": "photos/Pride_of_India_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20130726Blasenbaum_Hockenheim1.jpg",
+"credit": "AnRo0002, CC0"
+},
+"fruit": {
+"src": "photos/Pride_of_India_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20180517Koelreuteria_paniculata1.jpg",
+"credit": "AnRo0002, CC0"
+},
+"bark": {
+"src": "photos/Pride_of_India_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Koelreuteria_paniculata_(bark).jpg",
+"credit": "FreCha, CC BY-SA 4.0"
+},
+"winter": {
+"src": "photos/Pride_of_India_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20141107Koelreuteria_paniculata1.jpg",
+"credit": "AnRo0002, CC0",
+"season": "autumn"
+}
+},
+"Black locust": {
+"spring": {
+"src": "photos/Black_locust_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20170428Robinia_pseudoacacia1.jpg",
+"credit": "AnRo0002, CC0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Black_locust_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:A_Black_Locust_tree_in_Kew_Gardens_2024-02-19.jpg",
+"credit": "Jim Linwood, CC BY 2.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Black_locust_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20151003Robinia_pseudoacacia.jpg",
+"credit": "AnRo0002, CC0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Black_locust_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20171225Robinia_pseudoacacia.jpg",
+"credit": "AnRo0002, CC0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Black_locust_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20160922Robinia_pseudoacacia2.jpg",
+"credit": "AnRo0002, CC0"
+},
+"flower": {
+"src": "photos/Black_locust_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20140427Robinia_pseudoacacia1.jpg",
+"credit": "AnRo0002, CC0"
+},
+"fruit": {
+"src": "photos/Black_locust_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20130602Robinia_pseudoacacia5.jpg",
+"credit": "AnRo0002, CC0"
+},
+"bark": {
+"src": "photos/Black_locust_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20160117Robinia_pseudoacacia1.jpg",
+"credit": "AnRo0002, CC0"
+}
+},
+"Elm": {
+"spring": {
+"src": "photos/Elm_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2016-05-12_13_42_47_Siberian_Elm_growing_back_from_a_stump_along_Terrace_Boulevard_in_Ewing,_New_Jersey.jpg",
+"credit": "Famartin, CC BY-SA 4.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Elm_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Siberian_Elm_(IU_Indianapolis).jpg",
+"credit": "Jaireeodell, CC BY 4.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Elm_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Madrid,_Moratalaz,_nevada_2021_14.jpg",
+"credit": "LBM1948, CC BY-SA 4.0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Elm_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2014-10-11_14_51_28_Siberian_Elm_foliage_during_autumn_in_Elko,_Nevada.JPG",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"flower": {
+"src": "photos/Elm_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2015-03-06_14_30_29_Dead_spring_flowers_on_a_Siberian_Elm_along_Lamoille_Highway_(Nevada_State_Route_227)_in_Elko,_Nevada.JPG",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Elm_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:U._pumila-fruits-1.JPG",
+"credit": "Philmarin, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Elm_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2021-03-03_09_32_10_Siberian_Elm_bark_along_Terrace_Boulevard_in_the_Parkway_Village_section_of_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"autumn": {
+"src": "photos/Elm_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Siberian_Elm_(IU_Indianapolis).jpg",
+"credit": "Jaireeodell, CC BY 4.0",
+"season": "summer"
+}
 }
 };
