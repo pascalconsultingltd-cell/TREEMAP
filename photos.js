@@ -859,5 +859,143 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:2021-03-02_17_19_54_Ginkgo_bark_along_White_Barn_Court_in_the_Franklin_Farm_section_of_Oak_Hill,_Fairfax_County,_Virginia.jpg",
 "credit": "Famartin, CC BY-SA 4.0"
 }
+},
+"Walnut": {
+"spring": {
+"src": "photos/Walnut_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2026-03-07_D500-2004_Achim-Lammerts_Juglans-regia.jpg",
+"credit": "Achim Lammerts (Syntaxys), CC BY-SA 4.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Walnut_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Juglans_regia_en_Alpuente.jpg",
+"credit": "19Tarrestnom65, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Walnut_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20141019Juglans_regia1.jpg",
+"credit": "AnRo0002, CC0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Walnut_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20171204Juglans_regia4.jpg",
+"credit": "AnRo0002, CC0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Walnut_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20160813Juglans_regia2.jpg",
+"credit": "AnRo0002, CC0"
+},
+"flower": {
+"src": "photos/Walnut_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20160430Juglans_regia5.jpg",
+"credit": "AnRo0002, CC0"
+},
+"fruit": {
+"src": "photos/Walnut_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2011_-_Hammerschmiede_und_Jagst_(6061802538).jpg",
+"credit": "marsupium photography, CC BY-SA 2.0"
+},
+"bark": {
+"src": "photos/Walnut_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2013_03_30_Kom%C3%ADn_9999_64.JPG",
+"credit": "I.Sáček, senior, CC0"
+}
+},
+"Black walnut": {
+"autumn": {
+"src": "photos/Black_walnut_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2024-10-10_14_27_40_Black_Walnut_tree_in_autumn_within_Ann_M._Banchoff_Park_in_the_Mountainview_section_of_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+"credit": "Famartin, CC BY-SA 4.0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Black_walnut_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Black_walnut_tree_winter.jpg",
+"credit": "Wikimedia Commons, CC BY-SA 3.0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Black_walnut_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2014-10-30_10_16_45_Black_Walnut_foliage_during_autumn_along_Fireside_Avenue_in_Ewing,_New_Jersey.JPG",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"flower": {
+"src": "photos/Black_walnut_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2021-04-18_11_18_20_Male_flowers_(catkins)_developing_on_a_Walnut_tree_along_a_walking_path_in_the_Franklin_Farm_section_of_Oak_Hill,_Fairfax_County,_Virginia.jpg",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Black_walnut_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2023-08-30_11_01_19_Immature_fruit_on_a_Black_Walnut_along_Windybush_Way_in_the_Mountainview_section_of_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Black_walnut_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2021-03-04_11_07_05_Black_Walnut_bark_along_a_walking_path_in_the_Franklin_Glen_section_of_Chantilly,_Fairfax_County,_Virginia.jpg",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"spring": {
+"src": "photos/Black_walnut_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2024-10-10_14_27_40_Black_Walnut_tree_in_autumn_within_Ann_M._Banchoff_Park_in_the_Mountainview_section_of_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+"credit": "Famartin, CC BY-SA 4.0",
+"season": "autumn"
+},
+"summer": {
+"src": "photos/Black_walnut_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2024-10-10_14_27_40_Black_Walnut_tree_in_autumn_within_Ann_M._Banchoff_Park_in_the_Mountainview_section_of_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
+"credit": "Famartin, CC BY-SA 4.0",
+"season": "autumn"
+}
+},
+"Horse Chestnut": {
+"spring": {
+"src": "photos/Horse_Chestnut_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20130423Aesculus_hippocastanum06.jpg",
+"credit": "AnRo0002, CC0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Horse_Chestnut_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%27Aesculus_hippocastanum%27_-_Horse_Chestnut_at_Shipley,_West_Sussex,_England.JPG",
+"credit": "Acabashi, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Horse_Chestnut_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20160908Aesculus_hippocastanum1.jpg",
+"credit": "AnRo0002, CC0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Horse_Chestnut_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20141230Aesculus_hippocastanum.jpg",
+"credit": "AnRo0002, CC0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Horse_Chestnut_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Aesculus_hippocastanum_JdeM_01.jpg",
+"credit": "Cephas, CC BY-SA 4.0"
+},
+"flower": {
+"src": "photos/Horse_Chestnut_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:-2021-05-31_Aesculus_hippocastanum_flowers,_Bourne_Lincolnshire.jpg",
+"credit": "Bob Harvey, CC BY-SA 2.0"
+},
+"fruit": {
+"src": "photos/Horse_Chestnut_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Gebarsten_bolster_van_een_paardenkastanje_(Aesculus)_13-10-2022_(d.j.b.)_02.jpg",
+"credit": "Dominicus Johannes Bergsma, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Horse_Chestnut_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Aesculus_Hippocastanum_bark_-_1.jpg",
+"credit": "Spiritia, CC BY-SA 4.0"
+}
 }
 };
