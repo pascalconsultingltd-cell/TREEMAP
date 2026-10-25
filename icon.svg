@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Tree Map NW5 icon: hazy tree on a dawn meadow, a close-up leaf flying toward the viewer -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fdf3d8"/><stop offset="0.55" stop-color="#e3f1d4"/><stop offset="1" stop-color="#b9dca8"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff8dc"/><stop offset="1" stop-color="#fff8dc" stop-opacity="0"/></radialGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fc47e"/><stop offset="1" stop-color="#5e9d55"/></linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9ccc4a"/><stop offset="0.45" stop-color="#4caf50"/><stop offset="1" stop-color="#1b5e20"/>
+    </linearGradient>
+    <filter id="haze"><feGaussianBlur stdDeviation="2.2"/></filter>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="10" dy="16" stdDeviation="12" flood-color="#1b3d16" flood-opacity="0.35"/></filter>
+  </defs>
+  <rect width="512" height="512" fill="url(#sky)"/>
+  <circle cx="190" cy="190" r="150" fill="url(#sun)"/>
+  <!-- distant tree on its hill -->
+  <path d="M0 360 Q140 300 256 330 T512 320 V512 H0 Z" fill="url(#hill)"/>
+  <g filter="url(#haze)" opacity="0.85">
+    <rect x="164" y="250" width="14" height="80" rx="5" fill="#5b6b4c"/>
+    <circle cx="171" cy="226" r="46" fill="#6f9d68"/><circle cx="140" cy="248" r="32" fill="#6a9763"/>
+    <circle cx="204" cy="246" r="34" fill="#74a46d"/><circle cx="176" cy="196" r="30" fill="#7fae77"/>
+  </g>
+  <path d="M0 420 Q170 380 300 410 T512 400 V512 H0 Z" fill="#4f8f47"/>
+  <!-- a small leaf mid-air for depth, then motion streaks from the tree toward the big leaf -->
+  <g transform="translate(232 150) rotate(28) scale(0.2)" opacity="0.9" filter="url(#haze)">
+    <path d="M0 -175 C 92 -130 118 -10 82 70 C 58 122 22 158 0 182 C -22 158 -58 122 -82 70 C -118 -10 -92 -130 0 -175 Z" fill="#6fae4f"/>
+  </g>
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" opacity="0.75">
+    <path d="M150 236 Q190 232 228 244" stroke-width="5"/><path d="M162 282 Q198 286 226 300" stroke-width="4"/><path d="M178 196 Q210 186 244 194" stroke-width="3"/>
+  </g>
+  <!-- the leaf, tilted and big, coming at us -->
+  <g transform="translate(330 292) rotate(-32) scale(0.8)" filter="url(#shadow)">
+    <path d="M0 -175 C 92 -130 118 -10 82 70 C 58 122 22 158 0 182 C -22 158 -58 122 -82 70 C -118 -10 -92 -130 0 -175 Z" fill="url(#leaf)"/>
+    <path d="M0 182 Q4 210 14 236" stroke="#2e5d1c" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <g stroke="#d9f2b8" stroke-linecap="round" fill="none" opacity="0.85">
+      <path d="M0 -160 L0 180" stroke-width="6"/>
+      <path d="M0 -100 Q30 -112 52 -126 M0 -100 Q-30 -112 -52 -126" stroke-width="3.5"/>
+      <path d="M0 -40 Q40 -52 74 -72 M0 -40 Q-40 -52 -74 -72" stroke-width="3.5"/>
+      <path d="M0 24 Q42 12 78 -6 M0 24 Q-42 12 -78 -6" stroke-width="3.5"/>
+      <path d="M0 88 Q32 78 60 62 M0 88 Q-32 78 -60 62" stroke-width="3"/>
+    </g>
+    <path d="M-62 -60 C -70 -120 -34 -150 0 -168 C -30 -130 -48 -90 -62 -60 Z" fill="#ffffff" opacity="0.22"/>
+  </g>
+</svg>

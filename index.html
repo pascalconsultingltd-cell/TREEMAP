@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tree Map NW5</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#4f8f47">
+<meta name="apple-mobile-web-app-title" content="Tree Map">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   html, body { height: 100%; margin: 0; font-family: system-ui, sans-serif; }
@@ -26,7 +31,8 @@
   .stop div { width: 20px; height: 20px; border-radius: 50%; text-align: center; font: bold 12px/20px sans-serif; box-shadow: 0 0 0 1.5px #000; }
   #side ol { padding-left: 20px; } #side li { margin-bottom: 3px; }
   .head { user-select: none; } .fold, .reset { cursor: pointer; font-size: 16px; line-height: 16px; } .fold { float: right; margin-left: 8px; } .reset { margin-right: 6px; }
-  .panel.folded { padding: 6px 8px; } .panel.folded > div:not(.head), .panel.folded .head b, .panel.folded .reset { display: none; } .panel.folded .fold { margin: 0; }
+  .panel.folded { padding: 6px 8px; } .panel.folded > div:not(.head), .panel.folded .head b, .panel.folded .reset, .panel.folded .logo { display: none; }
+  .logo { width: 22px; height: 22px; border-radius: 5px; vertical-align: -6px; margin-right: 6px; } .panel.folded .fold { margin: 0; }
   .sel { font-size: 12px; margin-left: 4px; cursor: pointer; }
   .panel { max-height: calc(100vh - 20px); overflow-y: auto; box-sizing: border-box; }
   .sec { border-top: 1px solid #e3e3e3; padding-top: 4px; margin-top: 4px; } .sec-t { font-weight: 600; font-size: 12px; color: #555; margin-bottom: 2px; }
@@ -201,7 +207,7 @@ legend.onAdd = () => {
   const panel = L.DomUtil.create('div', 'panel'), head = L.DomUtil.create('div', 'head', panel), d = L.DomUtil.create('div', '', panel);
   // Title row folds/unfolds the rest of the legend
   // Reset on the left of the title; the arrow folds the legend away to the right
-  head.innerHTML = `<span class="reset" title="Réinitialiser">⟲</span><b>${TREES.length} trees within 1 km</b><span class="fold" title="Replier">▸</span>`;
+  head.innerHTML = `<span class="reset" title="Réinitialiser">⟲</span><img class="logo" src="icon.svg" alt=""><b>${TREES.length} trees within 1 km</b><span class="fold" title="Replier">▸</span>`;
   head.firstChild.onclick = reset;
   head.lastChild.onclick = () => head.lastChild.textContent = panel.classList.toggle('folded') ? '◂' : '▸';
   // Sections: each gets a title; filter rows go to their section
