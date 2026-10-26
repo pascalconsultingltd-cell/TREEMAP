@@ -1662,5 +1662,179 @@ const PHOTOS = {
 "credit": "Jaireeodell, CC BY 4.0",
 "season": "summer"
 }
+},
+"Carob": {
+"spring": {
+"src": "photos/Carob_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Carob_Tree_Tel_Aviv_American_Colony.jpg",
+"credit": "LeRenartQuiPense, CC BY 4.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Carob_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Tree_on_small_farm,_Sant_Carles_de_Peralta,_Ibiza.jpg",
+"credit": "Gerda Arendt, CC0",
+"season": "summer"
+},
+"leaf": {
+"src": "photos/Carob_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Carob_tree_leaf.JPG",
+"credit": "Wikimedia Commons, CC BY-SA 2.5"
+},
+"flower": {
+"src": "photos/Carob_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Blooming_carob_tree.jpg",
+"credit": "Seminsky, Public domain"
+},
+"fruit": {
+"src": "photos/Carob_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Carobs.JPG",
+"credit": "Wikimedia Commons, CC BY-SA 2.5"
+},
+"bark": {
+"src": "photos/Carob_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%D0%94%D0%B8%D0%B2_%D1%80%D0%BE%D0%B6%D0%BA%D0%BE%D0%B2_%E2%80%93_%D1%81%D1%82%D1%8A%D0%B1%D0%BB%D0%BE_2.jpg",
+"credit": "Димитър Найденов / Dimìtar Nàydenov, CC BY-SA 4.0"
+},
+"autumn": {
+"src": "photos/Carob_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Tree_on_small_farm,_Sant_Carles_de_Peralta,_Ibiza.jpg",
+"credit": "Gerda Arendt, CC0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Carob_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Tree_on_small_farm,_Sant_Carles_de_Peralta,_Ibiza.jpg",
+"credit": "Gerda Arendt, CC0",
+"season": "summer"
+}
+},
+"Olive": {
+"spring": {
+"src": "photos/Olive_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:PikiWiki_Israel_30937_Olive_tree_Spring_Blossoms.jpg",
+"credit": "שריף עסאקלה, CC BY 2.5",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Olive_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%27Olea_europaea%27_Olive_at_Capel_Manor_College_Gardens_Enfield_London_England.jpg",
+"credit": "Acabashi, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Olive_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Korfu_(GR),_Agii_Douli,_Olivenhain_--_2018_--_1218.jpg",
+"credit": "Dietmar Rabich, CC BY-SA 4.0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Olive_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Gandria-04.JPG",
+"credit": "MHM55, CC BY-SA 4.0",
+"season": "winter"
+},
+"flower": {
+"src": "photos/Olive_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Mignole_nascenti_d%27ulivo.jpg",
+"credit": "Archeolucia, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Olive_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Aceitunas_en_el_olivo.jpg",
+"credit": "Rafandalucia, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Olive_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Olivo_di_Sant%27Emiliano_2304-1011.jpg",
+"credit": "Mozzihh, CC BY-SA 4.0"
+}
+},
+"Loquat": {
+"spring": {
+"src": "photos/Loquat_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Loquat_tree,_New_Orleans,_13_March_2026_-_1.jpg",
+"credit": "Infrogmation, CC BY-SA 4.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Loquat_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Eriobotrya_japonica_tree,_Tunisia_-_20101102.jpg",
+"credit": "Habib M'henni, CC BY-SA 3.0",
+"season": "summer"
+},
+"leaf": {
+"src": "photos/Loquat_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Loquat_leaf.JPG",
+"credit": "Elucidate, CC BY 3.0"
+},
+"flower": {
+"src": "photos/Loquat_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:BlossomingLoquat.jpg",
+"credit": "No machine-readable author provided. Rickjpelleg assumed (ba, CC BY 2.5"
+},
+"fruit": {
+"src": "photos/Loquat_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Eriobotrya_japonica_Fruits.jpg",
+"credit": "Dinkun Chen, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Loquat_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Starr-230107-0812-Eriobotrya_japonica-bark_and_branches-Hawea_Pl_Olinda-Maui_(52665577136).jpg",
+"credit": "Forest and Kim Starr, CC BY 2.0"
+},
+"autumn": {
+"src": "photos/Loquat_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Eriobotrya_japonica_tree,_Tunisia_-_20101102.jpg",
+"credit": "Habib M'henni, CC BY-SA 3.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Loquat_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Eriobotrya_japonica_tree,_Tunisia_-_20101102.jpg",
+"credit": "Habib M'henni, CC BY-SA 3.0",
+"season": "summer"
+}
+},
+"Fig": {
+"spring": {
+"src": "photos/Fig_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Figuier_FR_Mai_2013.jpg",
+"credit": "JLPC, CC BY-SA 3.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Fig_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Pianta_di_fico_a_Rovigo.JPG",
+"credit": "Threecharlie, CC BY-SA 3.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Fig_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Fig_Tree_(Ficus_Carica)_-_geograph.org.uk_-_562732.jpg",
+"credit": "Evelyn Simak, CC BY-SA 2.0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Fig_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Pianta_di_fico_in_inverno_a_Rovigo.jpg",
+"credit": "Threecharlie, CC BY-SA 4.0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Fig_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20150414Ficus_carica1.jpg",
+"credit": "AnRo0002, CC0"
+},
+"fruit": {
+"src": "photos/Fig_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2017-08-25_08_43_41_Ripe_fruit_of_a_Chicago_Hardy_Fig_along_Tranquility_Court_in_the_Franklin_Farm_section_of_Oak_Hill,_Fairfax_County,_Virginia.jpg",
+"credit": "Famartin, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Fig_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Ficus_carica_009.JPG",
+"credit": "H. Zell, CC BY-SA 3.0"
+}
 }
 };

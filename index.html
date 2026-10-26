@@ -74,7 +74,7 @@
 <script>
 // City: ?city=bcn or the last one chosen on this device, London by default; its basemap and trees load before the map script
 const CITY = (new URLSearchParams(location.search).get('city') || (() => { try { return localStorage.getItem('treemap.city'); } catch (e) {} })()) === 'bcn' ? 'bcn' : 'london';
-const V = '?v=20261026';  // bump when data files change, so browsers don't keep stale copies
+const V = '?v=20261026b';  // bump when data files change, so browsers don't keep stale copies
 document.write(CITY === 'bcn' ? `<script src="basemap_bcn.js${V}"><\/script><script src="trees_bcn.js${V}"><\/script>` : `<script src="basemap.js${V}"><\/script><script src="trees.js${V}"><\/script>`);
 </script>
 <script>document.write(`<script src="photos.js${V}"><\/script>`);</script>
