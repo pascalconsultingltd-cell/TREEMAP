@@ -37,7 +37,7 @@
   .panel.folded { padding: 10px 12px; cursor: pointer; } .panel.folded > div:not(.head), .panel.folded .head b, .panel.folded .reset, .panel.folded .logo { display: none; }
   .logo { width: 22px; height: 22px; border-radius: 5px; vertical-align: -6px; margin-right: 6px; } .panel.folded .fold { margin: 0; }
   .sel { font-size: 12px; margin-left: 4px; cursor: pointer; }
-  .panel { max-height: calc(100vh - 20px); overflow-y: auto; box-sizing: border-box; }
+  .panel { overflow-y: auto; box-sizing: border-box; touch-action: pan-y; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
   .sec { border-top: 1px solid #e3e3e3; padding-top: 4px; margin-top: 4px; } .sec-t { font-weight: 600; font-size: 12px; color: #555; margin-bottom: 2px; }
   .fhead { cursor: pointer; font-size: 13px; color: #222; } .fhead span { float: right; } .filters.shut > div:last-child { display: none; }
   .filters .sec { margin-left: 8px; }
@@ -133,10 +133,14 @@ const caption = (g, k) => { const p = PHOTOS[g][k]; return `${label(g, k)}${k ==
 // Side panel: clicked tree with its group's photos, current season big, the 4 seasons and the close-ups below
 // Panel opens on a tree, legend row or walk, closes with ✕; the map is resized each time
 const side = document.getElementById('sideBody');
-const showSide0 = open => { document.body.classList.toggle('open', open); map.invalidateSize(); };
+const showSide0 = open => { document.body.classList.toggle('open', open); map.invalidateSize(); fitLegend(); };
+// The legend scrolls inside the visible map, whatever its height (phone bars, photo panel open), above the credits line
+const fitLegend = () => { const p = document.querySelector('.panel'); if (p) p.style.maxHeight = (map.getSize().y - 44) + 'px'; };
 const showSide = t => showPhotos(group(t).trim(), t.common_name, `${frName(t)} · <i>${t.taxon_species}</i>`);
 const tiles = (g, keys) => '<div class="grid">' + keys.map(k => `<figure class="${k === NOW ? 'on' : ''}" onclick="openBig('${g}', '${k}')"><img src="${PHOTOS[g][k].src}"><figcaption>${label(g, k)}</figcaption></figure>`).join('') + '</div>';
+let photosOpen = false;
 function showPhotos(g, title, sub) {
+  photosOpen = true;
   const p = PHOTOS[g], close = p ? Object.keys(PARTS).filter(k => p[k]) : [];
   showSide0(true);
   side.innerHTML = (current ? '<button class="btn back" onclick="showWalk(current)">← 🧺 Revenir à la balade</button>' : '') + `<h3>${title}<br><small>${sub}</small></h3>` + (!p ? '<p>Pas de photo pour cet arbre.</p>' :
@@ -233,7 +237,7 @@ TREES.slice().sort((a, b) => !!SPECIAL[group(a)] - !!SPECIAL[group(b)]).forEach(
   const sex = DIO.test(sp) ? 0 : MONO.test(sp) ? 1 : 2, bee = +BEE.test(sp), tox = +TOXIC.test(sp);
   const r = Math.max(special ? 6 : 3, Math.min(10, parseFloat(t.canopy_m) || 3));  // canopy metres as pixel radius, clamped
   t.key = `${cls}${leaf}${sex}${bee}${tox}`; grp.n++; FILTERS.forEach((f, i) => f.n[t.key[i]]++); t.grp = grp;
-  t.marker = L.circleMarker([t.lat, t.lon], { radius: r, color: special ? '#000' : '#0006', weight: special ? 1.5 : 0.5, fillColor: grp.c, fillOpacity: special ? 1 : 0.8 })
+  t.marker = L.circleMarker([t.lat, t.lon], { bubblingMouseEvents: false, radius: r, color: special ? '#000' : '#0006', weight: special ? 1.5 : 0.5, fillColor: grp.c, fillOpacity: special ? 1 : 0.8 })
     .on('click', () => showSide(t))
     .on('contextmenu', e => { L.DomEvent.preventDefault(e.originalEvent); if (Date.now() - longPressAt > 1500) soloGroup(grp, t); })  // right-click on a computer
     .bindPopup(() => `<b>${t.common_name}</b> · ${frName(t)}<br><i>${t.taxon_species}</i><br>${food ? '🍎 Comestible : ' + food : cls ? '🍵 Tisane : ' + tea(t) : 'Non comestible'}${inSeason(t) ? ' · ✅ de saison' : ''} · ${leaf ? '🌲 Persistant' : '🍂 Caduc'}<br>${sex ? SEX_FR[sex] : '♂♀ Dioïque (arbre mâle ou femelle)'}${bee ? ' · 🐝 ami des abeilles' : ''}${tox ? ' · ☠️ toxique' : ''}<br>Age: ${t.age_cat}<br>Height: ${t.height_m} · Canopy: ${t.canopy_m} · Girth: ${t.girth_dbh}<br>Climate suitability: ${t.climate_suitability}<br>${t.location} · ${t.maintainer}<br>${t.dist} m from ${HOMENAME}<br><button class="btn" onclick="showRoute(${t.uniqueid})">Itinéraire depuis ${HOMENAME}</button><div id="route${t.uniqueid}"></div>`, { maxWidth: 260 })
@@ -244,7 +248,7 @@ TREES.slice().sort((a, b) => !!SPECIAL[group(a)] - !!SPECIAL[group(b)]).forEach(
 let longPressAt = 0, lpTimer = null, lpStart = null;
 const lpCancel = () => { clearTimeout(lpTimer); lpTimer = null; };
 map.getContainer().addEventListener('pointerdown', e => {
-  if (e.pointerType !== 'touch') return;
+  if (e.pointerType !== 'touch' || e.target.closest('.leaflet-control')) return;  // not on the legend or buttons
   if (lpTimer) return lpCancel();  // second finger: pinch, not a long press
   lpStart = [e.clientX, e.clientY];
   lpTimer = setTimeout(() => {
@@ -258,6 +262,8 @@ map.getContainer().addEventListener('pointerdown', e => {
 map.getContainer().addEventListener('pointermove', e => { if (lpTimer && Math.hypot(e.clientX - lpStart[0], e.clientY - lpStart[1]) > 10) lpCancel(); });
 ['pointerup', 'pointercancel'].forEach(ev => map.getContainer().addEventListener(ev, lpCancel));
 map.getContainer().addEventListener('contextmenu', e => { if (Date.now() - longPressAt < 1500) e.preventDefault(); });
+// A tap on the empty map closes an open tree or species panel (a walk's list stays); ignores the tap ending a long press
+map.on('click', () => { if (photosOpen && Date.now() - longPressAt > 800) { photosOpen = false; showSide0(false); } });
 // Only this group on the map (again: every group back), with its photos; from a tree, the panel shows that tree
 function soloGroup(x, t) {
   unfocus(); const solo = all.every(y => y.on === (y === x)); all.forEach(y => y.on = solo || y === x); render();
@@ -358,6 +364,7 @@ legend.onAdd = () => {
   return panel;
 };
 legend.addTo(map);
+fitLegend(); map.on('resize', fitLegend);
 if (!TREES.some(t => parseFloat(t.height_m) > 0)) secSize.style.display = 'none';  // Barcelona data has no measured height or girth
 if (innerWidth < 700) document.querySelector('.panel .fold').click();  // phones: legend starts folded so the map stays visible
 // Colour modes: every tree on a gradient by height or trunk girth; 22 m and 86 cm are the 98th percentiles (above shares the darkest colour), the top tree(s) in red
@@ -526,7 +533,7 @@ function forageLoop() {
 // Draw a walk (new or saved): route, numbered stops, only its trees on the map, list in the side panel
 let current = null;
 function showWalk(w) {
-  endWalk(); showSide0(true); current = w;
+  endWalk(); showSide0(true); current = w; photosOpen = false;
   const stops = w.ids.map(id => byId[id]).filter(Boolean);
   routeLayer.clearLayers();
   walk = w.line; routeLayer.addLayer(walkLayer); drawWalk();
