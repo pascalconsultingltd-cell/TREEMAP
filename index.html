@@ -13,13 +13,20 @@
 <style>
   html, body { height: 100%; margin: 0; font-family: system-ui, sans-serif; }
   body { display: flex; }
-  #side { display: none; position: relative; width: 25%; overflow-y: auto; padding: 12px; box-sizing: border-box; background: #fafaf7; border-right: 1px solid #ddd; }
+  #side { display: none; position: relative; width: 25%; box-sizing: border-box; background: #fafaf7; border-right: 1px solid #ddd; }
+  #sideBody { flex: 1; min-height: 0; overflow-y: auto; padding: 12px; box-sizing: border-box; overscroll-behavior: contain; }
+  #grab { display: none; flex: none; height: 24px; cursor: grab; touch-action: none; } #grab::after { content: ''; display: block; width: 44px; height: 5px; margin: 9px auto 0; border-radius: 3px; background: #bbb; }
+  .tinfo { font-size: 13px; line-height: 1.5; margin: 0 0 10px; }
   #side h3 { margin: 0 0 8px; } #side h3 small { font-weight: normal; color: #666; }
   #map { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
   #map { flex: 1; background: #f2efe9; }
-  body.open #side { display: block; }
+  body.open #side { display: flex; flex-direction: column; }
   #closeSide { position: absolute; top: 6px; right: 8px; cursor: pointer; font-size: 18px; color: #666; } #closeSide:hover { color: #000; }
-  @media (max-width: 700px) { body { flex-direction: column; } #side { width: 100%; height: 40%; border-right: none; border-bottom: 1px solid #ddd; } }
+  @media (max-width: 700px) {
+    body { display: block; } #map { position: absolute; inset: 0; }
+    #side { position: fixed; left: 0; right: 0; bottom: 0; width: auto; height: 55vh; z-index: 1500; border-right: none; border-radius: 14px 14px 0 0; box-shadow: 0 -2px 12px #0005; }
+    #grab { display: block; } #sideBody { padding-top: 0; } #closeSide { top: 2px; right: 4px; padding: 8px 12px; font-size: 20px; z-index: 1; }
+  }
   .street { background: none; border: none; box-shadow: none; padding: 0; font-size: 11px; color: #555; text-shadow: 0 0 3px #fff, 0 0 3px #fff; }
   .street::before { display: none; }
   .panel { background: #fff; padding: 8px 10px; border-radius: 6px; box-shadow: 0 1px 4px #0004; font-size: 13px; line-height: 1.5; }
@@ -71,7 +78,7 @@
 </style>
 </head>
 <body>
-<div id="side"><span id="closeSide" title="Fermer" onclick="showSide0(false)">✕</span><div id="sideBody"></div></div>
+<div id="side"><div id="grab"></div><span id="closeSide" title="Fermer" onclick="showSide0(false)">✕</span><div id="sideBody"></div></div>
 <div id="map"></div>
 <div id="lightbox" onclick="if (event.target === this) closeBig()"><span id="lbClose" title="Fermer" onclick="closeBig()">✕</span><img id="lbImg"><div id="lbCap"></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -84,6 +91,7 @@ document.write(CITY === 'bcn' ? `<script src="basemap_bcn.js${V}"><\/script><scr
 <script>document.write(`<script src="photos.js${V}"><\/script>`);</script>
 <script>
 const HOMENAME = typeof HOME !== 'undefined' ? HOME : 'NW5 2TE';
+const PHONE = innerWidth <= 700;  // phones: full-screen map, one bottom sheet, no popups
 // Taps on a phone land up to 12 px from a tree dot and still count; a mouse needs to be within 3 px
 const map = L.map('map', { preferCanvas: true, renderer: L.canvas({ tolerance: L.Browser.mobile ? 12 : 3 }), minZoom: 14, maxZoom: 19 }).setView(CENTRE, 15);
 // Own basemap from basemap.js (OSM data stored locally): no tile servers
@@ -133,19 +141,39 @@ const caption = (g, k) => { const p = PHOTOS[g][k]; return `${label(g, k)}${k ==
 // Side panel: clicked tree with its group's photos, current season big, the 4 seasons and the close-ups below
 // Panel opens on a tree, legend row or walk, closes with ✕; the map is resized each time
 const side = document.getElementById('sideBody');
-const showSide0 = open => { document.body.classList.toggle('open', open); map.invalidateSize(); fitLegend(); };
+const sideBox = document.getElementById('side');
+const showSide0 = (open, frac = 0.55) => { document.body.classList.toggle('open', open); if (PHONE) sideBox.style.height = Math.round(frac * innerHeight) + 'px'; map.invalidateSize(); fitLegend(); };
+const sheetH = () => PHONE && document.body.classList.contains('open') ? sideBox.offsetHeight : 0;  // map height hidden by the sheet
+// Drag the sheet's handle: it snaps to about a quarter, half or nearly all of the screen, or closes below that; a tap toggles half / nearly full
+(() => {
+  const grab = document.getElementById('grab'); let y0 = null, moved = false;
+  grab.addEventListener('pointerdown', e => { y0 = e.clientY; moved = false; grab.setPointerCapture(e.pointerId); });
+  grab.addEventListener('pointermove', e => { if (y0 === null) return; if (Math.abs(e.clientY - y0) > 6) moved = true; if (moved) sideBox.style.height = Math.max(60, innerHeight - e.clientY) + 'px'; });
+  grab.addEventListener('pointerup', () => {
+    if (y0 === null) return; y0 = null;
+    const f = sideBox.offsetHeight / innerHeight;
+    if (!moved) return showSide0(true, f > 0.7 ? 0.55 : 0.92);
+    if (f < 0.16) { photosOpen = false; return showSide0(false); }
+    showSide0(true, [0.28, 0.55, 0.92].reduce((a, b) => Math.abs(b - f) < Math.abs(a - f) ? b : a));
+  });
+})();
+// Phones: bring a tree into the part of the map the sheet leaves visible
+const centreTree = t => { const p = map.latLngToContainerPoint([t.lat, t.lon]), z = map.getSize(); map.panBy([p.x - z.x / 2, p.y - (z.y - sheetH()) / 2]); };
+// Fit padding keeping a route clear of the sheet (phone) or the legend (computer)
+const pad = n => ({ paddingTopLeft: [n, n], paddingBottomRight: PHONE ? [n, sheetH() + n] : [legendW() + n, n] });
+const foldOnPhone = () => { const p = document.querySelector('.panel'); if (PHONE && !p.classList.contains('folded')) p.querySelector('.fold').click(); };
 // The legend scrolls inside the visible map, whatever its height (phone bars, photo panel open), above the credits line
-const fitLegend = () => { const p = document.querySelector('.panel'); if (p) p.style.maxHeight = (map.getSize().y - 44) + 'px'; };
-const showSide = t => showPhotos(group(t).trim(), t.common_name, `${frName(t)} · <i>${t.taxon_species}</i>`);
+const fitLegend = () => { const p = document.querySelector('.panel'); if (p) p.style.maxHeight = (map.getSize().y - sheetH() - 44) + 'px'; };
+const showSide = t => { showPhotos(group(t).trim(), t.common_name, `${frName(t)} · <i>${t.taxon_species}</i>`, PHONE ? t.info() : ''); if (PHONE) centreTree(t); };
 const tiles = (g, keys) => '<div class="grid">' + keys.map(k => `<figure class="${k === NOW ? 'on' : ''}" onclick="openBig('${g}', '${k}')"><img src="${PHOTOS[g][k].src}"><figcaption>${label(g, k)}</figcaption></figure>`).join('') + '</div>';
 let photosOpen = false;
-function showPhotos(g, title, sub) {
+function showPhotos(g, title, sub, extra = '') {
   photosOpen = true;
   const p = PHOTOS[g], close = p ? Object.keys(PARTS).filter(k => p[k]) : [];
   showSide0(true);
-  side.innerHTML = (current ? '<button class="btn back" onclick="showWalk(current)">← 🧺 Revenir à la balade</button>' : '') + `<h3>${title}<br><small>${sub}</small></h3>` + (!p ? '<p>Pas de photo pour cet arbre.</p>' :
+  side.innerHTML = (current ? '<button class="btn back" onclick="showWalk(current)">← 🧺 Revenir à la balade</button>' : '') + `<h3>${title}<br><small>${sub}</small></h3>` + (!p ? '<p>Pas de photo pour cet arbre.</p>' + extra :
     `<div class="gal"><img class="big" id="big" src="${p[NOW].src}" title="Glisser pour les autres photos, toucher pour agrandir"><span class="nav l">‹</span><span class="nav r">›</span><span class="count" id="count"></span></div>
-    <div class="cap" id="cap">${caption(g, NOW)}</div>` + tiles(g, Object.keys(SEASON_FR)) +
+    <div class="cap" id="cap">${caption(g, NOW)}</div>${extra}` + tiles(g, Object.keys(SEASON_FR)) +
     (close.length ? '<h4>Détails</h4>' + tiles(g, close) : ''));
   if (!p) return;
   // Gallery: the 4 seasons then the close-ups; swipe or ‹ › on the main photo, a tap opens it full screen
@@ -237,11 +265,13 @@ TREES.slice().sort((a, b) => !!SPECIAL[group(a)] - !!SPECIAL[group(b)]).forEach(
   const sex = DIO.test(sp) ? 0 : MONO.test(sp) ? 1 : 2, bee = +BEE.test(sp), tox = +TOXIC.test(sp);
   const r = Math.max(special ? 6 : 3, Math.min(10, parseFloat(t.canopy_m) || 3));  // canopy metres as pixel radius, clamped
   t.key = `${cls}${leaf}${sex}${bee}${tox}`; grp.n++; FILTERS.forEach((f, i) => f.n[t.key[i]]++); t.grp = grp;
+  const details = () => `${food ? '🍎 Comestible : ' + food : cls ? '🍵 Tisane : ' + tea(t) : 'Non comestible'}${inSeason(t) ? ' · ✅ de saison' : ''} · ${leaf ? '🌲 Persistant' : '🍂 Caduc'}<br>${sex ? SEX_FR[sex] : '♂♀ Dioïque (arbre mâle ou femelle)'}${bee ? ' · 🐝 ami des abeilles' : ''}${tox ? ' · ☠️ toxique' : ''}<br>Age: ${t.age_cat}<br>Height: ${t.height_m} · Canopy: ${t.canopy_m} · Girth: ${t.girth_dbh}<br>Climate suitability: ${t.climate_suitability}<br>${t.location} · ${t.maintainer}<br>${t.dist} m from ${HOMENAME}<br><button class="btn" onclick="showRoute(${t.uniqueid})">Itinéraire depuis ${HOMENAME}</button><div id="route${t.uniqueid}"></div>`;
+  t.info = () => `<div class="tinfo">${details()}</div>`;
   t.marker = L.circleMarker([t.lat, t.lon], { bubblingMouseEvents: false, radius: r, color: special ? '#000' : '#0006', weight: special ? 1.5 : 0.5, fillColor: grp.c, fillOpacity: special ? 1 : 0.8 })
     .on('click', () => showSide(t))
     .on('contextmenu', e => { L.DomEvent.preventDefault(e.originalEvent); if (Date.now() - longPressAt > 1500) soloGroup(grp, t); })  // right-click on a computer
-    .bindPopup(() => `<b>${t.common_name}</b> · ${frName(t)}<br><i>${t.taxon_species}</i><br>${food ? '🍎 Comestible : ' + food : cls ? '🍵 Tisane : ' + tea(t) : 'Non comestible'}${inSeason(t) ? ' · ✅ de saison' : ''} · ${leaf ? '🌲 Persistant' : '🍂 Caduc'}<br>${sex ? SEX_FR[sex] : '♂♀ Dioïque (arbre mâle ou femelle)'}${bee ? ' · 🐝 ami des abeilles' : ''}${tox ? ' · ☠️ toxique' : ''}<br>Age: ${t.age_cat}<br>Height: ${t.height_m} · Canopy: ${t.canopy_m} · Girth: ${t.girth_dbh}<br>Climate suitability: ${t.climate_suitability}<br>${t.location} · ${t.maintainer}<br>${t.dist} m from ${HOMENAME}<br><button class="btn" onclick="showRoute(${t.uniqueid})">Itinéraire depuis ${HOMENAME}</button><div id="route${t.uniqueid}"></div>`, { maxWidth: 260 })
     .addTo(grp.layers[t.key] ||= L.layerGroup());
+  if (!PHONE) t.marker.bindPopup(() => `<b>${t.common_name}</b> · ${frName(t)}<br><i>${t.taxon_species}</i><br>${details()}`, { maxWidth: 260 });
 });
 // Long press with a finger (held still ~0.5 s): the nearest shown tree within 24 px keeps only its species. Our own timer, because phones
 // don't reliably send a contextmenu on the map canvas; longPressAt stops a late native contextmenu from undoing it
@@ -405,7 +435,7 @@ function toggleGuide() {
   guide = sel[0]; guideRank = 0; guideLevel = null; b.classList.add('active');
   fitGuide(drawGuide());
 }
-const fitGuide = t => { if (t) map.fitBounds(L.latLngBounds([myPos || CENTRE, [t.lat, t.lon]]), { paddingTopLeft: [60, 60], paddingBottomRight: [legendW() + 60, 60], maxZoom: 18 }); };
+const fitGuide = t => { if (t) { foldOnPhone(); map.fitBounds(L.latLngBounds([myPos || CENTRE, [t.lat, t.lon]]), { ...pad(60), maxZoom: 18 }); } };
 // +: the nearest tree of the next height up, then the next, back to the nearest after the tallest; without height data, simply the next nearest
 function nextGuide() {
   if (!guide) return toggleGuide();
@@ -522,7 +552,7 @@ map.on('zoomend', () => walk && routeLayer.hasLayer(walkLayer) && drawWalk());
 // Black or white number depending on how light the legend colour is
 const ink = c => { const [r, g, b] = [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16)); return r * 0.299 + g * 0.587 + b * 0.114 > 150 ? '#000' : '#fff'; };
 function forageLoop() {
-  endWalk(); showSide0(true);  // open the panel first so the walk is fitted to the final map size
+  endWalk();
   const g = graphs().walk;
   // "avec sélection": only trees currently shown by the legend and filters, edible or not; otherwise every edible tree
   // "de saison": only trees with something to pick this month
@@ -546,11 +576,11 @@ function forageLoop() {
 // Draw a walk (new or saved): route, numbered stops, only its trees on the map, list in the side panel
 let current = null;
 function showWalk(w) {
-  endWalk(); showSide0(true); current = w; photosOpen = false;
+  endWalk(); showSide0(true, 0.35); foldOnPhone(); current = w; photosOpen = false;
   const stops = w.ids.map(id => byId[id]).filter(Boolean);
   routeLayer.clearLayers();
   walk = w.line; routeLayer.addLayer(walkLayer); drawWalk();
-  map.fitBounds(L.latLngBounds(w.line), { paddingTopLeft: [30, 30], paddingBottomRight: [legendW() + 30, 30] });
+  map.fitBounds(L.latLngBounds(w.line), pad(30));
   saved = all.map(x => x.on); focus = L.layerGroup(stops.map(t => t.marker)); all.forEach(x => x.on = stops.some(t => t.grp === x)); render();
   stops.forEach((t, i) => L.marker([t.lat, t.lon], { icon: L.divIcon({ className: 'stop', html: `<div style="background:${t.grp.c};color:${ink(t.grp.c)}">${i + 1}</div>`, iconSize: [20, 20] }) }).bindTooltip(frName(t)).on('click', () => showStop(t.uniqueid)).addTo(routeLayer));
   side.innerHTML = `<h3>🧺 ${w.name ? esc(w.name) : 'Balade cueillette'}${w.sel ? ' · avec sélection' : ''}${w.ripe ? ' · de saison' : ''}<br><small>${stops.length} espèces · ${Math.round(w.used / 83.3)} min · ${(w.used / 1000).toFixed(2)} km, retour à ${HOMENAME}</small></h3>
@@ -608,7 +638,7 @@ function fillWalks() {
     ws.map(w => `<div class="witem" data-id="${w.id}"><span>${esc(w.name)}</span><b class="x" title="Supprimer">✕</b></div>`).join('');
 }
 // A stop of the walk: its photos in the panel (with the way back to the walk) and its popup on the map
-function showStop(id) { const t = byId[id]; showSide(t); map.panTo([t.lat, t.lon]); t.marker.openPopup(); }
+function showStop(id) { const t = byId[id]; showSide(t); if (!PHONE) { map.panTo([t.lat, t.lon]); t.marker.openPopup(); } }
 function renameWalk(id) {
   const ws = loadWalks(), w = ws.find(x => x.id === id), name = w && prompt('Nouveau nom :', w.name);
   if (!name) return;
