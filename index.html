@@ -40,8 +40,10 @@
   .gtip span { position: relative; left: -50%; display: inline-block; white-space: nowrap; font: 600 12px sans-serif; background: #fff; border: 2px solid #333; border-radius: 6px; padding: 2px 6px; box-shadow: 0 1px 4px #0005; }
   .stop div { width: 20px; height: 20px; border-radius: 50%; text-align: center; font: bold 12px/20px sans-serif; box-shadow: 0 0 0 1.5px #000; }
   #side ol { padding-left: 20px; } #side li { margin-bottom: 3px; }
-  .head { user-select: none; } .fold, .reset { cursor: pointer; font-size: 16px; line-height: 16px; } .fold { float: right; margin: -6px -8px -6px 4px; padding: 6px 10px; } .reset { margin-right: 6px; }
-  .panel.folded { padding: 10px 12px; cursor: pointer; } .panel.folded > div:not(.head), .panel.folded .head b, .panel.folded .reset, .panel.folded .help, .panel.folded .logo { display: none; }
+  .head { user-select: none; } .fold { cursor: pointer; font-size: 16px; line-height: 16px; float: right; margin: -6px -8px -6px 4px; padding: 6px 10px; }
+  .toprow { display: flex; align-items: center; } .toprow .city { margin: 4px 4px 2px 0; } .toprow .btn { margin-bottom: 0; }
+  .reset { flex: none; margin-left: auto; width: 42px; height: 36px; padding: 0; font-size: 24px; line-height: 1; border: 1px solid #888; border-radius: 10px; background: #fff; cursor: pointer; }
+  .panel.folded { padding: 10px 12px; cursor: pointer; } .panel.folded > div:not(.head), .panel.folded .head b, .panel.folded .help, .panel.folded .logo { display: none; }
   .logo { width: 22px; height: 22px; border-radius: 5px; vertical-align: -6px; margin-right: 6px; } .panel.folded .fold { margin: 0; }
   .sel { font-size: 12px; margin-left: 4px; cursor: pointer; }
   .panel { max-width: min(330px, calc(100vw - 20px)); overflow-y: auto; box-sizing: border-box; touch-action: pan-y; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -94,7 +96,7 @@
     .tab { padding: 11px 2px; font-size: 14px; } .btn { padding: 8px 12px; font-size: 14px; } .row { padding: 8px 2px; font-size: 15px; }
     .sel { display: inline-block; padding: 6px 0; font-size: 14px; } .sel input { width: 20px; height: 20px; vertical-align: -4px; }
     .wtitle { padding: 8px 0; font-size: 14px; } .city .btn { padding: 7px 8px; font-size: 13px; } .witem { padding: 9px 4px; font-size: 14px; } .witem .x { padding: 0 10px; }
-    .reset, .help { padding: 6px 8px 6px 0; font-size: 20px; } .fold { font-size: 20px; padding: 8px 12px; margin: -8px -10px -8px 4px; } .panel.folded { padding: 14px 16px; }
+    .help { padding: 6px 8px 6px 0; font-size: 20px; } .reset { width: 46px; height: 40px; font-size: 26px; } .fold { font-size: 20px; padding: 8px 12px; margin: -8px -10px -8px 4px; } .panel.folded { padding: 14px 16px; }
     #sortBy { font-size: 13px; padding: 4px; } #spq { padding: 9px 10px; font-size: 16px; } .gal .nav { width: 40px; line-height: 48px; font-size: 32px; }
     #side li { padding: 7px 0; } .stop div { transform: scale(1.25); } .stop.next div { transform: scale(1.5); } #lbClose { padding: 8px 12px; top: 4px; right: 6px; }
     .leaflet-touch .leaflet-bar a { width: 44px; height: 44px; line-height: 44px; }
@@ -369,8 +371,7 @@ legend.onAdd = () => {
   const panel = L.DomUtil.create('div', 'panel'), head = L.DomUtil.create('div', 'head', panel), d = L.DomUtil.create('div', '', panel);
   // Title row folds/unfolds the rest of the legend
   // Reset on the left of the title; the arrow folds the legend away to the right
-  head.innerHTML = `<span class="reset" title="${_('Réinitialiser')}">⟲</span><span class="help" title="${_('Aide')}" onclick="showTips()">❓</span><img class="logo" src="icon.svg" alt=""><b>${TREES.length} ${_('arbres à moins de 1 km')}</b><span class="fold" title="${_('Replier')}">▸</span>`;
-  head.firstChild.onclick = reset;
+  head.innerHTML = `<span class="help" title="${_('Aide')}" onclick="showTips()">❓</span><img class="logo" src="icon.svg" alt=""><b>${TREES.length} ${_('arbres à moins de 1 km')}</b><span class="fold" title="${_('Replier')}">▸</span>`;
   const foldLegend = () => head.lastChild.textContent = panel.classList.toggle('folded') ? '◂' : '▸';
   head.lastChild.onclick = e => { e.stopPropagation(); foldLegend(); };
   panel.addEventListener('click', e => { if (panel.classList.contains('folded') && !d.contains(e.target)) foldLegend(); });  // folded: the whole little tab reopens it
@@ -383,6 +384,9 @@ legend.onAdd = () => {
   const lang = L.DomUtil.create('div', 'dur city', d);
   lang.innerHTML = `<button class="btn${LANG === 'fr' ? ' on' : ''}" data-l="fr">FR</button><button class="btn${LANG === 'en' ? ' on' : ''}" data-l="en">EN</button>`;
   lang.onclick = e => { const b = e.target.closest('button'); if (!b || b.dataset.l === LANG) return; try { localStorage.setItem('treemap.lang', b.dataset.l); } catch (x) {} location.reload(); };
+  // City, language and a big reset button on one line
+  const top = L.DomUtil.create('div', 'toprow'); d.insertBefore(top, city); top.append(city, lang);
+  const rst = L.DomUtil.create('button', 'reset', top); rst.textContent = '⟲'; rst.title = _('Réinitialiser'); rst.onclick = reset;
   // Three tabs under city and language: species, filters, walks
   const tabs = L.DomUtil.create('div', 'tabs', d), tabNames = [_('🌳 Espèces'), _('⚙️ Filtres'), _('🧺 Balades')];
   tabs.innerHTML = tabNames.map((t, i) => `<button class="tab${i ? '' : ' on'}" data-i="${i}">${t}</button>`).join('');
