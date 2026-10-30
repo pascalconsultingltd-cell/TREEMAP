@@ -41,7 +41,7 @@
   .stop div { width: 20px; height: 20px; border-radius: 50%; text-align: center; font: bold 12px/20px sans-serif; box-shadow: 0 0 0 1.5px #000; }
   #side ol { padding-left: 20px; } #side li { margin-bottom: 3px; }
   .head { user-select: none; } .fold, .reset { cursor: pointer; font-size: 16px; line-height: 16px; } .fold { float: right; margin: -6px -8px -6px 4px; padding: 6px 10px; } .reset { margin-right: 6px; }
-  .panel.folded { padding: 10px 12px; cursor: pointer; } .panel.folded > div:not(.head), .panel.folded .head b, .panel.folded .reset, .panel.folded .logo { display: none; }
+  .panel.folded { padding: 10px 12px; cursor: pointer; } .panel.folded > div:not(.head), .panel.folded .head b, .panel.folded .reset, .panel.folded .help, .panel.folded .logo { display: none; }
   .logo { width: 22px; height: 22px; border-radius: 5px; vertical-align: -6px; margin-right: 6px; } .panel.folded .fold { margin: 0; }
   .sel { font-size: 12px; margin-left: 4px; cursor: pointer; }
   .panel { overflow-y: auto; box-sizing: border-box; touch-action: pan-y; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -75,12 +75,28 @@
   #side .back { margin: 0 0 8px; } #side li { cursor: pointer; } #side li:hover { background: #0001; }
   #side h4 { margin: 12px 0 6px; }
   #side figcaption { font-size: 12px; text-align: center; } #side figure.on img { outline: 3px solid #2a6; }
+  .help { cursor: pointer; font-size: 14px; color: #666; margin-right: 6px; }
+  #dlg { position: fixed; inset: 0; z-index: 3000; background: #0006; display: flex; align-items: center; justify-content: center; padding: 16px; }
+  #dlg .box { background: #fff; border-radius: 12px; padding: 16px; width: 100%; max-width: 380px; box-shadow: 0 6px 24px #0006; font-size: 15px; line-height: 1.45; max-height: 86vh; overflow-y: auto; }
+  #dlg input { width: 100%; box-sizing: border-box; margin: 10px 0 2px; padding: 9px 10px; font-size: 16px; border: 1px solid #bbb; border-radius: 8px; }
+  #dlg .acts { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; } #dlg .acts button { padding: 9px 14px; font: inherit; border-radius: 8px; border: 1px solid #888; background: #fff; cursor: pointer; } #dlg .acts .ok { background: #1a9850; border-color: #1a9850; color: #fff; }
+  #dlg ul { padding-left: 4px; list-style: none; margin: 8px 0 0; } #dlg li { margin-bottom: 7px; }
   #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 2500; background: #222d; color: #fff; padding: 8px 14px; border-radius: 18px; font-size: 13px; max-width: 86vw; text-align: center; pointer-events: none; opacity: 0; transition: opacity .3s; }
   #toast.show { opacity: 1; }
   .btn { margin: 4px 4px 6px 0; padding: 3px 8px; border: 1px solid #888; border-radius: 12px; background: #e8f5e0; cursor: pointer; font: inherit; }
   .btn.off { background: #fff; opacity: 0.45; text-decoration: line-through; }
   .row.off { opacity: 0.35; text-decoration: line-through; }
   .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  /* Phones: finger-sized targets (last, so they win over the base styles above) */
+  @media (max-width: 700px) {
+    .btn { padding: 8px 12px; font-size: 14px; } .row { padding: 8px 2px; font-size: 15px; } .chip { padding: 7px 10px; font-size: 13px; }
+    .sel { display: inline-block; padding: 6px 0; font-size: 14px; } .sel input { width: 20px; height: 20px; vertical-align: -4px; }
+    .fhead, .wtitle { padding: 8px 0; font-size: 14px; } .witem { padding: 9px 4px; font-size: 14px; } .witem .x { padding: 0 10px; }
+    .reset, .help { padding: 6px 8px 6px 0; font-size: 20px; } .fold { font-size: 20px; padding: 8px 12px; margin: -8px -10px -8px 4px; } .panel.folded { padding: 14px 16px; }
+    #sortBy { font-size: 13px; padding: 4px; } #spq { padding: 9px 10px; font-size: 16px; } .gal .nav { width: 40px; line-height: 48px; font-size: 32px; }
+    #side li { padding: 7px 0; } .stop div { transform: scale(1.25); } .stop.next div { transform: scale(1.5); } #lbClose { padding: 8px 12px; top: 4px; right: 6px; }
+    .leaflet-touch .leaflet-bar a { width: 44px; height: 44px; line-height: 44px; }
+  }
 </style>
 </head>
 <body>
@@ -332,7 +348,7 @@ legend.onAdd = () => {
   const panel = L.DomUtil.create('div', 'panel'), head = L.DomUtil.create('div', 'head', panel), d = L.DomUtil.create('div', '', panel);
   // Title row folds/unfolds the rest of the legend
   // Reset on the left of the title; the arrow folds the legend away to the right
-  head.innerHTML = `<span class="reset" title="Réinitialiser">⟲</span><img class="logo" src="icon.svg" alt=""><b>${TREES.length} trees within 1 km</b><span class="fold" title="Replier">▸</span>`;
+  head.innerHTML = `<span class="reset" title="Réinitialiser">⟲</span><span class="help" title="Aide" onclick="showTips()">❓</span><img class="logo" src="icon.svg" alt=""><b>${TREES.length} trees within 1 km</b><span class="fold" title="Replier">▸</span>`;
   head.firstChild.onclick = reset;
   const foldLegend = () => head.lastChild.textContent = panel.classList.toggle('folded') ? '◂' : '▸';
   head.lastChild.onclick = e => { e.stopPropagation(); foldLegend(); };
@@ -407,7 +423,7 @@ legend.onAdd = () => {
   const favs = FAV.map(g => all.find(x => x.g === g)).filter(Boolean);
   tools.innerHTML = '<input id="spq" type="search" placeholder="🔍 Chercher une espèce" autocomplete="off"><div class="chips">' + favs.map(x => `<button class="chip" data-g="${x.g}"><span class="dot" style="background:${x.c}"></span>${x.label.split(' / ')[1] || x.label}</button>`).join('') + '</div>';
   species.insertBefore(tools, species.children[1]);
-  tools.querySelector('.chips').onclick = e => { const b = e.target.closest('.chip'); if (b) soloGroup(all.find(x => x.g === b.dataset.g)); };
+  tools.querySelector('.chips').onclick = e => { const b = e.target.closest('.chip'); if (b) { soloGroup(all.find(x => x.g === b.dataset.g)); foldOnPhone(); } };
   tools.querySelector('#spq').oninput = e => { const q = plain(e.target.value.trim()); all.forEach(x => x.row.style.display = !q || plain(x.label).includes(q) ? '' : 'none'); };
   const BY = { fav: (p, q) => fav(p) - fav(q) || name(p, 0).localeCompare(name(q, 0)), en: (p, q) => name(p, 0).localeCompare(name(q, 0)), fr: (p, q) => name(p, 1).localeCompare(name(q, 1), 'fr'), down: (p, q) => count(q) - count(p), up: (p, q) => count(p) - count(q) };
   const sortRows = () => { species.classList.toggle('favmode', sortBy.value === 'fav'); all.slice().sort((p, q) => last(p) - last(q) || (last(p) ? (p === rest) - (q === rest) : BY[sortBy.value](p, q))).forEach(x => species.appendChild(x.row)); };
@@ -452,7 +468,7 @@ function toggleGuide() {
   const b = [...document.querySelectorAll('.panel .btn')].find(x => x.textContent === '🧭 Le plus proche');
   if (guide) { guide = null; guideLayer.clearLayers(); b.classList.remove('active'); return; }
   const sel = all.filter(x => x.on);
-  if (sel.length !== 1) return alert('Choisis une seule espèce dans la légende (clic droit, ou appui long sur un arbre), puis appuie sur 🧭.');
+  if (sel.length !== 1) return toast('Choisis une seule espèce (appui long sur un arbre, ou ⭐ dans la légende), puis appuie sur 🧭.', 5000);
   guide = sel[0]; guideRank = 0; guideLevel = null; b.classList.add('active'); startCompass();
   fitGuide(drawGuide());
 }
@@ -512,7 +528,7 @@ function toggleLocate() {
   const btn = document.querySelector('.locbtn a');
   if (watch !== null && !follow && myPos) { follow = true; btn.classList.add('on'); btn.classList.remove('away'); followMe(); return; }  // location on but map moved away: 📍 recentres
   if (watch !== null) { follow = false; navigator.geolocation.clearWatch(watch); watch = null; myPos = null; meLayer.clearLayers(); btn.classList.remove('on', 'away'); if (guide) drawGuide(); return; }
-  if (!navigator.geolocation) return alert('La géolocalisation n’est pas disponible sur cet appareil.');
+  if (!navigator.geolocation) return toast('La géolocalisation n’est pas disponible sur cet appareil.', 5000);
   firstFix = true; follow = true; btn.classList.add('on');
   watch = navigator.geolocation.watchPosition(p => {
     const ll = myPos = [p.coords.latitude, p.coords.longitude];
@@ -523,7 +539,7 @@ function toggleLocate() {
     if (firstFix) { firstFix = false; map.setView(ll, walkMode ? map.getZoom() : 18, { animate: false }); }
     if (follow) followMe();
     if (walkMode) walkDist();
-  }, err => { alert('Position indisponible : ' + err.message); toggleLocate(); }, { enableHighAccuracy: true, maximumAge: 5000 });
+  }, err => { toast('Position indisponible : ' + err.message, 5000); follow = true; myPos = null; toggleLocate(); }, { enableHighAccuracy: true, maximumAge: 5000 });
 }
 // Keep NW5 2TE (and walks) in the free map area left of the legend
 const legendW = () => document.querySelector('.panel').offsetWidth + 10;
@@ -655,18 +671,18 @@ function exitWalk() { walkMode = null; stopMk.forEach(m => { const e = m.getElem
 // Saved walks live in this browser's storage (one phone or computer), 10 at most
 const WALKS_KEY = 'treemap.walks' + (CITY === 'bcn' ? '.bcn' : '');  // each city keeps its own walks
 const loadWalks = () => { try { return JSON.parse(localStorage.getItem(WALKS_KEY)) || []; } catch (e) { return []; } };
-const storeWalks = ws => { try { localStorage.setItem(WALKS_KEY, JSON.stringify(ws)); } catch (e) { alert('Impossible de sauver sur cet appareil.'); } fillWalks(); };
-function saveWalk() {
+const storeWalks = ws => { try { localStorage.setItem(WALKS_KEY, JSON.stringify(ws)); } catch (e) { toast('Impossible de sauver sur cet appareil.', 5000); } fillWalks(); };
+async function saveWalk() {
   const ws = loadWalks();
-  if (ws.length >= 10 && !confirm('10 balades déjà sauvées : remplacer la plus ancienne ?')) return;
-  const name = prompt('Nom de la balade :', `Balade du ${new Date().toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })} · ${current.ids.length} espèces`);
+  if (ws.length >= 10 && !await ask({ msg: '10 balades déjà sauvées : remplacer la plus ancienne ?', ok: 'Remplacer' })) return;
+  const name = await ask({ msg: 'Nom de la balade :', ok: 'Sauver', input: `Balade du ${new Date().toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })} · ${current.ids.length} espèces` });
   if (!name) return;
   current = { ...current, name, id: Date.now() };
   storeWalks([...ws, current].slice(-10)); showWalk(current);
 }
-function deleteWalk(id) {
+async function deleteWalk(id) {
   const w = loadWalks().find(x => x.id === id);
-  if (!w || !confirm(`Supprimer « ${w.name} » ?`)) return;
+  if (!w || !await ask({ msg: `Supprimer « ${esc(w.name)} » ?`, ok: 'Supprimer' })) return;
   storeWalks(loadWalks().filter(x => x.id !== id));
   if (current && current.id === id) { current = { ...current, id: undefined, name: undefined }; showWalk(current); }
 }
@@ -677,7 +693,7 @@ function shareWalk() {
   const base = (location.protocol === 'https:' ? location.origin + location.pathname : SITE) + (CITY === 'bcn' ? '?city=bcn' : '');
   const url = `${base}#walk=${current.ids.join(',')}${current.name ? '&name=' + encodeURIComponent(current.name) : ''}`;
   if (navigator.share) navigator.share({ title: current.name || 'Balade cueillette', url }).catch(() => {});
-  else navigator.clipboard.writeText(url).then(() => alert('Lien copié : ' + url), () => prompt('Copie ce lien :', url));
+  else navigator.clipboard.writeText(url).then(() => toast('🔗 Lien copié'), () => ask({ msg: 'Copie ce lien :', input: url, ok: 'Fermer' }));
 }
 function walkFromIds(ids, name) {
   const g = graphs().walk, snap = G.snap = G.snap || new Map(), line = [CENTRE], trees = ids.map(id => byId[id]).filter(Boolean);
@@ -704,8 +720,8 @@ function fillWalks() {
 }
 // A stop of the walk: its photos in the panel (with the way back to the walk) and its popup on the map
 function showStop(id) { const t = byId[id]; showSide(t); if (!PHONE) { map.panTo([t.lat, t.lon]); t.marker.openPopup(); } }
-function renameWalk(id) {
-  const ws = loadWalks(), w = ws.find(x => x.id === id), name = w && prompt('Nouveau nom :', w.name);
+async function renameWalk(id) {
+  const ws = loadWalks(), w = ws.find(x => x.id === id), name = w && await ask({ msg: 'Nouveau nom :', input: w.name, ok: 'Renommer' });
   if (!name) return;
   w.name = name; storeWalks(ws);
   if (current && current.id === id) { current.name = name; showWalk(current); }
@@ -714,6 +730,29 @@ const openSaved = id => { const w = loadWalks().find(x => x.id === id); if (w) s
 
 fillWalks();
 openFromHash();
+// In-app dialog: resolves with true (or the typed text) on OK, null on cancel or a tap outside
+function ask({ msg, input, ok = 'OK', cancel = 'Annuler' }) {
+  return new Promise(done => {
+    const d = document.createElement('div'); d.id = 'dlg';
+    d.innerHTML = `<div class="box"><div>${msg}</div>${input !== undefined ? '<input>' : ''}<div class="acts">${cancel ? `<button class="no">${cancel}</button>` : ''}<button class="ok">${ok}</button></div></div>`;
+    document.body.appendChild(d);
+    const box = d.querySelector('input'); if (box) { box.value = input; box.focus(); box.select(); }
+    const end = v => { d.remove(); done(v); };
+    d.querySelector('.ok').onclick = () => end(box ? box.value.trim() || null : true);
+    if (cancel) d.querySelector('.no').onclick = () => end(null);
+    d.onclick = e => { if (e.target === d) end(null); };
+    if (box) box.onkeydown = e => { if (e.key === 'Enter') d.querySelector('.ok').click(); };
+  });
+}
+// Tips shown once on each device, and again from ❓ in the legend
+const showTips = () => ask({ ok: 'C’est parti', cancel: '', msg: `<b>🌳 Bienvenue</b><ul>
+  <li>👆 <b>Touche un arbre</b> : ses photos et ses infos. Glisse la photo pour voir les autres.</li>
+  <li>✋ <b>Appui long sur un arbre</b> : seulement son espèce. Encore : tout revient.</li>
+  <li>◂ <b>La légende</b> (en haut à droite) : recherche, filtres, tri, ville.</li>
+  <li>🧺 <b>Balade</b> : un parcours cueillette de 30 min ou 1 h, puis ▶️ Démarrer pour être guidé.</li>
+  <li>🧭 <b>Le plus proche</b> : une flèche vers l’arbre le plus proche de l’espèce choisie, + pour le suivant.</li>
+  <li>📍 <b>Ta position</b> : la carte te suit ; touche 📍 pour recentrer.</li></ul>` });
+try { if (!localStorage.getItem('treemap.tips') && !location.hash) { localStorage.setItem('treemap.tips', '1'); showTips(); } } catch (e) {}
 // Short message at the bottom of the screen
 function toast(msg, ms = 3000) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(el.t); el.t = setTimeout(() => el.classList.remove('show'), ms); }
 // Offline: once the service worker runs, quietly store both cities and every photo (about 40 MB), a few files at a time, and drop data from older versions
