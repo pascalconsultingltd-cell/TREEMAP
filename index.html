@@ -55,7 +55,9 @@
   .witem { display: none; justify-content: space-between; gap: 6px; padding: 2px 4px; cursor: pointer; } .walks.open .witem { display: flex; } .witem:hover { background: #0001; }
   .witem .x { color: #b00; cursor: pointer; padding: 0 4px; }
   #sortBy { float: right; font-size: 11px; } .favmode .row.isfav::after { content: ' ⭐'; }
-  .locbtn a { font-size: 16px; } .locbtn a.on { background: #d2e3fc; }
+  .locbtn a { font-size: 16px; } .locbtn a.on { background: #d2e3fc; } .locbtn a.away { background: #fff3c4; }
+  .stop.done div { opacity: .35; } .stop.next div { outline: 3px solid #1a9850; outline-offset: 2px; transform: scale(1.3); }
+  .wbar h3 { margin: 0 0 2px; } .wbar .wd { color: #1a6; font-weight: 600; } .wbar .go { background: #1a9850; color: #fff; font-weight: 600; }
   .row { cursor: pointer; user-select: none; }
   .row:hover { background: #0001; }
   #side .big { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; display: block; }
@@ -80,7 +82,7 @@
 </style>
 </head>
 <body>
-<div id="side"><div id="grab"></div><span id="closeSide" title="Fermer" onclick="showSide0(false)">✕</span><div id="sideBody"></div></div>
+<div id="side"><div id="grab"></div><span id="closeSide" title="Fermer" onclick="closeSheet()">✕</span><div id="sideBody"></div></div>
 <div id="map"></div>
 <div id="toast"></div>
 <div id="lightbox" onclick="if (event.target === this) closeBig()"><span id="lbClose" title="Fermer" onclick="closeBig()">✕</span><img id="lbImg"><div id="lbCap"></div></div>
@@ -156,7 +158,7 @@ const sheetH = () => PHONE && document.body.classList.contains('open') ? sideBox
     if (y0 === null) return; y0 = null;
     const f = sideBox.offsetHeight / innerHeight;
     if (!moved) return showSide0(true, f > 0.7 ? 0.55 : 0.92);
-    if (f < 0.16) { photosOpen = false; return showSide0(false); }
+    if (f < 0.16) return closeSheet();
     showSide0(true, [0.28, 0.55, 0.92].reduce((a, b) => Math.abs(b - f) < Math.abs(a - f) ? b : a));
   });
 })();
@@ -174,7 +176,7 @@ function showPhotos(g, title, sub, extra = '') {
   photosOpen = true;
   const p = PHOTOS[g], close = p ? Object.keys(PARTS).filter(k => p[k]) : [];
   showSide0(true);
-  side.innerHTML = (current ? '<button class="btn back" onclick="showWalk(current)">← 🧺 Revenir à la balade</button>' : '') + `<h3>${title}<br><small>${sub}</small></h3>` + (!p ? '<p>Pas de photo pour cet arbre.</p>' + extra :
+  side.innerHTML = (current ? `<button class="btn back" onclick="${walkMode ? 'walkBar()' : 'showWalk(current)'}">← 🧺 Revenir à la balade</button>` : '') + `<h3>${title}<br><small>${sub}</small></h3>` + (!p ? '<p>Pas de photo pour cet arbre.</p>' + extra :
     `<div class="gal"><img class="big" id="big" src="${p[NOW].src}" title="Glisser pour les autres photos, toucher pour agrandir"><span class="nav l">‹</span><span class="nav r">›</span><span class="count" id="count"></span></div>
     <div class="cap" id="cap">${caption(g, NOW)}</div>${extra}` + tiles(g, Object.keys(SEASON_FR)) +
     (close.length ? '<h4>Détails</h4>' + tiles(g, close) : ''));
@@ -296,7 +298,13 @@ map.getContainer().addEventListener('pointermove', e => { if (lpTimer && Math.hy
 ['pointerup', 'pointercancel'].forEach(ev => map.getContainer().addEventListener(ev, lpCancel));
 map.getContainer().addEventListener('contextmenu', e => { if (Date.now() - longPressAt < 1500) e.preventDefault(); });
 // A tap on the empty map closes an open tree or species panel (a walk's list stays); ignores the tap ending a long press
-map.on('click', () => { if (photosOpen && Date.now() - longPressAt > 800) { photosOpen = false; showSide0(false); } });
+map.on('click', () => { if (photosOpen && Date.now() - longPressAt > 800) closeSheet(); });
+// ✕, a drag down or a map tap: a tree's panel gives way to the walk bar during walk mode; the walk bar's ✕ leaves walk mode
+function closeSheet() {
+  if (walkMode && photosOpen) return walkBar();
+  if (walkMode) return exitWalk();
+  photosOpen = false; showSide0(false);
+}
 // Only this group on the map (again: every group back), with its photos; from a tree, the panel shows that tree
 function soloGroup(x, t) {
   unfocus(); const solo = all.every(y => y.on === (y === x)); all.forEach(y => y.on = solo || y === x); render();
@@ -462,7 +470,10 @@ function drawGuide() {
   return t;
 }
 // 📍 My location: live blue dot with its accuracy circle; first fix zooms in, then the map stays where you put it. Needs https (GitHub Pages) or localhost
-let watch = null, firstFix;
+let watch = null, firstFix, follow = false;
+// Following: my dot stays in the middle of the visible map (above the sheet); moving the map by hand stops it, 📍 resumes
+const followMe = () => { if (!myPos) return; const c = map.project(myPos).add([0, sheetH() / 2]); map.panTo(map.unproject(c), { animate: true, duration: 0.4 }); };
+map.on('dragstart', () => { if (watch !== null && follow) { follow = false; document.querySelector('.locbtn a').classList.remove('on'); document.querySelector('.locbtn a').classList.add('away'); } });
 const meLayer = L.layerGroup().addTo(map);
 const locate = L.control({ position: 'topleft' });
 locate.onAdd = () => {
@@ -474,16 +485,19 @@ locate.onAdd = () => {
 locate.addTo(map);
 function toggleLocate() {
   const btn = document.querySelector('.locbtn a');
-  if (watch !== null) { navigator.geolocation.clearWatch(watch); watch = null; myPos = null; meLayer.clearLayers(); btn.classList.remove('on'); if (guide) drawGuide(); return; }
+  if (watch !== null && !follow && myPos) { follow = true; btn.classList.add('on'); btn.classList.remove('away'); followMe(); return; }  // location on but map moved away: 📍 recentres
+  if (watch !== null) { follow = false; navigator.geolocation.clearWatch(watch); watch = null; myPos = null; meLayer.clearLayers(); btn.classList.remove('on', 'away'); if (guide) drawGuide(); return; }
   if (!navigator.geolocation) return alert('La géolocalisation n’est pas disponible sur cet appareil.');
-  firstFix = true; btn.classList.add('on');
+  firstFix = true; follow = true; btn.classList.add('on');
   watch = navigator.geolocation.watchPosition(p => {
     const ll = myPos = [p.coords.latitude, p.coords.longitude];
     if (guide) drawGuide();
     meLayer.clearLayers();
     L.circle(ll, { radius: p.coords.accuracy, color: '#1a73e8', weight: 1, fillOpacity: 0.12, interactive: false }).addTo(meLayer);
     L.circleMarker(ll, { radius: 8, color: '#fff', weight: 3, fillColor: '#1a73e8', fillOpacity: 1, interactive: false }).addTo(meLayer);
-    if (firstFix) { map.setView(ll, 18); firstFix = false; }
+    if (firstFix) { firstFix = false; map.setView(ll, walkMode ? map.getZoom() : 18, { animate: false }); }
+    if (follow) followMe();
+    if (walkMode) walkDist();
   }, err => { alert('Position indisponible : ' + err.message); toggleLocate(); }, { enableHighAccuracy: true, maximumAge: 5000 });
 }
 // Keep NW5 2TE (and walks) in the free map area left of the legend
@@ -492,7 +506,7 @@ const home = () => map.stop().setView(CENTRE, 15, { animate: false }).panBy([leg
 home();
 function reset() {
   if (mode) colourBy(mode);
-  unfocus(); current = null; guide = null; guideLayer.clearLayers(); all.forEach(x => x.on = true); FILTERS.forEach(f => f.on = f.on.map(() => true)); withSel.checked = seasonOnly.checked = false;
+  unfocus(); current = null; walkMode = null; guide = null; guideLayer.clearLayers(); all.forEach(x => x.on = true); FILTERS.forEach(f => f.on = f.on.map(() => true)); withSel.checked = seasonOnly.checked = false;
   routeLayer.clearLayers(); map.closePopup(); showSide0(false); home(); render();
 }
 render();
@@ -579,17 +593,40 @@ function forageLoop() {
 // Draw a walk (new or saved): route, numbered stops, only its trees on the map, list in the side panel
 let current = null;
 function showWalk(w) {
-  endWalk(); showSide0(true, 0.35); foldOnPhone(); current = w; photosOpen = false;
+  endWalk(); showSide0(true, 0.35); foldOnPhone(); current = w; photosOpen = false; walkMode = null;
   const stops = w.ids.map(id => byId[id]).filter(Boolean);
   routeLayer.clearLayers();
   walk = w.line; routeLayer.addLayer(walkLayer); drawWalk();
   map.fitBounds(L.latLngBounds(w.line), pad(30));
   saved = all.map(x => x.on); focus = L.layerGroup(stops.map(t => t.marker)); all.forEach(x => x.on = stops.some(t => t.grp === x)); render();
-  stops.forEach((t, i) => L.marker([t.lat, t.lon], { icon: L.divIcon({ className: 'stop', html: `<div style="background:${t.grp.c};color:${ink(t.grp.c)}">${i + 1}</div>`, iconSize: [20, 20] }) }).bindTooltip(frName(t)).on('click', () => showStop(t.uniqueid)).addTo(routeLayer));
+  stopMk = stops.map((t, i) => L.marker([t.lat, t.lon], { icon: L.divIcon({ className: 'stop', html: `<div style="background:${t.grp.c};color:${ink(t.grp.c)}">${i + 1}</div>`, iconSize: [20, 20] }) }).bindTooltip(frName(t)).on('click', () => showStop(t.uniqueid)).addTo(routeLayer));
   side.innerHTML = `<h3>🧺 ${w.name ? esc(w.name) : 'Balade cueillette'}${w.sel ? ' · avec sélection' : ''}${w.ripe ? ' · de saison' : ''}<br><small>${stops.length} espèces · ${Math.round(w.used / 83.3)} min · ${(w.used / 1000).toFixed(2)} km, retour à ${HOMENAME}</small></h3>
-    <button class="btn" onclick="forageLoop()">🔀 Autre balade</button>${w.id ? `<button class="btn" onclick="renameWalk(${w.id})">✏️ Renommer</button><button class="btn" onclick="deleteWalk(${w.id})">🗑 Supprimer</button>` : '<button class="btn" onclick="saveWalk()">💾 Sauver</button>'}<button class="btn" onclick="shareWalk()">🔗 Partager</button>
+    <button class="btn wgo" onclick="startWalk()">▶️ Démarrer</button><button class="btn" onclick="forageLoop()">🔀 Autre balade</button>${w.id ? `<button class="btn" onclick="renameWalk(${w.id})">✏️ Renommer</button><button class="btn" onclick="deleteWalk(${w.id})">🗑 Supprimer</button>` : '<button class="btn" onclick="saveWalk()">💾 Sauver</button>'}<button class="btn" onclick="shareWalk()">🔗 Partager</button>
     <ol>${stops.map(t => `<li onclick="showStop(${t.uniqueid})"><b>${frName(t)}</b> : ${edible(t) || tea(t) || 'non comestible'}</li>`).join('')}</ol>`;
 }
+// Walk mode: a small bar with the next stop and its live distance, 📍 on and following; ✅ moves on, numbers of done stops fade
+let walkMode = null, stopMk = [];
+function startWalk() {
+  walkMode = { i: 0 }; if (watch === null && navigator.geolocation) toggleLocate(); else { follow = true; followMe(); }
+  walkBar();
+}
+function walkBar() {
+  photosOpen = false; showSide0(true, 0.24);
+  const n = current.ids.length, i = walkMode.i, t = i < n ? byId[current.ids[i]] : null;
+  stopMk.forEach((m, k) => { const e = m.getElement(); if (e) { e.classList.toggle('done', k < i); e.classList.toggle('next', k === i); } });
+  side.innerHTML = t ? `<div class="wbar"><h3>${i + 1}/${n} · ${frName(t)}</h3><small>${edible(t) || tea(t) || 'non comestible'}</small> <span class="wd" id="wd"></span><br>
+      <button class="btn go" onclick="walkStep(1)">✅ Suivant</button>${i ? '<button class="btn" onclick="walkStep(-1)">← Précédent</button>' : ''}<button class="btn" onclick="showStop(${t.uniqueid})">🌳 Voir l’arbre</button></div>`
+    : `<div class="wbar"><h3>🎉 Balade terminée</h3><small>${n} espèces. Retour à ${HOMENAME}.</small> <span class="wd" id="wd"></span><br><button class="btn" onclick="exitWalk()">Fermer</button></div>`;
+  walkDist();
+  if (!myPos || !follow) { const c = t ? [t.lat, t.lon] : CENTRE, p = map.project(c).add([0, sheetH() / 2]); map.panTo(map.unproject(p)); }
+}
+const walkStep = d => { walkMode.i = Math.max(0, walkMode.i + d); walkBar(); };
+function walkDist() {
+  const el = document.getElementById('wd'); if (!el || !walkMode || !myPos) return;
+  const t = byId[current.ids[walkMode.i]], m = dist(myPos, t ? [t.lat, t.lon] : CENTRE);
+  el.textContent = `· ${Math.round(m)} m (${Math.max(1, Math.round(m / 83.3))} min)`;
+}
+function exitWalk() { walkMode = null; stopMk.forEach(m => { const e = m.getElement(); if (e) e.classList.remove('done', 'next'); }); showWalk(current); }
 // Saved walks live in this browser's storage (one phone or computer), 10 at most
 const WALKS_KEY = 'treemap.walks' + (CITY === 'bcn' ? '.bcn' : '');  // each city keeps its own walks
 const loadWalks = () => { try { return JSON.parse(localStorage.getItem(WALKS_KEY)) || []; } catch (e) { return []; } };
