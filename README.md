@@ -21,7 +21,11 @@ HTML/JavaScript map of street and park trees within a 1 km radius of NW5 2TE (Lo
 - `photos/` + `photos.js`: Wikimedia Commons photos (500px) per legend group and season, picked by hand; credits in `photos.js`. Empty seasons reuse the nearest one. Close-ups (leaf, flower, fruit/samaras/cone, bark) where a good photo exists.
 
 ## Features
-- TBD.
+- Legend: species (EN / FR names), search, favourites, sorting, filters (edible, leaf, height, bees, sex, toxic), colour modes.
+- Foraging walks (30 min / 1 h, selection, in season), saved walks, share links, guided walk mode.
+- 🧭 nearest tree arrow (follows the compass), + for the next height up.
+- Phones: bottom sheet, 📍 location that follows you, long press for one species.
+- Offline: `sw.js` keeps both cities and all photos on the device. Interface in FR or EN.
 
 ## Barcelona
 - `fetch_trees_bcn.py`: Open Data BCN street, zone and park trees (CC BY 4.0) within 1 km of Comte Borrell 84 into `trees_bcn.js` (no height, canopy or girth in this data).
