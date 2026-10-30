@@ -120,7 +120,7 @@ const FR_GENUS = { Acacia: 'Acacia', Arbutus: 'Arbousier', Buddleja: 'Buddleia',
   Olea: 'Olivier', Paulownia: 'Paulownia', Photinia: 'Photinia', Pittosporum: 'Pittosporum', Pterocarya: 'Ptérocaryer', Pyrus: 'Poirier', Rhus: 'Sumac',
   Syringa: 'Lilas', Tamarix: 'Tamaris', Taxus: 'If', Thuja: 'Thuya', Tilia: 'Tilleul', Yucca: 'Yucca', Zelkova: 'Zelkova' };
 // Legend group: GLA name, except Turkish hazel split from common hazel, and some genera pulled out of "Other"
-const BY_GENUS = { Morus: 'Mulberry', Fagus: 'Beech', Pyrus: 'Pear', Ginkgo: 'Ginkgo', Juglans: 'Walnut' };
+const BY_GENUS = { Morus: 'Mulberry', Fagus: 'Beech', Pyrus: 'Pear', Ginkgo: 'Ginkgo', Juglans: 'Walnut', Ficus: 'Fig', Populus: 'Poplar', Quercus: 'Oak' };
 const group = t => t.taxon_species.startsWith('Corylus colurna') ? 'Turkish hazel' : t.taxon_species.startsWith('Juglans nigra') ? 'Black walnut' : BY_GENUS[t.taxon_species.split(' ')[0]] || t.gla_name;
 const frName = t => group(t).trim() !== 'Other' && FR[group(t).trim()] || FR_GENUS[t.taxon_species.split(' ')[0]] || (CITY === 'bcn' ? t.common_name : 'Autre');  // Barcelona: Spanish name when no French one
 // Season photos per legend group (photos.js); big photo is the current season, thumbnails switch it
@@ -182,7 +182,7 @@ document.addEventListener('keydown', e => { if (lightbox.style.display === 'flex
 document.addEventListener('keydown', e => e.key === 'Escape' && closeBig());
 // Specials first, then top 10 genera, the rest grey; one layer per legend row
 const SPECIAL = { Chestnut: ['Sweet chestnut', '#e31a1c'], Yew: ['Yew', '#8b0000'], Pine: ['Pine', '#1b4d2e'], Hazel: ['Hazel', '#d2b48c'], 'Turkish hazel': ['Turkish hazel', '#7b4a1e'], Mulberry: ['Mulberry', '#6a0dad'], Beech: ['Beech', '#6e6e6c'], Pear: ['Pear', '#d1e231'], Hawthorn: ['Hawthorn', '#b2182b'], Elder: ['Elder', '#2d0a3e'], Orange: ['Orange', '#ff8c00'], Carob: ['Carob', '#6b3e26'], Olive: ['Olive', '#808000'], Loquat: ['Loquat', '#f4a300'],
-  Pomegranate: ['Pomegranate', '#c2185b'], Fig: ['Fig', '#5d3a6e'], Ginkgo: ['Ginkgo', '#e5c100'], Walnut: ['Walnut', '#556b2f'], 'Black walnut': ['Black walnut', '#4a3728'], 'Horse Chestnut': ['Horse chestnut', '#a0522d'] };
+  Pomegranate: ['Pomegranate', '#c2185b'], Fig: ['Fig', '#5d3a6e'], Oak: ['Oak', '#8d6e3f'], Poplar: ['Poplar', '#5f9ea0'], Ginkgo: ['Ginkgo', '#e5c100'], Walnut: ['Walnut', '#556b2f'], 'Black walnut': ['Black walnut', '#4a3728'], 'Horse Chestnut': ['Horse chestnut', '#a0522d'] };
 const counts = {};
 TREES.forEach(t => counts[group(t)] = (counts[group(t)] || 0) + 1);
 // Fixed colours for some common groups, the palette fills the rest by rank
