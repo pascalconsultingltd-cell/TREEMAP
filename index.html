@@ -36,7 +36,7 @@
   .ramp { display: none; margin: 2px 0 6px; font-size: 11px; color: #555; } .ramp span { display: inline-block; width: 33%; } .ramp span:nth-child(3) { text-align: center; } .ramp span:last-child { text-align: right; }
   .ramp .bar { height: 8px; border-radius: 4px; background: linear-gradient(to right, #e5f5e0, #74c476, #00441b); }
   .ramp div:last-child { margin-top: 3px; } .ramp div:last-child span { width: auto; }
-  .guide div { font-size: 64px; line-height: 70px; text-align: center; font-weight: bold; text-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 2px #000; }
+  .guide div { transition: transform .15s linear; font-size: 64px; line-height: 70px; text-align: center; font-weight: bold; text-shadow: 0 0 4px #fff, 0 0 8px #fff, 0 0 2px #000; }
   .gtip span { position: relative; left: -50%; display: inline-block; white-space: nowrap; font: 600 12px sans-serif; background: #fff; border: 2px solid #333; border-radius: 6px; padding: 2px 6px; box-shadow: 0 1px 4px #0005; }
   .stop div { width: 20px; height: 20px; border-radius: 50%; text-align: center; font: bold 12px/20px sans-serif; box-shadow: 0 0 0 1.5px #000; }
   #side ol { padding-left: 20px; } #side li { margin-bottom: 3px; }
@@ -443,7 +443,7 @@ function toggleGuide() {
   if (guide) { guide = null; guideLayer.clearLayers(); b.classList.remove('active'); return; }
   const sel = all.filter(x => x.on);
   if (sel.length !== 1) return alert('Choisis une seule espèce dans la légende (clic droit, ou appui long sur un arbre), puis appuie sur 🧭.');
-  guide = sel[0]; guideRank = 0; guideLevel = null; b.classList.add('active');
+  guide = sel[0]; guideRank = 0; guideLevel = null; b.classList.add('active'); startCompass();
   fitGuide(drawGuide());
 }
 const fitGuide = t => { if (t) { foldOnPhone(); map.fitBounds(L.latLngBounds([myPos || CENTRE, [t.lat, t.lon]]), { ...pad(60), maxZoom: 18 }); } };
@@ -453,6 +453,21 @@ function nextGuide() {
   const levels = [...new Set(guideTrees().map(treeH).filter(h => h > 0))].sort((a, b) => a - b);
   if (levels.length && guideNow) { const up = levels.find(h => h > treeH(guideNow)); guideLevel = up === undefined ? null : up; } else guideRank++;
   fitGuide(drawGuide());
+}
+// Compass: on a phone the arrow turns with the device so it points the real way (the dashed line stays on the map). iPhone asks permission, which needs the tap on 🧭
+let heading = 0, guideDeg = 0, compassOn = false, compassSeen = false;
+function onHeading(e) {
+  const h = e.webkitCompassHeading !== undefined ? e.webkitCompassHeading : (e.absolute || e.type === 'deviceorientationabsolute') && e.alpha !== null ? 360 - e.alpha : null;
+  if (h === null || h === false) return;
+  heading = h;
+  if (!compassSeen) { compassSeen = true; toast('🧭 La flèche suit la boussole : tiens le téléphone à plat'); }
+  const el = document.querySelector('.guide div'); if (el) el.style.transform = `rotate(${guideDeg - heading}deg)`;
+}
+function startCompass() {
+  if (compassOn || !PHONE || !window.DeviceOrientationEvent) return;
+  compassOn = true;
+  const on = () => { addEventListener('deviceorientationabsolute', onHeading, true); addEventListener('deviceorientation', onHeading, true); };
+  if (DeviceOrientationEvent.requestPermission) DeviceOrientationEvent.requestPermission().then(p => { if (p === 'granted') on(); }).catch(() => {}); else on();
 }
 function drawGuide() {
   guideLayer.clearLayers();
@@ -464,7 +479,7 @@ function drawGuide() {
   const deg = Math.atan2((t.lon - from[1]) * Math.cos(from[0] * rad), t.lat - from[0]) / rad;  // compass bearing, 0 = north
   L.polyline([from, [t.lat, t.lon]], { color: guide.c, weight: 3, dashArray: '6 8', interactive: false }).addTo(guideLayer);
   L.marker(from, { interactive: false, zIndexOffset: 1000, icon: L.divIcon({ className: 'guide', iconSize: [70, 70], iconAnchor: [35, 35],
-    html: `<div style="transform:rotate(${deg}deg);color:${guide.c}">⬆</div>` }) }).addTo(guideLayer);
+    html: `<div style="transform:rotate(${(guideDeg = deg) - heading}deg);color:${guide.c}">⬆</div>` }) }).addTo(guideLayer);
   L.marker([t.lat, t.lon], { interactive: false, zIndexOffset: 1000, icon: L.divIcon({ className: 'gtip', iconSize: null, iconAnchor: [0, 34],
     html: `<span>🧭 ${treeH(t) ? treeH(t) + ' m de haut' : (rank + 1) + '/' + near.length} ${frName(t)} · ${Math.round(bd)} m (${Math.max(1, Math.round(bd / 83.3))} min)</span>` }) }).addTo(guideLayer);
   return t;
