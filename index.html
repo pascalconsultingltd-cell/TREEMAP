@@ -78,7 +78,7 @@
 <script>
 // City: ?city=bcn or the last one chosen on this device, London by default; its basemap and trees load before the map script
 const CITY = (new URLSearchParams(location.search).get('city') || (() => { try { return localStorage.getItem('treemap.city'); } catch (e) {} })()) === 'bcn' ? 'bcn' : 'london';
-const V = '?v=20261026b';  // bump when data files change, so browsers don't keep stale copies
+const V = '?v=20261030';  // bump when data files change, so browsers don't keep stale copies
 document.write(CITY === 'bcn' ? `<script src="basemap_bcn.js${V}"><\/script><script src="trees_bcn.js${V}"><\/script>` : `<script src="basemap.js${V}"><\/script><script src="trees.js${V}"><\/script>`);
 </script>
 <script>document.write(`<script src="photos.js${V}"><\/script>`);</script>
@@ -311,6 +311,9 @@ legend.onAdd = () => {
   L.DomUtil.create('button', 'btn', forage).textContent = '🧭 Le plus proche';
   forage.lastChild.title = 'Une seule espèce choisie dans la légende : grosse flèche vers l’arbre le plus proche';
   forage.lastChild.onclick = toggleGuide;
+  L.DomUtil.create('button', 'btn', forage).textContent = '+';
+  forage.lastChild.title = 'Arbre suivant : le prochain plus proche de la même espèce';
+  forage.lastChild.onclick = nextGuide;
   // Walk length toggle: 30 min or 1 h (1 h reaches more of the selected species)
   const dur = L.DomUtil.create('span', 'dur', forage);
   dur.innerHTML = '<button class="btn on" data-m="2500">30 min</button><button class="btn" data-m="5000">1 h</button>';
@@ -390,29 +393,34 @@ function colourBy(k) {
     <div><span class="dot" style="background:#e31a1c"></span>${m.top} : ${top} ${m.unit} (${best.length})</div>`;
 }
 // 🧭 Nearest tree of the one species selected in the legend: big arrow from me (📍 on) or from home, dashed line, name and distance; follows my position
-let guide = null, myPos = null;
+let guide = null, myPos = null, guideRank = 0;
 const guideLayer = L.layerGroup().addTo(map);
 function toggleGuide() {
   const b = [...document.querySelectorAll('.panel .btn')].find(x => x.textContent === '🧭 Le plus proche');
   if (guide) { guide = null; guideLayer.clearLayers(); b.classList.remove('active'); return; }
   const sel = all.filter(x => x.on);
   if (sel.length !== 1) return alert('Choisis une seule espèce dans la légende (clic droit, ou appui long sur un arbre), puis appuie sur 🧭.');
-  guide = sel[0]; b.classList.add('active');
-  const t = drawGuide();
-  if (t) map.fitBounds(L.latLngBounds([myPos || CENTRE, [t.lat, t.lon]]), { paddingTopLeft: [60, 60], paddingBottomRight: [legendW() + 60, 60], maxZoom: 18 });
+  guide = sel[0]; guideRank = 0; b.classList.add('active');
+  fitGuide(drawGuide());
+}
+const fitGuide = t => { if (t) map.fitBounds(L.latLngBounds([myPos || CENTRE, [t.lat, t.lon]]), { paddingTopLeft: [60, 60], paddingBottomRight: [legendW() + 60, 60], maxZoom: 18 }); };
+// +: the next nearest tree of the same species, back to the nearest after the last
+function nextGuide() {
+  if (!guide) return toggleGuide();
+  guideRank++; fitGuide(drawGuide());
 }
 function drawGuide() {
   guideLayer.clearLayers();
   const from = myPos || CENTRE;
-  let t = null, bd = Infinity;
-  TREES.forEach(x => { if (x.grp === guide && FILTERS.every((f, i) => f.on[x.key[i]])) { const d = dist(from, [x.lat, x.lon]); if (d < bd) { bd = d; t = x; } } });
-  if (!t) return null;
+  const near = TREES.filter(x => x.grp === guide && FILTERS.every((f, i) => f.on[x.key[i]])).map(x => [dist(from, [x.lat, x.lon]), x]).sort((a, b) => a[0] - b[0]);
+  if (!near.length) return null;
+  const rank = guideRank % near.length, [bd, t] = near[rank];
   const deg = Math.atan2((t.lon - from[1]) * Math.cos(from[0] * rad), t.lat - from[0]) / rad;  // compass bearing, 0 = north
   L.polyline([from, [t.lat, t.lon]], { color: guide.c, weight: 3, dashArray: '6 8', interactive: false }).addTo(guideLayer);
   L.marker(from, { interactive: false, zIndexOffset: 1000, icon: L.divIcon({ className: 'guide', iconSize: [70, 70], iconAnchor: [35, 35],
     html: `<div style="transform:rotate(${deg}deg);color:${guide.c}">⬆</div>` }) }).addTo(guideLayer);
   L.marker([t.lat, t.lon], { interactive: false, zIndexOffset: 1000, icon: L.divIcon({ className: 'gtip', iconSize: null, iconAnchor: [0, 34],
-    html: `<span>🧭 ${frName(t)} · ${Math.round(bd)} m (${Math.max(1, Math.round(bd / 83.3))} min)</span>` }) }).addTo(guideLayer);
+    html: `<span>🧭 ${rank + 1}/${near.length} ${frName(t)} · ${Math.round(bd)} m (${Math.max(1, Math.round(bd / 83.3))} min)</span>` }) }).addTo(guideLayer);
   return t;
 }
 // 📍 My location: live blue dot with its accuracy circle; first fix zooms in, then the map stays where you put it. Needs https (GitHub Pages) or localhost

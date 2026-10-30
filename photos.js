@@ -1836,5 +1836,51 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Ficus_carica_009.JPG",
 "credit": "H. Zell, CC BY-SA 3.0"
 }
+},
+"Poplar": {
+"spring": {
+"src": "photos/Poplar_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:K%C4%99pa_Wieloryb,_Zerze%C5%84,_Wawer,_Warszawa_009.jpg",
+"credit": "Dariusz Kowalczyk, CC BY-SA 4.0",
+"season": "spring"
+},
+"summer": {
+"src": "photos/Poplar_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Populus_alba,_Czajecice,_20060812_1358.jpg",
+"credit": "Jakub Hałun, CC BY-SA 3.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Poplar_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Naturdenkmal_123_sl4.jpg",
+"credit": "Stefan.lefnaer, CC BY-SA 3.0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Poplar_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Naturdenkmal_123_sl8.jpg",
+"credit": "Stefan.lefnaer, CC BY-SA 3.0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Poplar_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Atlas_roslin_pl_Topola_bia%C5%82a_10459_7635.jpg",
+"credit": "Łukasz Tkaczyk, CC BY-SA 4.0"
+},
+"flower": {
+"src": "photos/Poplar_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Populus_alba_female_flowers.JPG",
+"credit": "Димитър Найденов / Dimìtar Nàydenov, CC BY-SA 3.0"
+},
+"fruit": {
+"src": "photos/Poplar_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Populus_alba_fruits.JPG",
+"credit": "Димитър Найденов / Dimìtar Nàydenov, CC BY-SA 3.0"
+},
+"bark": {
+"src": "photos/Poplar_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Ecorce_de_peublier_blanc_(1).JPG",
+"credit": "Jean-Pierre Bazard Jpbazard, CC BY 4.0"
+}
 }
 };
