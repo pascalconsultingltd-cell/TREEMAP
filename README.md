@@ -1,6 +1,6 @@
 # TREEMAP
 
-Two cities, switched with the London / Barcelone toggle (or `?city=bcn`): London (NW5 2TE) and Barcelona (Carrer del Comte Borrell 84).
+Three cities, switched with the London / Barcelone / Nice toggle (or `?city=bcn`, `?city=nice`): London (NW5 2TE), Barcelona (Carrer del Comte Borrell 84) and Nice (Place de la Libération).
 
 HTML/JavaScript map of street and park trees within a 1 km radius of NW5 2TE (London).
 
@@ -26,6 +26,10 @@ HTML/JavaScript map of street and park trees within a 1 km radius of NW5 2TE (Lo
 - 🧭 nearest tree arrow (follows the compass), + for the next height up.
 - Phones: bottom sheet, 📍 location that follows you, long press for one species.
 - Offline: `sw.js` keeps both cities and all photos on the device. Interface in FR or EN.
+
+## Nice
+- Official open data has tree positions only, no species. `fetch_trees_nice.py` uses GBIF sightings (iNaturalist and Pl@ntNet, CC BY and CC BY-NC) within 1 km of Place de la Libération: 30 m accuracy or better, trees and shrubs from any source, edible herbs only when confirmed by people. Not an inventory, and most identifications come from software: check before eating.
+- `basemap_nice.js`: `python fetch_basemap.py 43.7104022 7.2621427 basemap_nice.js`.
 
 ## Barcelona
 - `fetch_trees_bcn.py`: Open Data BCN street, zone and park trees (CC BY 4.0) within 1 km of Comte Borrell 84 into `trees_bcn.js` (no height, canopy or girth in this data).
