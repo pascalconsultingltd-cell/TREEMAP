@@ -120,7 +120,7 @@ addEventListener('error', hideSplash); setTimeout(hideSplash, 20000);
 // City: ?city=bcn or nice, or the last one chosen on this device, London by default; its basemap and trees load before the map script
 const CITY = (c => ['bcn', 'nice'].includes(c) ? c : 'london')(new URLSearchParams(location.search).get('city') || (() => { try { return localStorage.getItem('treemap.city'); } catch (e) {} })());
 const SFX = CITY === 'london' ? '' : '_' + CITY;
-const V = '?v=20261030c';  // bump when data files change, so browsers don't keep stale copies
+const V = '?v=20261030d';  // bump when data files change, so browsers don't keep stale copies
 document.write(`<script src="basemap${SFX}.js${V}"><\/script><script src="trees${SFX}.js${V}"><\/script>`);
 </script>
 <script>document.write(`<script src="photos.js${V}"><\/script>`);</script>

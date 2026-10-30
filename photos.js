@@ -1882,5 +1882,463 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Ecorce_de_peublier_blanc_(1).JPG",
 "credit": "Jean-Pierre Bazard Jpbazard, CC BY 4.0"
 }
+},
+"Bay": {
+"summer": {
+"src": "photos/Bay_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Eucalyptus_gunnii_Laurus_nobilis.jpg",
+"credit": "Peter Chadzidocev, CC BY-SA 4.0",
+"season": "summer"
+},
+"flower": {
+"src": "photos/Bay_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Laurel_flower.jpg",
+"credit": "Photoexpo, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Bay_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Laurus_nobilis._Llor%C3%A9u_(frutu).jpg",
+"credit": "SABENCIA Bertu Ordiales, CC BY-SA 4.0"
+},
+"spring": {
+"src": "photos/Bay_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Eucalyptus_gunnii_Laurus_nobilis.jpg",
+"credit": "Peter Chadzidocev, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Bay_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Eucalyptus_gunnii_Laurus_nobilis.jpg",
+"credit": "Peter Chadzidocev, CC BY-SA 4.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Bay_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Eucalyptus_gunnii_Laurus_nobilis.jpg",
+"credit": "Peter Chadzidocev, CC BY-SA 4.0",
+"season": "summer"
+}
+},
+"Quince": {
+"spring": {
+"src": "photos/Quince_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Ab_plant_1796.jpg",
+"credit": "Andrey Butko, CC BY-SA 3.0",
+"season": "spring"
+},
+"flower": {
+"src": "photos/Quince_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:A_quince_flower.jpg",
+"credit": "Spring's Flowers, CC0"
+},
+"fruit": {
+"src": "photos/Quince_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Fruit_setting_of_Cydonia_oblonga.jpg",
+"credit": "Mirishkorlik, CC BY-SA 4.0"
+},
+"summer": {
+"src": "photos/Quince_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Ab_plant_1796.jpg",
+"credit": "Andrey Butko, CC BY-SA 3.0",
+"season": "spring"
+},
+"autumn": {
+"src": "photos/Quince_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Ab_plant_1796.jpg",
+"credit": "Andrey Butko, CC BY-SA 3.0",
+"season": "spring"
+},
+"winter": {
+"src": "photos/Quince_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Ab_plant_1796.jpg",
+"credit": "Andrey Butko, CC BY-SA 3.0",
+"season": "spring"
+}
+},
+"Myrtle": {
+"summer": {
+"src": "photos/Myrtle_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Myrtus_communis_subsp._tarentina.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0",
+"season": "summer"
+},
+"flower": {
+"src": "photos/Myrtle_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Myrtus_communis,_Common_Myrtle_-_geograph.org.uk_-_5851074.jpg",
+"credit": "Jonathan Billinger, CC BY-SA 2.0"
+},
+"fruit": {
+"src": "photos/Myrtle_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Starr-080326-3696-Myrtus_communis-leaves_and_fruit-Lower_Kimo_Rd_Kula-Maui_(24906265215).jpg",
+"credit": "Forest and Kim Starr, CC BY 3.0 us"
+},
+"spring": {
+"src": "photos/Myrtle_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Myrtus_communis_subsp._tarentina.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Myrtle_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Myrtus_communis_subsp._tarentina.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Myrtle_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Myrtus_communis_subsp._tarentina.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0",
+"season": "summer"
+}
+},
+"Prickly pear": {
+"summer": {
+"src": "photos/Prickly_pear_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Opuntia_ficus-indica_(Jardin_des_plantes).jpg",
+"credit": "The original uploader was Bouba at French Wikipedia., CC BY-SA 3.0",
+"season": "summer"
+},
+"flower": {
+"src": "photos/Prickly_pear_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Prickly_Pear_flower_(10869180176).jpg",
+"credit": "John Tann from Sydney, Australia, CC BY 2.0"
+},
+"fruit": {
+"src": "photos/Prickly_pear_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Opuntia_stricta_fruit.jpg",
+"credit": "Christian COGNEAUX, CC BY-SA 3.0"
+},
+"spring": {
+"src": "photos/Prickly_pear_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Opuntia_ficus-indica_(Jardin_des_plantes).jpg",
+"credit": "The original uploader was Bouba at French Wikipedia., CC BY-SA 3.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Prickly_pear_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Opuntia_ficus-indica_(Jardin_des_plantes).jpg",
+"credit": "The original uploader was Bouba at French Wikipedia., CC BY-SA 3.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Prickly_pear_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Opuntia_ficus-indica_(Jardin_des_plantes).jpg",
+"credit": "The original uploader was Bouba at French Wikipedia., CC BY-SA 3.0",
+"season": "summer"
+}
+},
+"Plantain": {
+"summer": {
+"src": "photos/Plantain_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20160826Plantago_lanceolata2.jpg",
+"credit": "AnRo0002, CC0",
+"season": "summer"
+},
+"flower": {
+"src": "photos/Plantain_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Plantago_lanceolata_-_Kulna.jpg",
+"credit": "Ivar Leidus, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Plantain_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Plantago_lanceolata_146442176.jpg",
+"credit": "Michel Langeveld, CC BY-SA 4.0"
+},
+"spring": {
+"src": "photos/Plantain_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20160826Plantago_lanceolata2.jpg",
+"credit": "AnRo0002, CC0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Plantain_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20160826Plantago_lanceolata2.jpg",
+"credit": "AnRo0002, CC0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Plantain_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:20160826Plantago_lanceolata2.jpg",
+"credit": "AnRo0002, CC0",
+"season": "summer"
+}
+},
+"Dandelion": {
+"spring": {
+"src": "photos/Dandelion_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D8%B7%D8%B1%D8%AE%D8%B4%D9%82%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%AE%D8%B2%D9%86%D9%8A_(Taraxacum_officinale)%D8%8C_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%88%D9%81_%D8%A3%D9%8A%D8%B6%D8%A7%D9%8B_%D8%A8%D8%A7%D8%B3%D9%85_%D8%A7%D9%84%D9%87%D9%86%D8%AF%D8%A8%D8%A7%D8%A1_%D8%A7%D9%84%D8%A8%D8%B1%D9%8A%D8%A9..jpg",
+"credit": "هشام أبورجاء, CC BY-SA 4.0",
+"season": "spring"
+},
+"flower": {
+"src": "photos/Dandelion_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Nottuln,_Stevertal_--_2019_--_4300.jpg",
+"credit": "Dietmar Rabich, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Dandelion_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Dandelion_clock.jpg",
+"credit": "Markus Bernet, CC BY-SA 2.0"
+},
+"summer": {
+"src": "photos/Dandelion_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D8%B7%D8%B1%D8%AE%D8%B4%D9%82%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%AE%D8%B2%D9%86%D9%8A_(Taraxacum_officinale)%D8%8C_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%88%D9%81_%D8%A3%D9%8A%D8%B6%D8%A7%D9%8B_%D8%A8%D8%A7%D8%B3%D9%85_%D8%A7%D9%84%D9%87%D9%86%D8%AF%D8%A8%D8%A7%D8%A1_%D8%A7%D9%84%D8%A8%D8%B1%D9%8A%D8%A9..jpg",
+"credit": "هشام أبورجاء, CC BY-SA 4.0",
+"season": "spring"
+},
+"autumn": {
+"src": "photos/Dandelion_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D8%B7%D8%B1%D8%AE%D8%B4%D9%82%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%AE%D8%B2%D9%86%D9%8A_(Taraxacum_officinale)%D8%8C_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%88%D9%81_%D8%A3%D9%8A%D8%B6%D8%A7%D9%8B_%D8%A8%D8%A7%D8%B3%D9%85_%D8%A7%D9%84%D9%87%D9%86%D8%AF%D8%A8%D8%A7%D8%A1_%D8%A7%D9%84%D8%A8%D8%B1%D9%8A%D8%A9..jpg",
+"credit": "هشام أبورجاء, CC BY-SA 4.0",
+"season": "spring"
+},
+"winter": {
+"src": "photos/Dandelion_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D8%B7%D8%B1%D8%AE%D8%B4%D9%82%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%AE%D8%B2%D9%86%D9%8A_(Taraxacum_officinale)%D8%8C_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%88%D9%81_%D8%A3%D9%8A%D8%B6%D8%A7%D9%8B_%D8%A8%D8%A7%D8%B3%D9%85_%D8%A7%D9%84%D9%87%D9%86%D8%AF%D8%A8%D8%A7%D8%A1_%D8%A7%D9%84%D8%A8%D8%B1%D9%8A%D8%A9..jpg",
+"credit": "هشام أبورجاء, CC BY-SA 4.0",
+"season": "spring"
+}
+},
+"Purslane": {
+"summer": {
+"src": "photos/Purslane_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Protulaca_oleracea_-_whole_plant_(18439845714).jpg",
+"credit": "NY State IPM Program  at Cornell University from New York, U, CC BY 2.0",
+"season": "summer"
+},
+"flower": {
+"src": "photos/Purslane_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:A_honey_bee_near_flower_of_common_purslane_Portulaca_oleracea_03.jpg",
+"credit": "Bobjgalindo, CC BY 4.0"
+},
+"fruit": {
+"src": "photos/Purslane_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:6H-diGangi-Purslane-Seed-Pods.jpg",
+"credit": "6th Happiness, CC BY-SA 3.0"
+},
+"spring": {
+"src": "photos/Purslane_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Protulaca_oleracea_-_whole_plant_(18439845714).jpg",
+"credit": "NY State IPM Program  at Cornell University from New York, U, CC BY 2.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Purslane_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Protulaca_oleracea_-_whole_plant_(18439845714).jpg",
+"credit": "NY State IPM Program  at Cornell University from New York, U, CC BY 2.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Purslane_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Protulaca_oleracea_-_whole_plant_(18439845714).jpg",
+"credit": "NY State IPM Program  at Cornell University from New York, U, CC BY 2.0",
+"season": "summer"
+}
+},
+"Nasturtium": {
+"summer": {
+"src": "photos/Nasturtium_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Plants_enjoying_the_rain.jpg",
+"credit": "Micolo J from Shrewsbury, England, CC BY 2.0",
+"season": "summer"
+},
+"flower": {
+"src": "photos/Nasturtium_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Orange_Nasturtium_Flower_-_Shola_Gardens_-_Kotagiri.jpg",
+"credit": "Sankar 1995, CC BY-SA 4.0"
+},
+"spring": {
+"src": "photos/Nasturtium_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Plants_enjoying_the_rain.jpg",
+"credit": "Micolo J from Shrewsbury, England, CC BY 2.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Nasturtium_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Plants_enjoying_the_rain.jpg",
+"credit": "Micolo J from Shrewsbury, England, CC BY 2.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Nasturtium_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Plants_enjoying_the_rain.jpg",
+"credit": "Micolo J from Shrewsbury, England, CC BY 2.0",
+"season": "summer"
+}
+},
+"French scorzonera": {
+"spring": {
+"src": "photos/French_scorzonera_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Starr_050225-4550_Reichardia_picroides.jpg",
+"credit": "Forest & Kim Starr, CC BY 3.0",
+"season": "spring"
+},
+"flower": {
+"src": "photos/French_scorzonera_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Crepidinae_sp._(Slovenia).jpg",
+"credit": "Petar Milošević, CC BY-SA 4.0"
+},
+"summer": {
+"src": "photos/French_scorzonera_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Starr_050225-4550_Reichardia_picroides.jpg",
+"credit": "Forest & Kim Starr, CC BY 3.0",
+"season": "spring"
+},
+"autumn": {
+"src": "photos/French_scorzonera_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Starr_050225-4550_Reichardia_picroides.jpg",
+"credit": "Forest & Kim Starr, CC BY 3.0",
+"season": "spring"
+},
+"winter": {
+"src": "photos/French_scorzonera_spring.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Starr_050225-4550_Reichardia_picroides.jpg",
+"credit": "Forest & Kim Starr, CC BY 3.0",
+"season": "spring"
+}
+},
+"Oleander": {
+"summer": {
+"src": "photos/Oleander_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Nerium_oleander_bush.jpg",
+"credit": "Prahlad balaji, CC BY-SA 4.0",
+"season": "summer"
+},
+"flower": {
+"src": "photos/Oleander_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Aralli_Flowers.jpg",
+"credit": "R vasudevan, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Oleander_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Amyema_congener_fruit_in_Nerium_oleander_7th_Brigade_Park_Chermside_P1010520.jpg",
+"credit": "John Robert McPherson, CC BY-SA 4.0"
+},
+"spring": {
+"src": "photos/Oleander_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Nerium_oleander_bush.jpg",
+"credit": "Prahlad balaji, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Oleander_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Nerium_oleander_bush.jpg",
+"credit": "Prahlad balaji, CC BY-SA 4.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Oleander_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Nerium_oleander_bush.jpg",
+"credit": "Prahlad balaji, CC BY-SA 4.0",
+"season": "summer"
+}
+},
+"Pittosporum": {
+"summer": {
+"src": "photos/Pittosporum_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Pittosporum_tobira_kz02.jpg",
+"credit": "Krzysztof Ziarnek, Kenraiz, CC BY-SA 4.0",
+"season": "summer"
+},
+"flower": {
+"src": "photos/Pittosporum_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Japanese_Cheesewood_--_Pittosporum_tobira.jpg",
+"credit": "Jim Evans, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Pittosporum_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Starr-090519-8101-Pittosporum_tobira-fruiting_habit-Kula-Maui_(24328901493).jpg",
+"credit": "Forest and Kim Starr, CC BY 3.0 us"
+},
+"spring": {
+"src": "photos/Pittosporum_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Pittosporum_tobira_kz02.jpg",
+"credit": "Krzysztof Ziarnek, Kenraiz, CC BY-SA 4.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Pittosporum_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Pittosporum_tobira_kz02.jpg",
+"credit": "Krzysztof Ziarnek, Kenraiz, CC BY-SA 4.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Pittosporum_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Pittosporum_tobira_kz02.jpg",
+"credit": "Krzysztof Ziarnek, Kenraiz, CC BY-SA 4.0",
+"season": "summer"
+}
+},
+"Laurustinus": {
+"winter": {
+"src": "photos/Laurustinus_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Viburnum_tinus_-_Inflorescence.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0",
+"season": "winter"
+},
+"flower": {
+"src": "photos/Laurustinus_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Apis_mellifera_on_Viburnum_tinus_01.jpg",
+"credit": "Syrio, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Laurustinus_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Bacche_di_Viburnum_tinus.jpg",
+"credit": "PROPOLI87, CC BY-SA 4.0"
+},
+"spring": {
+"src": "photos/Laurustinus_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Viburnum_tinus_-_Inflorescence.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0",
+"season": "winter"
+},
+"summer": {
+"src": "photos/Laurustinus_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Viburnum_tinus_-_Inflorescence.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0",
+"season": "winter"
+},
+"autumn": {
+"src": "photos/Laurustinus_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Viburnum_tinus_-_Inflorescence.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0",
+"season": "winter"
+}
+},
+"Mastic tree": {
+"summer": {
+"src": "photos/Mastic_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Pistacia_lentiscus_001.jpg",
+"credit": "H. Zell, CC BY-SA 3.0",
+"season": "summer"
+},
+"flower": {
+"src": "photos/Mastic_tree_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Lentisc_Alcalar_Portugal_22.02.16_(24903068570).jpg",
+"credit": "muffinn from Worcester, UK, CC BY 2.0"
+},
+"fruit": {
+"src": "photos/Mastic_tree_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Pistacia_lentiscus_002.jpg",
+"credit": "H. Zell, CC BY-SA 3.0"
+},
+"spring": {
+"src": "photos/Mastic_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Pistacia_lentiscus_001.jpg",
+"credit": "H. Zell, CC BY-SA 3.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Mastic_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Pistacia_lentiscus_001.jpg",
+"credit": "H. Zell, CC BY-SA 3.0",
+"season": "summer"
+},
+"winter": {
+"src": "photos/Mastic_tree_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Pistacia_lentiscus_001.jpg",
+"credit": "H. Zell, CC BY-SA 3.0",
+"season": "summer"
+}
 }
 };
