@@ -312,7 +312,7 @@ legend.onAdd = () => {
   forage.lastChild.title = 'Une seule espèce choisie dans la légende : grosse flèche vers l’arbre le plus proche';
   forage.lastChild.onclick = toggleGuide;
   L.DomUtil.create('button', 'btn', forage).textContent = '+';
-  forage.lastChild.title = 'Arbre suivant : le prochain plus proche de la même espèce';
+  forage.lastChild.title = 'Arbre suivant de la même espèce : le plus proche de la taille juste au-dessus (sans données de taille : le prochain plus proche)';
   forage.lastChild.onclick = nextGuide;
   // Walk length toggle: 30 min or 1 h (1 h reaches more of the selected species)
   const dur = L.DomUtil.create('span', 'dur', forage);
@@ -393,34 +393,39 @@ function colourBy(k) {
     <div><span class="dot" style="background:#e31a1c"></span>${m.top} : ${top} ${m.unit} (${best.length})</div>`;
 }
 // 🧭 Nearest tree of the one species selected in the legend: big arrow from me (📍 on) or from home, dashed line, name and distance; follows my position
-let guide = null, myPos = null, guideRank = 0;
+let guide = null, myPos = null, guideRank = 0, guideLevel = null, guideNow = null;
+const treeH = t => parseFloat(t.height_m) || 0;
+const guideTrees = () => TREES.filter(x => x.grp === guide && FILTERS.every((f, i) => f.on[x.key[i]]));
 const guideLayer = L.layerGroup().addTo(map);
 function toggleGuide() {
   const b = [...document.querySelectorAll('.panel .btn')].find(x => x.textContent === '🧭 Le plus proche');
   if (guide) { guide = null; guideLayer.clearLayers(); b.classList.remove('active'); return; }
   const sel = all.filter(x => x.on);
   if (sel.length !== 1) return alert('Choisis une seule espèce dans la légende (clic droit, ou appui long sur un arbre), puis appuie sur 🧭.');
-  guide = sel[0]; guideRank = 0; b.classList.add('active');
+  guide = sel[0]; guideRank = 0; guideLevel = null; b.classList.add('active');
   fitGuide(drawGuide());
 }
 const fitGuide = t => { if (t) map.fitBounds(L.latLngBounds([myPos || CENTRE, [t.lat, t.lon]]), { paddingTopLeft: [60, 60], paddingBottomRight: [legendW() + 60, 60], maxZoom: 18 }); };
-// +: the next nearest tree of the same species, back to the nearest after the last
+// +: the nearest tree of the next height up, then the next, back to the nearest after the tallest; without height data, simply the next nearest
 function nextGuide() {
   if (!guide) return toggleGuide();
-  guideRank++; fitGuide(drawGuide());
+  const levels = [...new Set(guideTrees().map(treeH).filter(h => h > 0))].sort((a, b) => a - b);
+  if (levels.length && guideNow) { const up = levels.find(h => h > treeH(guideNow)); guideLevel = up === undefined ? null : up; } else guideRank++;
+  fitGuide(drawGuide());
 }
 function drawGuide() {
   guideLayer.clearLayers();
   const from = myPos || CENTRE;
-  const near = TREES.filter(x => x.grp === guide && FILTERS.every((f, i) => f.on[x.key[i]])).map(x => [dist(from, [x.lat, x.lon]), x]).sort((a, b) => a[0] - b[0]);
+  const near = guideTrees().map(x => [dist(from, [x.lat, x.lon]), x]).sort((a, b) => a[0] - b[0]);
   if (!near.length) return null;
-  const rank = guideRank % near.length, [bd, t] = near[rank];
+  const rank = guideRank % near.length, [bd, t] = (guideLevel !== null && near.find(n => treeH(n[1]) === guideLevel)) || near[rank];
+  guideNow = t;
   const deg = Math.atan2((t.lon - from[1]) * Math.cos(from[0] * rad), t.lat - from[0]) / rad;  // compass bearing, 0 = north
   L.polyline([from, [t.lat, t.lon]], { color: guide.c, weight: 3, dashArray: '6 8', interactive: false }).addTo(guideLayer);
   L.marker(from, { interactive: false, zIndexOffset: 1000, icon: L.divIcon({ className: 'guide', iconSize: [70, 70], iconAnchor: [35, 35],
     html: `<div style="transform:rotate(${deg}deg);color:${guide.c}">⬆</div>` }) }).addTo(guideLayer);
   L.marker([t.lat, t.lon], { interactive: false, zIndexOffset: 1000, icon: L.divIcon({ className: 'gtip', iconSize: null, iconAnchor: [0, 34],
-    html: `<span>🧭 ${rank + 1}/${near.length} ${frName(t)} · ${Math.round(bd)} m (${Math.max(1, Math.round(bd / 83.3))} min)</span>` }) }).addTo(guideLayer);
+    html: `<span>🧭 ${treeH(t) ? treeH(t) + ' m de haut' : (rank + 1) + '/' + near.length} ${frName(t)} · ${Math.round(bd)} m (${Math.max(1, Math.round(bd / 83.3))} min)</span>` }) }).addTo(guideLayer);
   return t;
 }
 // 📍 My location: live blue dot with its accuracy circle; first fix zooms in, then the map stays where you put it. Needs https (GitHub Pages) or localhost
