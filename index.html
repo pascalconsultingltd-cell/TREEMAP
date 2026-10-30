@@ -203,7 +203,8 @@ const sheetH = () => PHONE && document.body.classList.contains('open') ? sideBox
 const centreTree = t => { const p = map.latLngToContainerPoint([t.lat, t.lon]), z = map.getSize(); map.panBy([p.x - z.x / 2, p.y - (z.y - sheetH()) / 2]); };
 // Fit padding keeping a route clear of the sheet (phone) or the legend (computer)
 const pad = n => ({ paddingTopLeft: [n, n], paddingBottomRight: PHONE ? [n, sheetH() + n] : [legendW() + n, n] });
-const foldOnPhone = () => { const p = document.querySelector('.panel'); if (PHONE && !p.classList.contains('folded')) p.querySelector('.fold').click(); };
+// Phones: fold the legend, and its filters block with it
+const foldOnPhone = () => { const p = document.querySelector('.panel'); if (!PHONE) return; if (!p.querySelector('.filters').classList.contains('shut')) p.querySelector('.fhead').click(); if (!p.classList.contains('folded')) p.querySelector('.fold').click(); };
 // The legend scrolls inside the visible map, whatever its height (phone bars, photo panel open), above the credits line
 const fitLegend = () => { const p = document.querySelector('.panel'); if (p) p.style.maxHeight = (map.getSize().y - sheetH() - 44) + 'px'; };
 const showSide = t => { showPhotos(group(t).trim(), t.common_name, `${frName(t)} · <i>${t.taxon_species}</i>`, PHONE ? t.info() : ''); if (PHONE) centreTree(t); };
@@ -311,7 +312,7 @@ TREES.slice().sort((a, b) => !!SPECIAL[group(a)] - !!SPECIAL[group(b)]).forEach(
   const details = () => `${food ? _('🍎 Comestible : ') + food : cls ? _('🍵 Tisane : ') + tea(t) : _('Non comestible')}${inSeason(t) ? _(' · ✅ de saison') : ''} · ${leaf ? _('🌲 Persistant') : _('🍂 Caduc')}<br>${sex ? SEX_FR[sex] : _('♂♀ Dioïque (arbre mâle ou femelle)')}${bee ? _(' · 🐝 ami des abeilles') : ''}${tox ? _(' · ☠️ toxique') : ''}<br>${_('Âge')} : ${t.age_cat}<br>${_('Hauteur')} : ${t.height_m} · ${_('Couronne')} : ${t.canopy_m} · ${_('Tronc')} : ${t.girth_dbh}<br>${_('Adaptation au climat')} : ${t.climate_suitability}<br>${t.location} · ${t.maintainer}<br>${t.dist}${_(' m de ')}${HOMENAME}<br><button class="btn" onclick="showRoute(${t.uniqueid})">${_('Itinéraire depuis ')}${HOMENAME}</button><div id="route${t.uniqueid}"></div>`;
   t.info = () => `<div class="tinfo">${details()}</div>`;
   t.marker = L.circleMarker([t.lat, t.lon], { bubblingMouseEvents: false, radius: r, color: special ? '#000' : '#0006', weight: special ? 1.5 : 0.5, fillColor: grp.c, fillOpacity: special ? 1 : 0.8 })
-    .on('click', () => showSide(t))
+    .on('click', () => { foldOnPhone(); showSide(t); })
     .on('contextmenu', e => { L.DomEvent.preventDefault(e.originalEvent); if (Date.now() - longPressAt > 1500) soloGroup(grp, t); })  // right-click on a computer
     .addTo(grp.layers[t.key] ||= L.layerGroup());
   if (!PHONE) t.marker.bindPopup(() => `<b>${t.common_name}</b> · ${frName(t)}<br><i>${t.taxon_species}</i><br>${details()}`, { maxWidth: 260 });
@@ -336,7 +337,7 @@ map.getContainer().addEventListener('pointermove', e => { if (lpTimer && Math.hy
 ['pointerup', 'pointercancel'].forEach(ev => map.getContainer().addEventListener(ev, lpCancel));
 map.getContainer().addEventListener('contextmenu', e => { if (Date.now() - longPressAt < 1500) e.preventDefault(); });
 // A tap on the empty map closes an open tree or species panel (a walk's list stays); ignores the tap ending a long press
-map.on('click', () => { if (photosOpen && Date.now() - longPressAt > 800) closeSheet(); });
+map.on('click', () => { foldOnPhone(); if (photosOpen && Date.now() - longPressAt > 800) closeSheet(); });
 // ✕, a drag down or a map tap: a tree's panel gives way to the walk bar during walk mode; the walk bar's ✕ leaves walk mode
 function closeSheet() {
   if (walkMode && photosOpen) return walkBar();
