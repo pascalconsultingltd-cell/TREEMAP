@@ -9,7 +9,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#4f8f47">
 <meta name="apple-mobile-web-app-title" content="Tree Map">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="lib/leaflet/leaflet.min.css">
 <style>
   html, body { height: 100%; margin: 0; font-family: system-ui, sans-serif; }
   body { display: flex; }
@@ -71,6 +71,8 @@
   #side .back { margin: 0 0 8px; } #side li { cursor: pointer; } #side li:hover { background: #0001; }
   #side h4 { margin: 12px 0 6px; }
   #side figcaption { font-size: 12px; text-align: center; } #side figure.on img { outline: 3px solid #2a6; }
+  #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 2500; background: #222d; color: #fff; padding: 8px 14px; border-radius: 18px; font-size: 13px; max-width: 86vw; text-align: center; pointer-events: none; opacity: 0; transition: opacity .3s; }
+  #toast.show { opacity: 1; }
   .btn { margin: 4px 4px 6px 0; padding: 3px 8px; border: 1px solid #888; border-radius: 12px; background: #e8f5e0; cursor: pointer; font: inherit; }
   .btn.off { background: #fff; opacity: 0.45; text-decoration: line-through; }
   .row.off { opacity: 0.35; text-decoration: line-through; }
@@ -80,8 +82,9 @@
 <body>
 <div id="side"><div id="grab"></div><span id="closeSide" title="Fermer" onclick="showSide0(false)">✕</span><div id="sideBody"></div></div>
 <div id="map"></div>
+<div id="toast"></div>
 <div id="lightbox" onclick="if (event.target === this) closeBig()"><span id="lbClose" title="Fermer" onclick="closeBig()">✕</span><img id="lbImg"><div id="lbCap"></div></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="lib/leaflet/leaflet.min.js"></script>
 <script>
 // City: ?city=bcn or the last one chosen on this device, London by default; its basemap and trees load before the map script
 const CITY = (new URLSearchParams(location.search).get('city') || (() => { try { return localStorage.getItem('treemap.city'); } catch (e) {} })()) === 'bcn' ? 'bcn' : 'london';
@@ -649,6 +652,26 @@ const openSaved = id => { const w = loadWalks().find(x => x.id === id); if (w) s
 
 fillWalks();
 openFromHash();
+// Short message at the bottom of the screen
+function toast(msg, ms = 3000) { const el = document.getElementById('toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(el.t); el.t = setTimeout(() => el.classList.remove('show'), ms); }
+// Offline: once the service worker runs, quietly store both cities and every photo (about 40 MB), a few files at a time, and drop data from older versions
+async function cacheForOffline() {
+  if (!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) return;
+  await navigator.serviceWorker.register('sw.js');
+  await navigator.serviceWorker.ready;
+  const c = await caches.open('treemap-1');
+  const core = ['icon.svg', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest', 'lib/leaflet/leaflet.min.js', 'lib/leaflet/leaflet.min.css',
+    'lib/leaflet/images/marker-icon.png', 'lib/leaflet/images/marker-icon-2x.png', 'lib/leaflet/images/marker-shadow.png', 'lib/leaflet/images/layers.png', 'lib/leaflet/images/layers-2x.png',
+    ...['basemap.js', 'trees.js', 'basemap_bcn.js', 'trees_bcn.js', 'photos.js'].map(f => f + V)];
+  const pics = [...new Set(Object.values(PHOTOS).flatMap(p => Object.values(p).map(x => x.src)))];
+  const urls = [...core, ...pics], have = new Set((await c.keys()).map(r => r.url)), abs = u => new URL(u, location.href).href;
+  (await c.keys()).filter(r => /\?v=/.test(r.url) && !r.url.endsWith(V)).forEach(r => c.delete(r));
+  const todo = urls.filter(u => !have.has(abs(u)));
+  if (!have.has(abs('index.html'))) c.add('index.html').catch(() => {});
+  for (let i = 0; i < todo.length; i += 6) await Promise.all(todo.slice(i, i + 6).map(u => c.add(u).catch(() => {})));
+  if (todo.length) toast('✅ Carte disponible hors ligne');
+}
+addEventListener('load', () => cacheForOffline().catch(() => {}));
 </script>
 </body>
 </html>
