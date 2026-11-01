@@ -44,6 +44,11 @@ const PHOTOS = {
 "src": "photos/Chestnut_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Burghley_House_Park_Mature_Castanea_sativa_bark_d%C3%A9tail.jpg",
 "credit": "Lamiot, CC BY-SA 4.0"
+},
+"plate": {
+"src": "photos/Chestnut_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Castanea_sativa0_clean.jpg",
+"credit": "Castanea sativa · O. W. Thomé (1885), Kilom691, CC BY-SA 3.0"
 }
 },
 "Yew": {
@@ -85,6 +90,11 @@ const PHOTOS = {
 "src": "photos/Yew_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:20130903Taxus_baccata5.jpg",
 "credit": "AnRo0002, CC0"
+},
+"plate": {
+"src": "photos/Yew_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Taxus_baccata0.jpg",
+"credit": "Taxus baccata · O. W. Thomé (1885), Public domain"
 }
 },
 "Pine": {
@@ -131,6 +141,11 @@ const PHOTOS = {
 "src": "photos/Pine_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Pine_Texture_(52671923120).jpg",
 "credit": "Alan Levine from Archydal, Canada, CC0"
+},
+"plate": {
+"src": "photos/Pine_plate.png",
+"page": "https://commons.wikimedia.org/wiki/File:NAS-135_Pinus_pinea.png",
+"credit": "Pinus pinea · François André Michaux (book author), Augustus Lucas Hillhou, Public domain"
 }
 },
 "Hazel": {
@@ -177,6 +192,11 @@ const PHOTOS = {
 "src": "photos/Hazel_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Corylus_avellana_bark_Siemianowice.jpg",
 "credit": "Adrian Tync, CC BY-SA 4.0"
+},
+"plate": {
+"src": "photos/Hazel_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Corylus_avellana0_clean.jpg",
+"credit": "Corylus avellana · O. W. Thomé (1885), Kilom691, Public domain"
 }
 },
 "Turkish hazel": {
@@ -269,6 +289,11 @@ const PHOTOS = {
 "src": "photos/Cherry_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:20200619Prunus_avium2.jpg",
 "credit": "AnRo0002, CC0"
+},
+"plate": {
+"src": "photos/Cherry_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Prunus_avium0_clean.jpg",
+"credit": "Prunus avium · O. W. Thomé (1885), Public domain"
 }
 },
 "Maple": {
@@ -315,6 +340,11 @@ const PHOTOS = {
 "src": "photos/Maple_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:20140211Acer_platanoides2.jpg",
 "credit": "AnRo0002, CC0"
+},
+"plate": {
+"src": "photos/Maple_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Acer_platanoides0_clean.jpg",
+"credit": "Acer platanoides · O. W. Thomé (1885), Kilom691, CC BY-SA 3.0"
 }
 },
 "Lime": {
@@ -356,6 +386,11 @@ const PHOTOS = {
 "src": "photos/Lime_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Detail_-_Lime_tree_with_lenticels_on_the_bark._Anderson_Plantation,_Lainshaw_Woods,_Stewarton.jpg",
 "credit": "Rosser1954, CC BY 4.0"
+},
+"plate": {
+"src": "photos/Lime_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:K%C3%B6hler%27s_Medizinal-Pflanzen_in_naturgetreuen_Abbildungen_mit_kurz_erl%C3%A4uterndem_Texte_(Plate_15)_BHL303592.jpg",
+"credit": "Tilia · Köhler (1887), Public domain"
 }
 },
 "Plane": {
@@ -392,6 +427,11 @@ const PHOTOS = {
 "src": "photos/Plane_fruit.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:2008_453.jpg",
 "credit": "Lamiot, CC BY 3.0"
+},
+"plate": {
+"src": "photos/Plane_plate.png",
+"page": "https://commons.wikimedia.org/wiki/File:WWB-0303-148-Platanus_orientalis.png",
+"credit": "Platanus orientalis · Edward Step, Public domain"
 }
 },
 "Ash": {
@@ -438,6 +478,11 @@ const PHOTOS = {
 "src": "photos/Ash_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:2021-03-09_13_48_47_European_Ash_bark_along_Stone_Heather_Drive_in_the_Chantilly_Highlands_section_of_Oak_Hill,_Fairfax_County,_Virginia.jpg",
 "credit": "Famartin, CC BY-SA 4.0"
+},
+"plate": {
+"src": "photos/Ash_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Fraxinus_excelsior1.jpg",
+"credit": "Fraxinus excelsior · O. W. Thomé (1885), Public domain"
 }
 },
 "Birch": {
@@ -479,6 +524,11 @@ const PHOTOS = {
 "src": "photos/Birch_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:20130315Birke_Hockenheim3.jpg",
 "credit": "AnRo0002, CC0"
+},
+"plate": {
+"src": "photos/Birch_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Betula_pendula_very_clean.jpg",
+"credit": "Betula pendula · O. W. Thomé (1885), Public domain"
 }
 },
 "Apple": {
@@ -515,6 +565,11 @@ const PHOTOS = {
 "src": "photos/Apple_fruit.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Haux_Apfel_Freilichtmuseum_Roscheider_Hof_Frucht_H2.jpg",
 "credit": "Helge Klaus Rieder, CC0"
+},
+"plate": {
+"src": "photos/Apple_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Malus_domestica0.jpg",
+"credit": "Malus domestica · O. W. Thomé (1885), Public domain"
 }
 },
 "Sycamore": {
@@ -561,6 +616,11 @@ const PHOTOS = {
 "src": "photos/Sycamore_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Acer_pseudoplatanus_6zz.jpg",
 "credit": "Photo by David J. Stang, CC BY-SA 4.0"
+},
+"plate": {
+"src": "photos/Sycamore_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Acer_Pseudo-Platanus_(modern%3DAcer_pseudoplatanus)_-_Pl0300_-_FloraBatava-KB-v04.jpg",
+"credit": "Acer pseudoplatanus · Flora Batava, Public domain"
 }
 },
 "Whitebeam": {
@@ -602,6 +662,11 @@ const PHOTOS = {
 "src": "photos/Whitebeam_fruit.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:SORBUS_ARIA_(Alisier_blanc).jpg",
 "credit": "Espirat, CC BY-SA 4.0"
+},
+"plate": {
+"src": "photos/Whitebeam_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Svensk_botanik_(Plate_45)_(6120325414).jpg",
+"credit": "Sorbus aria · Svensk botanik, Public domain"
 }
 },
 "Mulberry": {
@@ -643,6 +708,11 @@ const PHOTOS = {
 "src": "photos/Mulberry_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Morus_nigra_(13).jpg",
 "credit": "Marija Gajić, CC BY-SA 4.0"
+},
+"plate": {
+"src": "photos/Mulberry_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Morus_nigra0.jpg",
+"credit": "Morus nigra · O. W. Thomé (1885), Public domain"
 }
 },
 "Beech": {
@@ -684,6 +754,11 @@ const PHOTOS = {
 "src": "photos/Beech_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Dahlen_Heide_Baumdetail.jpg",
 "credit": "Radler59 (talk), CC BY-SA 4.0"
+},
+"plate": {
+"src": "photos/Beech_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Fagus_sylvatica0_clean.jpg",
+"credit": "Fagus sylvatica · O. W. Thomé (1885), Kilom691, Public domain"
 }
 },
 "Pear": {
@@ -725,6 +800,11 @@ const PHOTOS = {
 "src": "photos/Pear_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:20140212Pyrus_communis04.jpg",
 "credit": "AnRo0002, CC0"
+},
+"plate": {
+"src": "photos/Pear_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Pyrus_communis_cleaned01.JPG",
+"credit": "Pyrus communis · O. W. Thomé (1885), Public domain"
 }
 },
 "Hawthorn": {
@@ -771,6 +851,11 @@ const PHOTOS = {
 "src": "photos/Hawthorn_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Crataegus_monogyna_corteza.JPG",
 "credit": "Robertito1965, CC BY 3.0"
+},
+"plate": {
+"src": "photos/Hawthorn_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Crataegus_laevigata1.jpg",
+"credit": "Crataegus laevigata · O. W. Thomé (1885), Public domain"
 }
 },
 "Elder": {
@@ -817,6 +902,11 @@ const PHOTOS = {
 "src": "photos/Elder_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:20140225Holunder_Saarbruecken2.jpg",
 "credit": "AnRo0002, CC0"
+},
+"plate": {
+"src": "photos/Elder_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Sambucus_nigra0.jpg",
+"credit": "Sambucus nigra · O. W. Thomé (1885), Public domain"
 }
 },
 "Ginkgo": {
@@ -858,6 +948,11 @@ const PHOTOS = {
 "src": "photos/Ginkgo_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:2021-03-02_17_19_54_Ginkgo_bark_along_White_Barn_Court_in_the_Franklin_Farm_section_of_Oak_Hill,_Fairfax_County,_Virginia.jpg",
 "credit": "Famartin, CC BY-SA 4.0"
+},
+"plate": {
+"src": "photos/Ginkgo_plate.png",
+"page": "https://commons.wikimedia.org/wiki/File:Ginkgo_biloba_SZ136.png",
+"credit": "Ginkgo biloba · Philipp Franz von Siebold and Joseph Gerhard Zuccarini, Public domain"
 }
 },
 "Walnut": {
@@ -904,6 +999,11 @@ const PHOTOS = {
 "src": "photos/Walnut_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:2013_03_30_Kom%C3%ADn_9999_64.JPG",
 "credit": "I.Sáček, senior, CC0"
+},
+"plate": {
+"src": "photos/Walnut_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Juglans_regia1.jpg",
+"credit": "Juglans regia · O. W. Thomé (1885), Public domain"
 }
 },
 "Black walnut": {
@@ -950,6 +1050,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:2024-10-10_14_27_40_Black_Walnut_tree_in_autumn_within_Ann_M._Banchoff_Park_in_the_Mountainview_section_of_Ewing_Township,_Mercer_County,_New_Jersey.jpg",
 "credit": "Famartin, CC BY-SA 4.0",
 "season": "autumn"
+},
+"plate": {
+"src": "photos/Black_walnut_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:A_guide_to_the_trees_(Plate_CXIV)_(8434875659).jpg",
+"credit": "Juglans nigra · Lounsberry, Alice., Public domain"
 }
 },
 "Horse Chestnut": {
@@ -996,6 +1101,11 @@ const PHOTOS = {
 "src": "photos/Horse_Chestnut_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Aesculus_Hippocastanum_bark_-_1.jpg",
 "credit": "Spiritia, CC BY-SA 4.0"
+},
+"plate": {
+"src": "photos/Horse_Chestnut_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Aesculus_hippocastanum0_clean.jpg",
+"credit": "Aesculus hippocastanum · O. W. Thomé (1885), Kilom691, Public domain"
 }
 },
 "Nettle Tree": {
@@ -1211,6 +1321,11 @@ const PHOTOS = {
 "src": "photos/Judas_tree_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:20171019Cercis_siliquastrum4.jpg",
 "credit": "AnRo0002, CC0"
+},
+"plate": {
+"src": "photos/Judas_tree_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Afbeeldingen_der_fraaiste,_meest_uitheemsche_boomen_en_heesters_(Plate_56)_(7899792702).jpg",
+"credit": "Cercis siliquastrum · Krauss, Johan Carl, Public domain"
 }
 },
 "Bottle tree": {
@@ -1349,6 +1464,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Cinamomo_(Melia_azedarach)_em_Bag%C3%A9,_RS,_Brasil,_final_de_outono,_frutificado_e_com_folhas_j%C3%A1_ca%C3%ADdas_-_55335571032.jpg",
 "credit": "O Tupinólogo, CC BY 4.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Chinaberry_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Melia_candollei_Blanco2.420.jpg",
+"credit": "Melia azedarach · Francisco Manuel Blanco (O.S.A.), Public domain"
 }
 },
 "Oak": {
@@ -1395,6 +1515,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Santa_Ana_de_Pusa_(2004)_09.jpg",
 "credit": "LBM1948, CC BY-SA 4.0",
 "season": "autumn"
+},
+"plate": {
+"src": "photos/Oak_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Quercus_robur0_clean.jpg",
+"credit": "Quercus robur · O. W. Thomé (1885), Kilom691, Public domain"
 }
 },
 "Magnolia": {
@@ -1441,6 +1566,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:%27Goliath%27_Magnolia_grandiflora_tree_in_flower_at_Goodnestone_Park_Kent_England_1.jpg",
 "credit": "Acabashi, CC BY-SA 4.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Magnolia_plate.png",
+"page": "https://commons.wikimedia.org/wiki/File:NAS-051_Magnolia_grandiflora.png",
+"credit": "Magnolia grandiflora · François André Michaux (book author), Augustus Lucas Hillhou, Public domain"
 }
 },
 "Privet": {
@@ -1482,6 +1612,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:LigustrumLucidumTrees.jpg",
 "credit": "Taken by  Fanghong, CC BY-SA 3.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Privet_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Ligustrum_vulgare0.jpg",
+"credit": "Ligustrum vulgare · O. W. Thomé (1885), Public domain"
 }
 },
 "Orange": {
@@ -1523,6 +1658,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Bitter_orange_tree.jpg",
 "credit": "Barbara-Ingeborg, CC BY-SA 4.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Orange_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:K%C3%B6hler%27s_Medizinal-Pflanzen_in_naturgetreuen_Abbildungen_mit_kurz_erl%C3%A4uterndem_Texte_(Plate_2)_(7118307733).jpg",
+"credit": "Citrus aurantium · Köhler (1887), Public domain"
 }
 },
 "Pride-of-India": {
@@ -1615,6 +1755,11 @@ const PHOTOS = {
 "src": "photos/Black_locust_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:20160117Robinia_pseudoacacia1.jpg",
 "credit": "AnRo0002, CC0"
+},
+"plate": {
+"src": "photos/Black_locust_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:American_medicinal_plants_(Plate_50)_(6025403949).jpg",
+"credit": "Robinia pseudoacacia · Millspaugh, Charles Frederick, Public domain"
 }
 },
 "Elm": {
@@ -1661,6 +1806,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Siberian_Elm_(IU_Indianapolis).jpg",
 "credit": "Jaireeodell, CC BY 4.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Elm_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Svensk_botanik_(Plate_13)_(6120315064).jpg",
+"credit": "Ulmus · Svensk botanik, Public domain"
 }
 },
 "Carob": {
@@ -1707,6 +1857,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Tree_on_small_farm,_Sant_Carles_de_Peralta,_Ibiza.jpg",
 "credit": "Gerda Arendt, CC0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Carob_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Ceratonia_siliqua_cleaned.jpg",
+"credit": "Ceratonia siliqua · O. W. Thomé (1885), Public domain"
 }
 },
 "Olive": {
@@ -1748,6 +1903,11 @@ const PHOTOS = {
 "src": "photos/Olive_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Olivo_di_Sant%27Emiliano_2304-1011.jpg",
 "credit": "Mozzihh, CC BY-SA 4.0"
+},
+"plate": {
+"src": "photos/Olive_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Olea_europaea0.jpg",
+"credit": "Olea europaea · O. W. Thomé (1885), Public domain"
 }
 },
 "Loquat": {
@@ -1835,6 +1995,11 @@ const PHOTOS = {
 "src": "photos/Fig_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Ficus_carica_009.JPG",
 "credit": "H. Zell, CC BY-SA 3.0"
+},
+"plate": {
+"src": "photos/Fig_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Ficus_carica0_clean.jpg",
+"credit": "Ficus carica · O. W. Thomé (1885), Kilom691, CC BY-SA 3.0"
 }
 },
 "Poplar": {
@@ -1881,6 +2046,11 @@ const PHOTOS = {
 "src": "photos/Poplar_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Ecorce_de_peublier_blanc_(1).JPG",
 "credit": "Jean-Pierre Bazard Jpbazard, CC BY 4.0"
+},
+"plate": {
+"src": "photos/Poplar_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Populus_nigra0.jpg",
+"credit": "Populus nigra · O. W. Thomé (1885), Public domain"
 }
 },
 "Bay": {
@@ -1917,6 +2087,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Eucalyptus_gunnii_Laurus_nobilis.jpg",
 "credit": "Peter Chadzidocev, CC BY-SA 4.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Bay_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Laurus_nobilis0.jpg",
+"credit": "Laurus nobilis · O. W. Thomé (1885), Public domain"
 }
 },
 "Quince": {
@@ -1953,6 +2128,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Ab_plant_1796.jpg",
 "credit": "Andrey Butko, CC BY-SA 3.0",
 "season": "spring"
+},
+"plate": {
+"src": "photos/Quince_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Cydonia_oblonga0.jpg",
+"credit": "Cydonia oblonga · O. W. Thomé (1885), Public domain"
 }
 },
 "Myrtle": {
@@ -1989,6 +2169,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Myrtus_communis_subsp._tarentina.jpg",
 "credit": "Didier Descouens, CC BY-SA 4.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Myrtle_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Myrtus_communis0.jpg",
+"credit": "Myrtus communis · O. W. Thomé (1885), Public domain"
 }
 },
 "Prickly pear": {
@@ -2025,6 +2210,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Opuntia_ficus-indica_(Jardin_des_plantes).jpg",
 "credit": "The original uploader was Bouba at French Wikipedia., CC BY-SA 3.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Prickly_pear_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Opuntia_vulgaris0_clean.jpg",
+"credit": "Opuntia vulgaris · O. W. Thomé (1885), Public domain"
 }
 },
 "Plantain": {
@@ -2061,6 +2251,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:20160826Plantago_lanceolata2.jpg",
 "credit": "AnRo0002, CC0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Plantain_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Plantago_major0_clean.jpg",
+"credit": "Plantago major · O. W. Thomé (1885), Public domain"
 }
 },
 "Dandelion": {
@@ -2097,6 +2292,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D8%B7%D8%B1%D8%AE%D8%B4%D9%82%D9%88%D9%86_%D8%A7%D9%84%D9%85%D8%AE%D8%B2%D9%86%D9%8A_(Taraxacum_officinale)%D8%8C_%D8%A7%D9%84%D9%85%D8%B9%D8%B1%D9%88%D9%81_%D8%A3%D9%8A%D8%B6%D8%A7%D9%8B_%D8%A8%D8%A7%D8%B3%D9%85_%D8%A7%D9%84%D9%87%D9%86%D8%AF%D8%A8%D8%A7%D8%A1_%D8%A7%D9%84%D8%A8%D8%B1%D9%8A%D8%A9..jpg",
 "credit": "هشام أبورجاء, CC BY-SA 4.0",
 "season": "spring"
+},
+"plate": {
+"src": "photos/Dandelion_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Taraxacum_officinale0_clean.jpg",
+"credit": "Taraxacum officinale · O. W. Thomé (1885), Public domain"
 }
 },
 "Purslane": {
@@ -2133,6 +2333,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Protulaca_oleracea_-_whole_plant_(18439845714).jpg",
 "credit": "NY State IPM Program  at Cornell University from New York, U, CC BY 2.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Purslane_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Portulaca_oleracea0.jpg",
+"credit": "Portulaca oleracea · O. W. Thomé (1885), Public domain"
 }
 },
 "Nasturtium": {
@@ -2164,6 +2369,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Plants_enjoying_the_rain.jpg",
 "credit": "Micolo J from Shrewsbury, England, CC BY 2.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Nasturtium_plate.png",
+"page": "https://commons.wikimedia.org/wiki/File:The_Botanical_Magazine,_Plate_23_(Volume_1,_1787).png",
+"credit": "Tropaeolum majus · James Sowerby / William Curtis, Public domain"
 }
 },
 "French scorzonera": {
@@ -2231,6 +2441,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Nerium_oleander_bush.jpg",
 "credit": "Prahlad balaji, CC BY-SA 4.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Oleander_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Nerium_oleander_Blanco1.37.jpg",
+"credit": "Nerium oleander · Francisco Manuel Blanco (O.S.A.), Public domain"
 }
 },
 "Pittosporum": {
@@ -2303,6 +2518,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Viburnum_tinus_-_Inflorescence.jpg",
 "credit": "Didier Descouens, CC BY-SA 4.0",
 "season": "winter"
+},
+"plate": {
+"src": "photos/Laurustinus_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:BotMag-0037-0086-Viburnum_tinus.jpg",
+"credit": "Viburnum tinus · James Sowerby / William Curtis, Public domain"
 }
 },
 "Mastic tree": {
@@ -2339,6 +2559,11 @@ const PHOTOS = {
 "page": "https://commons.wikimedia.org/wiki/File:Pistacia_lentiscus_001.jpg",
 "credit": "H. Zell, CC BY-SA 3.0",
 "season": "summer"
+},
+"plate": {
+"src": "photos/Mastic_tree_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:K%C3%B6hler%27s_Medizinal-Pflanzen_in_naturgetreuen_Abbildungen_mit_kurz_erl%C3%A4uterndem_Texte_(Plate_130)_(8231731347).jpg",
+"credit": "Pistacia lentiscus · Köhler (1887), Public domain"
 }
 },
 "Holly": {
@@ -2385,6 +2610,11 @@ const PHOTOS = {
 "src": "photos/Holly_bark.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Ilex_aquifolium_bark_Hochr%C3%BCti.jpg",
 "credit": "Hubi47, CC BY 3.0"
+},
+"plate": {
+"src": "photos/Holly_plate.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Illustration_Ilex_aquifolium0.jpg",
+"credit": "Ilex aquifolium · O. W. Thomé (1885), Public domain"
 }
 }
 };

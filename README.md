@@ -18,7 +18,7 @@ HTML/JavaScript map of street and park trees within a 1 km radius of NW5 2TE (Lo
 - `fetch_basemap.py`: one-off OSM fetch (Overpass mirror maps.mail.ru) of streets, rail, parks, water, buildings within 1.3 km into `basemap.js`.
 - `index.html`: Leaflet drawing our own basemap from `basemap.js` (no tile servers: OSM blocks file://, CARTO needs a key); dots coloured by top 10 genera, sized by canopy, popup per tree. Opens by double-click.
 
-- `photos/` + `photos.js`: Wikimedia Commons photos (500px) per legend group and season, picked by hand; credits in `photos.js`. Empty seasons reuse the nearest one. Close-ups (leaf, flower, fruit/samaras/cone, bark) where a good photo exists.
+- `photos/` + `photos.js`: Wikimedia Commons photos (500px) per legend group and season, picked by hand; credits in `photos.js`. Empty seasons reuse the nearest one. Close-ups (leaf, flower, fruit/samaras/cone, bark) where a good photo exists. Old public-domain botanical plates (Thomé, Köhler and others) under `plate`; the credit names the plate's species, which can differ from the tree on the map.
 
 ## Features
 - Legend: species (EN / FR names), search, favourites, sorting, filters (edible, leaf, height, bees, sex, toxic), colour modes.
