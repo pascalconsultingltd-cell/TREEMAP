@@ -2340,5 +2340,51 @@ const PHOTOS = {
 "credit": "H. Zell, CC BY-SA 3.0",
 "season": "summer"
 }
+},
+"Holly": {
+"spring": {
+"src": "photos/Holly_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Tree_dsc00837.jpg",
+"credit": "David Monniaux, CC BY-SA 3.0",
+"season": "summer"
+},
+"summer": {
+"src": "photos/Holly_summer.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Tree_dsc00837.jpg",
+"credit": "David Monniaux, CC BY-SA 3.0",
+"season": "summer"
+},
+"autumn": {
+"src": "photos/Holly_autumn.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Holly_in_Oakwood_Park_-_geograph.org.uk_-_6983908.jpg",
+"credit": "Christine Matthews, CC BY-SA 2.0",
+"season": "autumn"
+},
+"winter": {
+"src": "photos/Holly_winter.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Aeron_Celyn_-_Holly_Berries_-_geograph.org.uk_-_634094.jpg",
+"credit": "Alan Fryer, CC BY-SA 2.0",
+"season": "winter"
+},
+"leaf": {
+"src": "photos/Holly_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:English_Holly_Leaves_2_(cropped).jpg",
+"credit": "FloweringDagwood, CC BY 4.0"
+},
+"flower": {
+"src": "photos/Holly_flower.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:GT_Holly_in_flower.jpg",
+"credit": "Ian Alexander, CC BY-SA 4.0"
+},
+"fruit": {
+"src": "photos/Holly_fruit.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Bacche_di_agrifoglio.jpg",
+"credit": "Albarubescens, CC BY-SA 4.0"
+},
+"bark": {
+"src": "photos/Holly_bark.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Ilex_aquifolium_bark_Hochr%C3%BCti.jpg",
+"credit": "Hubi47, CC BY 3.0"
+}
 }
 };

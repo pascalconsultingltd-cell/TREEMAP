@@ -127,7 +127,7 @@ addEventListener('error', hideSplash); setTimeout(hideSplash, 20000);
 // City: ?city=bcn or nice, or the last one chosen on this device, London by default; its basemap and trees load before the map script
 const CITY = (c => ['bcn', 'nice'].includes(c) ? c : 'london')(new URLSearchParams(location.search).get('city') || (() => { try { return localStorage.getItem('treemap.city'); } catch (e) {} })());
 const SFX = CITY === 'london' ? '' : '_' + CITY;
-const V = '?v=20261030e';  // bump when data files change, so browsers don't keep stale copies
+const V = '?v=20261101a';  // bump when data files change, so browsers don't keep stale copies
 document.write(`<script src="basemap${SFX}.js${V}"><\/script><script src="trees${SFX}.js${V}"><\/script>`);
 </script>
 <script>document.write(`<script src="photos.js${V}"><\/script><script src="recipes.js${V}"><\/script>`);</script>
@@ -265,7 +265,7 @@ swipe(lbImg, lbGo, () => {});
 document.addEventListener('keydown', e => { if (lightbox.style.display === 'flex' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) lbGo(e.key === 'ArrowRight' ? 1 : -1); });
 document.addEventListener('keydown', e => e.key === 'Escape' && closeBig());
 // Specials first, then top 10 genera, the rest grey; one layer per legend row
-const SPECIAL = { Chestnut: ['Sweet chestnut', '#e31a1c'], Yew: ['Yew', '#8b0000'], Pine: ['Pine', '#1b4d2e'], Hazel: ['Hazel', '#d2b48c'], 'Turkish hazel': ['Turkish hazel', '#7b4a1e'], Mulberry: ['Mulberry', '#6a0dad'], Beech: ['Beech', '#6e6e6c'], Pear: ['Pear', '#d1e231'], Hawthorn: ['Hawthorn', '#b2182b'], Holly: ['Holly', '#ff0000'],Elder: ['Elder', '#2d0a3e'], Orange: ['Orange', '#ff8c00'], Carob: ['Carob', '#6b3e26'], Olive: ['Olive', '#808000'], Loquat: ['Loquat', '#f4a300'],
+const SPECIAL = { Chestnut: ['Sweet chestnut', '#6e3210'], Yew: ['Yew', '#8b0000'], Pine: ['Pine', '#1b4d2e'], Hazel: ['Hazel', '#d2b48c'], 'Turkish hazel': ['Turkish hazel', '#7b4a1e'], Mulberry: ['Mulberry', '#6a0dad'], Beech: ['Beech', '#6e6e6c'], Pear: ['Pear', '#d1e231'], Hawthorn: ['Hawthorn', '#b2182b'], Holly: ['Holly', '#ff0000'],Elder: ['Elder', '#2d0a3e'], Orange: ['Orange', '#ff8c00'], Carob: ['Carob', '#6b3e26'], Olive: ['Olive', '#808000'], Loquat: ['Loquat', '#f4a300'],
   Pomegranate: ['Pomegranate', '#c2185b'], Fig: ['Fig', '#5d3a6e'], Oak: ['Oak', '#8d6e3f'], Poplar: ['Poplar', '#5f9ea0'], Ginkgo: ['Ginkgo', '#e5c100'], Walnut: ['Walnut', '#556b2f'], 'Black walnut': ['Black walnut', '#4a3728'], 'Horse Chestnut': ['Horse chestnut', '#a0522d'] };
 // Nice: its few foraging plants and the toxic oleander stand out
 if (CITY === 'nice') Object.assign(SPECIAL, { Bay: ['Bay', '#2f6f4f'], Quince: ['Quince', '#e0c000'], Myrtle: ['Myrtle', '#26324d'], 'Prickly pear': ['Prickly pear', '#d6336c'], Plantain: ['Plantain', '#7cb342'],
