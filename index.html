@@ -583,7 +583,7 @@ locate.onAdd = () => {
 };
 locate.addTo(map);
 // 🔊 Says the name of the nearest shown tree when it is within SOUND_M, once per tree; the screen stays on, since a sleeping phone stops the location
-const SOUND_M = 20, said = new Set();
+const SOUND_M = 5, said = new Set();
 let sound = false, awake = null;
 const speak = x => { const u = new SpeechSynthesisUtterance(x); u.lang = LANG === 'en' ? 'en-GB' : 'fr-FR'; speechSynthesis.speak(u); };
 // A spoken tree also shows its photo for this season, to compare with the real one, until the next one or ✕; a tap opens all its photos
