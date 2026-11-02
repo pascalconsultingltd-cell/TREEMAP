@@ -1,8 +1,8 @@
 # Fetch GLA public realm trees within RADIUS_M of NW5 2TE into trees.js (loadable from file://).
 import json, math, subprocess
 API = "https://apps.london.gov.uk/api/tables/public-realm-trees-2026/trees"
-LAT, LON, RADIUS_M = 51.548553, -0.130711, 1000
-BOROUGHS = ["E09000007", "E09000019", "E09000014"]  # Camden, Islington, Haringey
+LAT, LON, RADIUS_M = 51.548553, -0.130711, 2000
+BOROUGHS = ["E09000007", "E09000019", "E09000014", "E09000033"]  # Camden, Islington, Haringey, Westminster
 COLS = "uniqueid,common_name,taxon_species,gla_name,age_cat,height_m,canopy_m,girth_dbh,climate_suitability,location,maintainer,pos_4326"
 def dist(lat, lon):
     x = math.radians(lon - LON) * math.cos(math.radians((lat + LAT) / 2))

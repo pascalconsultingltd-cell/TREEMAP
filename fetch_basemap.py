@@ -2,8 +2,8 @@
 import json, subprocess, sys
 # Default London (NW5 2TE); Barcelona: python fetch_basemap.py 41.3800475 2.1594943 basemap_bcn.js
 LAT, LON = (float(sys.argv[1]), float(sys.argv[2])) if len(sys.argv) > 2 else (51.548553, -0.130711)
-OUT, R = sys.argv[3] if len(sys.argv) > 3 else "basemap.js", 1300  # a bit beyond the 1 km tree circle
-Q = f"""[out:json][timeout:120];
+OUT, R = (sys.argv[3], 1300) if len(sys.argv) > 3 else ("basemap.js", 2300)  # a bit beyond the tree circle: 1 km, London 2 km
+Q = f"""[out:json][timeout:300];
 (way[highway](around:{R},{LAT},{LON}); way[railway~"^(rail|subway|light_rail)$"](around:{R},{LAT},{LON});
  way[leisure~"^(park|garden|pitch|playground|nature_reserve)$"](around:{R},{LAT},{LON}); way[landuse~"^(grass|cemetery|allotments|recreation_ground|forest|meadow)$"](around:{R},{LAT},{LON});
  way[natural~"^(water|wood|scrub)$"](around:{R},{LAT},{LON}); way[building](around:{R},{LAT},{LON}););
