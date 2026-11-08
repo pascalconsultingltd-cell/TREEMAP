@@ -1,4 +1,4 @@
-// Commons photos per legend group and season; "season" is the season actually shown
+// Commons photos per legend group and season; "season" is the season actually shown; mine1, mine2...: our own photos (mine/), with the day taken
 const PHOTOS = {
 "Chestnut": {
 "spring": {
@@ -856,6 +856,14 @@ const PHOTOS = {
 "src": "photos/Hawthorn_plate.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Illustration_Crataegus_laevigata1.jpg",
 "credit": "Crataegus laevigata · O. W. Thomé (1885), Public domain"
+},
+"mine1": {
+"src": "mine/Hawthorn_1_20261108.jpg",
+"date": "2026-11-08"
+},
+"mine2": {
+"src": "mine/Hawthorn_2_20261108.jpg",
+"date": "2026-11-08"
 }
 },
 "Elder": {
@@ -2615,6 +2623,44 @@ const PHOTOS = {
 "src": "photos/Holly_plate.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Illustration_Ilex_aquifolium0.jpg",
 "credit": "Ilex aquifolium · O. W. Thomé (1885), Public domain"
+}
+},
+"Hornbeam": {
+"mine1": {
+"src": "mine/Hornbeam_1_20261108.jpg",
+"date": "2026-11-08"
+},
+"mine2": {
+"src": "mine/Hornbeam_2_20261108.jpg",
+"date": "2026-11-08"
+},
+"mine3": {
+"src": "mine/Hornbeam_3_20261108.jpg",
+"date": "2026-11-08"
+}
+},
+"Redwood": {
+"mine1": {
+"src": "mine/Redwood_1_20261108.jpg",
+"date": "2026-11-08"
+}
+},
+"Alder": {
+"mine1": {
+"src": "mine/Alder_1_20261108.jpg",
+"date": "2026-11-08"
+},
+"mine2": {
+"src": "mine/Alder_2_20261108.jpg",
+"date": "2026-11-08"
+},
+"mine3": {
+"src": "mine/Alder_3_20261108.jpg",
+"date": "2026-11-08"
+},
+"mine4": {
+"src": "mine/Alder_4_20261108.jpg",
+"date": "2026-11-08"
 }
 }
 };
