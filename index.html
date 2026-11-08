@@ -185,7 +185,7 @@ const FR_GENUS = { Acacia: 'Acacia', Arbutus: 'Arbousier', Buddleja: 'Buddleia',
   Syringa: 'Lilas', Tamarix: 'Tamaris', Taxus: 'If', Thuja: 'Thuya', Tilia: 'Tilleul', Yucca: 'Yucca', Zelkova: 'Zelkova' };
 // Legend group: GLA name, except Turkish hazel split from common hazel, and some genera pulled out of "Other"
 const BY_GENUS = { Morus: 'Mulberry', Fagus: 'Beech', Pyrus: 'Pear', Ginkgo: 'Ginkgo', Juglans: 'Walnut', Ficus: 'Fig', Populus: 'Poplar', Quercus: 'Oak', Ilex: 'Holly', Eucalyptus: 'Eucalyptus',
-  Olea: 'Olive', Eriobotrya: 'Loquat', Laurus: 'Bay', Celtis: 'Nettle Tree', Arbutus: 'Strawberry-tree', Amelanchier: 'Juneberry' };
+  Olea: 'Olive', Eriobotrya: 'Loquat', Laurus: 'Bay', Celtis: 'Nettle Tree', Arbutus: 'Strawberry-tree', Amelanchier: 'Juneberry', Alnus: 'Alder', Carpinus: 'Hornbeam' };
 const group = t => t.taxon_species.startsWith('Corylus colurna') ? 'Turkish hazel' : t.taxon_species.startsWith('Juglans nigra') ? 'Black walnut' : BY_GENUS[t.taxon_species.split(' ')[0]] || t.gla_name;
 const frName = t => group(t).trim() !== 'Other' && FR[group(t).trim()] || FR_GENUS[t.taxon_species.split(' ')[0]] || (CITY === 'bcn' ? t.common_name : 'Autre');  // Barcelona: Spanish name when no French one
 // Season photos per legend group (photos.js); big photo is the current season, thumbnails switch it
@@ -278,7 +278,7 @@ TREES.forEach(t => counts[group(t)] = (counts[group(t)] || 0) + 1);
 // Fixed colours for some common groups, the palette fills the rest by rank
 const COLOUR = { Birch: '#ffffff', Plane: '#b08d57', Cherry: '#9e1b32', Lime: '#2e7d32', 'Municipal tree': '#b5b5b5', Palm: '#8fae8b' };
 // London: edible trees the data files under Other or Everything else; Other, Apple and Whitebeam keep the colours they had before
-if (CITY === 'london') { Object.assign(SPECIAL, { Rowan: ['Rowan', '#ff6e40'], Juneberry: ['Juneberry', '#3949ab'], Bay: ['Bay', '#2f6f4f'], 'Nettle Tree': ['Nettle tree', '#455a64'], 'Strawberry-tree': ['Strawberry tree', '#e040fb'] });
+if (CITY === 'london') { Object.assign(SPECIAL, { Rowan: ['Rowan', '#ff6e40'], Juneberry: ['Juneberry', '#3949ab'], Bay: ['Bay', '#2f6f4f'], 'Nettle Tree': ['Nettle tree', '#455a64'], 'Strawberry-tree': ['Strawberry tree', '#e040fb'], Alder: ['Alder', '#004d40'], Hornbeam: ['Hornbeam', '#00bcd4'] });
   Object.assign(COLOUR, { Other: '#1f78b4', Apple: '#b2df8a', Whitebeam: '#fb9a99' }); }
 const palette = ['#1b9e77', '#d95f02', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#a6761d', '#1f78b4', '#b2df8a', '#fb9a99'];
 const groups = Object.entries(SPECIAL).filter(([g]) => counts[g]).map(([g, [label, c]]) => ({ g, label, c }))
