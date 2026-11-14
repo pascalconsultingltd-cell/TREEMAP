@@ -570,6 +570,11 @@ const PHOTOS = {
 "src": "photos/Apple_plate.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Illustration_Malus_domestica0.jpg",
 "credit": "Malus domestica · O. W. Thomé (1885), Public domain"
+},
+"leaf": {
+"src": "photos/Apple_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Apple_Tree_Leaf_(35128940).jpeg",
+"credit": "Konstantin Tsabolov, CC BY 3.0"
 }
 },
 "Sycamore": {
@@ -1916,6 +1921,11 @@ const PHOTOS = {
 "src": "photos/Olive_plate.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Illustration_Olea_europaea0.jpg",
 "credit": "Olea europaea · O. W. Thomé (1885), Public domain"
+},
+"leaf": {
+"src": "photos/Olive_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:(MHNT)_Olea_europaea_-_Inflorescence_and_leaves.jpg",
+"credit": "Didier Descouens, CC BY-SA 4.0"
 }
 },
 "Loquat": {
@@ -2100,6 +2110,11 @@ const PHOTOS = {
 "src": "photos/Bay_plate.jpg",
 "page": "https://commons.wikimedia.org/wiki/File:Illustration_Laurus_nobilis0.jpg",
 "credit": "Laurus nobilis · O. W. Thomé (1885), Public domain"
+},
+"leaf": {
+"src": "photos/Bay_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Laurus-nobilis-Sitia-Crete-Greece.jpg",
+"credit": "Petro Stelte, CC BY-SA 4.0"
 }
 },
 "Quince": {
@@ -2637,6 +2652,11 @@ const PHOTOS = {
 "mine3": {
 "src": "mine/Hornbeam_3_20261108.jpg",
 "date": "2026-11-08"
+},
+"leaf": {
+"src": "photos/Hornbeam_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Carpinus_betulus_in_Aveyron_(9).jpg",
+"credit": "Tournasol7, CC BY 4.0"
 }
 },
 "Redwood": {
@@ -2661,6 +2681,39 @@ const PHOTOS = {
 "mine4": {
 "src": "mine/Alder_4_20261108.jpg",
 "date": "2026-11-08"
+},
+"leaf": {
+"src": "photos/Alder_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:ItalAlder.jpg",
+"credit": "MPF, CC BY-SA 3.0"
+}
+},
+"Eucalyptus": {
+"leaf": {
+"src": "photos/Eucalyptus_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Eucalyptus_gunnii_Silver_Dollar_0zz.jpg",
+"credit": "David J. Stang, CC BY-SA 4.0"
+}
+},
+"Rowan": {
+"leaf": {
+"src": "photos/Rowan_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Sorbus_aucuparia._img-036.jpg",
+"credit": "Dmitry Makeev, CC BY-SA 4.0"
+}
+},
+"Juneberry": {
+"leaf": {
+"src": "photos/Juneberry_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Amelanchier_lamarckii_3zz.jpg",
+"credit": "David J. Stang, CC BY-SA 4.0"
+}
+},
+"Strawberry-tree": {
+"leaf": {
+"src": "photos/Strawberry-tree_leaf.jpg",
+"page": "https://commons.wikimedia.org/wiki/File:Arbutus_unedo_(49106319813).jpg",
+"credit": "Umberto Ferrando, CC BY 2.0"
 }
 }
 };

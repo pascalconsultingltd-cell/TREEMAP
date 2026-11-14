@@ -127,7 +127,7 @@ addEventListener('error', hideSplash); setTimeout(hideSplash, 20000);
 // City: ?city=bcn or nice, or the last one chosen on this device, London by default; its basemap and trees load before the map script
 const CITY = (c => ['bcn', 'nice'].includes(c) ? c : 'london')(new URLSearchParams(location.search).get('city') || (() => { try { return localStorage.getItem('treemap.city'); } catch (e) {} })());
 const SFX = CITY === 'london' ? '' : '_' + CITY;
-const V = '?v=20261108a';  // bump when data files change, so browsers don't keep stale copies
+const V = '?v=20261114a';  // bump when data files change, so browsers don't keep stale copies
 document.write(`<script src="basemap${SFX}.js${V}"><\/script><script src="trees${SFX}.js${V}"><\/script>`);
 </script>
 <script>document.write(`<script src="photos.js${V}"><\/script><script src="recipes.js${V}"><\/script>`);</script>
@@ -259,7 +259,7 @@ function openBig(g, k, keys = gal && gal.g === g ? gal.keys : [k]) {
   lb = { g, keys, i: Math.max(0, keys.indexOf(k)) };
   const p = PHOTOS[g][k], hi = new Image();
   lbImg.src = p.src; lbCap.innerHTML = caption(g, k) + (keys.length > 1 ? ` · ${lb.i + 1}/${keys.length}` : ''); lightbox.style.display = 'flex';
-  hi.onload = () => { if (lightbox.style.display === 'flex') lbImg.src = hi.src; };
+  const me = lb; hi.onload = () => { if (lightbox.style.display === 'flex' && lb === me) lbImg.src = hi.src; };  // a late hi-res never replaces a newer photo
   if (p.page) hi.src = p.page.replace('/wiki/File:', '/wiki/Special:FilePath/') + '?width=1600';  // own photos are already full size
 }
 const closeBig = () => lightbox.style.display = 'none';
