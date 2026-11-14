@@ -255,15 +255,15 @@ function swipe(el, onSwipe, onTap) {
 // Full-window view of any photo (the main one or a tile; the main photo never changes): local 500 px at once, then Commons 1600 px when online; ✕, Esc or a click outside closes
 // Full screen keeps its own place in the same photo list, so swiping there leaves the main photo alone
 let lb = null;
-function openBig(g, k) {
-  const keys = gal && gal.g === g ? gal.keys : [k]; lb = { g, keys, i: Math.max(0, keys.indexOf(k)) };
+function openBig(g, k, keys = gal && gal.g === g ? gal.keys : [k]) {
+  lb = { g, keys, i: Math.max(0, keys.indexOf(k)) };
   const p = PHOTOS[g][k], hi = new Image();
   lbImg.src = p.src; lbCap.innerHTML = caption(g, k) + (keys.length > 1 ? ` · ${lb.i + 1}/${keys.length}` : ''); lightbox.style.display = 'flex';
   hi.onload = () => { if (lightbox.style.display === 'flex') lbImg.src = hi.src; };
   if (p.page) hi.src = p.page.replace('/wiki/File:', '/wiki/Special:FilePath/') + '?width=1600';  // own photos are already full size
 }
 const closeBig = () => lightbox.style.display = 'none';
-const lbGo = d => { if (lb && lb.keys.length > 1) openBig(lb.g, lb.keys[(lb.i + d + lb.keys.length) % lb.keys.length]); };
+const lbGo = d => { if (lb && lb.keys.length > 1) openBig(lb.g, lb.keys[(lb.i + d + lb.keys.length) % lb.keys.length], lb.keys); };
 swipe(lbImg, lbGo, () => {});
 document.addEventListener('keydown', e => { if (lightbox.style.display === 'flex' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) lbGo(e.key === 'ArrowRight' ? 1 : -1); });
 document.addEventListener('keydown', e => e.key === 'Escape' && closeBig());
@@ -592,12 +592,14 @@ locate.addTo(map);
 const SOUND_M = 10, said = new Set();
 let sound = false, awake = null;
 const speak = x => { const u = new SpeechSynthesisUtterance(x); u.lang = LANG === 'en' ? 'en-GB' : 'fr-FR'; speechSynthesis.speak(u); };
-// A spoken tree also shows its photo for this season, to compare with the real one, until the next one or ✕; a tap opens all its photos
+// A spoken tree also shows its leaf photo (most telling), else this season's, until the next one or ✕; a tap opens all its photos
+// Near a tree (within SOUND_M) its photos open full screen, leaf first
 const seen = document.getElementById('seen'), hideSeen = () => seen.style.display = 'none';
-const say = (t, x = nameL(t)) => {
-  speak(x); const p = PHOTOS[group(t).trim()], q = p && (p[NOW] || Object.values(p)[0]);
+const say = (t, x = nameL(t), near = true) => {
+  const g = group(t).trim(), p = PHOTOS[g], q = p && (p.leaf || p[NOW] || Object.values(p)[0]); speak(x);
   seen.innerHTML = `${q ? `<img src="${q.src}">` : ''}<b>${nameL(t)}</b><span>✕</span>`; seen.style.display = 'block';
   seen.onclick = e => { hideSeen(); if (e.target.tagName !== 'SPAN') showStop(t.uniqueid); };
+  if (near && p) { const keys = Object.keys(p).sort((a, b) => (b === 'leaf') - (a === 'leaf') || (b === NOW) - (a === NOW)); openBig(g, keys[0], keys); }
 };
 const voice = id => document.getElementById(id).checked && window.speechSynthesis, voiceOn = () => voice('voiceNext') || voice('voiceSame');
 const keepAwake = async () => { const want = sound || (walkMode && voiceOn()); if (!want && awake) return awake.release(); try { if (want && !awake && navigator.wakeLock) { awake = await navigator.wakeLock.request('screen'); awake.onrelease = () => awake = null; } } catch (e) {} };
@@ -764,7 +766,7 @@ function walkVoice() {
   if (min >= walkMode.min && Date.now() - walkMode.at < 120000) return;
   walkMode.min = min; walkMode.at = Date.now();
   const deg = Math.atan2((to[1] - myPos[1]) * Math.cos(myPos[0] * rad), to[0] - myPos[0]) / rad, dir = compassSeen ? SIDES[Math.round(((deg - heading + 360) % 360) / 90) % 4] : COMPASS[Math.round((deg + 360) % 360 / 45) % 8];
-  const x = `${name}, ${LANG === 'en' ? `${min} min away` : `à ${min} minute${min > 1 ? 's' : ''}`}, ${_(dir)}`; if (t) say(t, x); else speak(x);
+  const x = `${name}, ${LANG === 'en' ? `${min} min away` : `à ${min} minute${min > 1 ? 's' : ''}`}, ${_(dir)}`; if (t) say(t, x, false); else speak(x);
 }
 // Species of the walk by voice: each tree of those species we pass, stop or not, once per tree during the walk
 function walkPass(ll) {
