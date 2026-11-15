@@ -363,7 +363,9 @@ map.getContainer().addEventListener('pointerdown', e => {
   }, 550);
 });
 map.getContainer().addEventListener('pointermove', e => { if (lpTimer && Math.hypot(e.clientX - lpStart[0], e.clientY - lpStart[1]) > 10) lpCancel(); });
-['pointerup', 'pointercancel'].forEach(ev => map.getContainer().addEventListener(ev, lpCancel));
+// iPhone cancels the pointer of a held finger, so only lifting or moving it (touch events still come) stops the long press
+map.getContainer().addEventListener('pointerup', lpCancel); map.getContainer().addEventListener('touchend', lpCancel);
+map.getContainer().addEventListener('touchmove', e => { const p = e.touches[0]; if (lpTimer && (e.touches.length > 1 || Math.hypot(p.clientX - lpStart[0], p.clientY - lpStart[1]) > 10)) lpCancel(); }, { passive: true });
 map.getContainer().addEventListener('contextmenu', e => { if (Date.now() - longPressAt < 1500) e.preventDefault(); });
 // A tap on the empty map closes an open tree or species panel (a walk's list stays); ignores the tap ending a long press
 map.on('click', () => { foldOnPhone(); if (photosOpen && Date.now() - longPressAt > 800) closeSheet(); });
@@ -480,7 +482,7 @@ legend.onAdd = () => {
     <option value="down">${_('Nombre d’arbres ↓')}</option><option value="up">${_('Nombre d’arbres ↑')}</option></select>`);
   const last = x => x === rest || x.g === 'Other', count = x => +x.row.lastElementChild.textContent, name = (x, i) => x.label.split(' / ')[i] || x.label;
   // Adam's favourites in his order, then the others A to Z
-  const FAV = ['Pine', 'Chestnut', 'Walnut', 'Mulberry', 'Hazel', 'Beech', 'Black walnut', 'Elder', 'Hawthorn'], fav = x => { const i = FAV.indexOf(x.g); return i < 0 ? 99 : i; };
+  const FAV = ['Pine', 'Chestnut', 'Walnut', 'Mulberry', 'Hazel', 'Beech', 'Black walnut', 'Elder', 'Hawthorn', 'Fig', 'Eucalyptus', 'Ginkgo', 'Ash', 'Nettle Tree'], fav = x => { const i = FAV.indexOf(x.g); return i < 0 ? 99 : i; };
   all.forEach(x => x.row.classList.toggle('isfav', fav(x) < 99));
   // Quick find: the search box narrows the rows by English or French name, accents ignored
   const plain = t => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
