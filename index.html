@@ -342,7 +342,7 @@ TREES.slice().sort((a, b) => (!unknown(a) + onTop(a)) - (!unknown(b) + onTop(b))
   t.info = () => `<div class="tinfo">${details()}</div>`;
   t.marker = L.circleMarker([t.lat, t.lon], { bubblingMouseEvents: false, radius: r, color: special ? '#000' : '#0006', weight: special ? 1.5 : 0.5, fillColor: grp.c, fillOpacity: special ? 1 : 0.8 })
     .on('click', () => { foldOnPhone(); showSide(t); })
-    .on('contextmenu', e => { L.DomEvent.preventDefault(e.originalEvent); if (Date.now() - longPressAt > 1500) soloGroup(grp, t); })  // right-click on a computer
+    .on('contextmenu', e => { L.DomEvent.preventDefault(e.originalEvent); lpAt(e.containerPoint); })  // right-click on a computer, held finger on iPhone
     .addTo(grp.layers[t.key] ||= L.layerGroup());
   if (!PHONE) t.marker.bindPopup(() => `<b>${t.common_name}</b> · ${frName(t)}<br><i>${t.taxon_species}</i><br>${details()}`, { maxWidth: 260 });
 });
@@ -354,14 +354,16 @@ map.getContainer().addEventListener('pointerdown', e => {
   if (e.pointerType !== 'touch' || e.target.closest('.leaflet-control')) return;  // not on the legend or buttons
   if (lpTimer) return lpCancel();  // second finger: pinch, not a long press
   lpStart = [e.clientX, e.clientY];
-  lpTimer = setTimeout(() => {
-    lpTimer = null;
-    const r = map.getContainer().getBoundingClientRect(), p = L.point(lpStart[0] - r.left, lpStart[1] - r.top);
-    let best = null, bd = 24;
-    TREES.forEach(t => { if (map.hasLayer(t.marker)) { const d = map.latLngToContainerPoint([t.lat, t.lon]).distanceTo(p); if (d < bd) { bd = d; best = t; } } });
-    if (best) { longPressAt = Date.now(); if (navigator.vibrate) navigator.vibrate(30); soloGroup(best.grp, best); }
-  }, 550);
+  lpTimer = setTimeout(() => { lpTimer = null; const r = map.getContainer().getBoundingClientRect(); lpAt(L.point(lpStart[0] - r.left, lpStart[1] - r.top)); }, 550);
 });
+const lpAt = p => {
+  if (Date.now() - longPressAt < 1500) return;  // one long press, whichever of our timer or Leaflet's iPhone hold fires first
+  let best = null, bd = 24;
+  TREES.forEach(t => { if (map.hasLayer(t.marker)) { const d = map.latLngToContainerPoint([t.lat, t.lon]).distanceTo(p); if (d < bd) { bd = d; best = t; } } });
+  if (best) { longPressAt = Date.now(); if (navigator.vibrate) navigator.vibrate(30); soloGroup(best.grp, best); }
+};
+// iPhone: Leaflet turns a held finger into a contextmenu on the map (off a dot) or on the dot itself
+map.on('contextmenu', e => lpAt(e.containerPoint));
 map.getContainer().addEventListener('pointermove', e => { if (lpTimer && Math.hypot(e.clientX - lpStart[0], e.clientY - lpStart[1]) > 10) lpCancel(); });
 // iPhone cancels the pointer of a held finger, so only lifting or moving it (touch events still come) stops the long press
 map.getContainer().addEventListener('pointerup', lpCancel); map.getContainer().addEventListener('touchend', lpCancel);
