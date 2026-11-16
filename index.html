@@ -551,7 +551,9 @@ const guideLayer = L.layerGroup().addTo(map);
 let tallWas = null;
 const tallOff = () => { if (tallWas) { tallWas.t.marker.setStyle(tallWas.s); tallWas = null; } };
 function tallest() {
-  const t = TREES.filter(x => map.hasLayer(x.marker) && treeH(x)).sort((a, b) => treeH(b) - treeH(a))[0];
+  // Skips heights the tree's own size contradicts (typos like an 18 m apple with a 3 m crown and 25 cm trunk): crown under a quarter of it, or trunk girth in cm under it in m
+  const sure = x => parseFloat(x.canopy_m) * 4 >= treeH(x) && parseFloat(x.girth_dbh) >= treeH(x);
+  const t = TREES.filter(x => map.hasLayer(x.marker) && treeH(x) && sure(x)).sort((a, b) => treeH(b) - treeH(a))[0];
   if (!t) return toast(_('Pas de hauteur connue pour ces arbres.'));
   tallOff(); const o = t.marker.options; tallWas = { t, s: { fillColor: o.fillColor, fillOpacity: o.fillOpacity } };
   foldOnPhone(); map.setView([t.lat, t.lon], 18); t.marker.setStyle({ fillColor: '#e31a1c', fillOpacity: 1 }).bringToFront();
